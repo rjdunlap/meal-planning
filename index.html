@@ -1380,7 +1380,9 @@ function genWeek(){
   MK.forEach((m,j)=>pick[j].forEach((x,i)=>arr(m)[i]=x));
   return true;
 }
-/* Discover groups sample weeks by theme. A week can name the months it suits (1 to 12) to show
+/* Discover groups sample weeks by theme. Each week's dinners set its theme; its breakfasts and
+   lunches were picked to share fresh ingredients with them so little goes to waste, without
+   repeating a dinner as a lunch or borrowing another country's dishes. A week can name the months it suits (1 to 12) to show
    as in season. Add holiday or seasonal weeks with theme:"season". */
 const THEMES=[
  {k:"season",name:"Seasons and holidays",desc:"Weeks for the time of year."},
@@ -1390,66 +1392,66 @@ const THEMES=[
  {k:"world",name:"Around the world",desc:"A week from one country's kitchen, or a different country each night."}
 ];
 const PRESETS=[
- {id:"mexican",theme:"world",name:"Mexican week",desc:"Tinga tacos, enchiladas, fajitas and black bean soup, with huevos rancheros to start the day.",
-  b:["huevos-rancheros","breakfast-bean-tacos","overnight-oats","huevos-rancheros","breakfast-bean-tacos"],
+ {id:"mexican",theme:"world",name:"Mexican week",desc:"Tinga tacos, enchiladas, taco bowls and black bean soup, with huevos rancheros to start the day.",
+  b:["huevos-rancheros","breakfast-bean-tacos","walnut-berry-yogurt-bowl","huevos-rancheros","breakfast-bean-tacos"],
   l:["black-bean-soup","black-bean-corn-salad","tempeh-taco-bowl","bean-egg-burritos","black-bean-soup"],
-  d:["chicken-tinga-tacos","enchilada-bake","chicken-fajita-bowls","cod-tacos","chicken-tortilla-soup"]},
- {id:"asian",theme:"world",name:"Asian kitchens",desc:"Miso salmon, bibimbap, green curry, mapo tofu and lemongrass chicken.",
-  b:["edamame-rice-bowl","egg-cups","overnight-oats","edamame-rice-bowl","green-smoothie"],
+  d:["chicken-tinga-tacos","enchilada-bake","shrimp-avocado-bowl","sweet-potato-bean-bowl","turkey-taco-bowls"]},
+ {id:"asian",theme:"world",name:"Asian kitchens",desc:"Miso salmon, bibimbap, green curry, larb lettuce cups and lemongrass chicken.",
+  b:["edamame-rice-bowl","chia-pudding","quinoa-egg-bowl","edamame-rice-bowl","green-smoothie"],
   l:["tuna-rice-bowl","sesame-tofu-bowl","peanut-tofu-bowl","trout-rice-bowl","egg-quinoa-bowl"],
-  d:["miso-salmon-bowl","bibimbap-bowl","thai-green-curry","mapo-tofu-mushroom","vietnamese-chicken-bowl"]},
+  d:["miso-salmon-bowl","bibimbap-bowl","thai-green-curry","turkey-larb-cups","vietnamese-chicken-bowl"]},
  {id:"worldtour",theme:"world",name:"World tour",desc:"A different country each night: India, Italy, Mexico, Japan, Morocco, Thailand and Greece.",
-  b:["overnight-oats","huevos-rancheros","savory-oats","edamame-rice-bowl","zaatar-eggs"],
+  b:["walnut-berry-yogurt-bowl","huevos-rancheros","overnight-oats","edamame-rice-bowl","zaatar-eggs"],
   l:["minestrone","black-bean-soup","chickpea-feta-salad","tuna-rice-bowl","fattoush"],
   d:["chana-masala","chicken-cacciatore","chicken-tinga-tacos","miso-salmon-bowl","chickpea-tagine","thai-green-curry","greek-chicken"]},
  {id:"cozy",theme:"season",months:[11,12,1,2],name:"Cozy soups and stews",desc:"Chili, curry and chowder for cold nights, with warm drinks.",
-  b:["savory-oats","apple-baked-oats","overnight-oats","savory-oats","banana-pancakes"],
+  b:["chia-pudding","egg-fruit-breakfast","walnut-berry-yogurt-bowl","overnight-oats","banana-pancakes"],
   l:["caldo-verde","sopa-de-legumes","turmeric-bean-soup","corn-chowder","tomato-chickpea-soup"],
   d:["turkey-chili","chickpea-curry","cod-corn-chowder","sweetpot-bean-chili","chicken-soup"],
   p:["golden-milk","date-hot-cocoa","cha-de-limao","golden-milk","date-hot-cocoa"]},
  {id:"dozen",theme:"health",name:"Daily Dozen week",desc:"Plant-based and salt-free, after Dr. Greger's Daily Dozen: beans, greens, berries, flax and whole grains.",
-  b:["daily-dozen-oats","mango-berry-chia","carrot-cake-oats","daily-dozen-oats","mango-berry-chia"],
-  l:["southwest-salad","turmeric-bean-soup","corn-chowder","ginger-carrot-soup","fattoush"],
+  b:["wild-blue-oats","daily-dozen-oats","carrot-cake-oats","daily-dozen-oats","mango-berry-chia"],
+  l:["southwest-salad","turmeric-bean-soup","kale-chickpea-soup","ginger-carrot-soup","southwest-salad"],
   d:["greens-grain-bowl","bean-mushroom-burgers","mushroom-bolognese","mushroom-cottage-pie","loubieh"]},
  {id:"family",theme:"family",name:"Lebanese and Portuguese week",desc:"Shish tawook, piri-piri chicken, cod à Brás and soups from both kitchens.",
-  b:["zaatar-eggs","balila","overnight-oats","zaatar-eggs","balila"],
+  b:["zaatar-eggs","balila","walnut-berry-yogurt-bowl","zaatar-eggs","balila"],
   l:["fattoush","sopa-de-legumes","salada-de-grao","caldo-verde","fattoush"],
   d:["shish-tawook","frango-piri-piri","loubieh","bacalhau-a-bras","kafta-tray","peixe-assado"]},
  {id:"shortcuts",theme:"everyday",name:"Busy week shortcuts",desc:"Frozen salmon and turkey burgers, marinated meats and quick sides.",
-  b:["overnight-oats","broccoli-egg-muffins","mango-smoothie","broccoli-egg-muffins","overnight-oats"],
-  l:["salmon-burger-salad","turkey-burger-bean-bowl","shawarma-wraps","tuna-chickpea-salad","black-bean-corn-salad"],
+  b:["chia-pudding","zaatar-eggs","mango-smoothie","broccoli-egg-muffins","green-smoothie"],
+  l:["shawarma-wraps","chicken-fajita-bowls","shawarma-wraps","tuna-chickpea-salad","tuna-avocado-wraps"],
   d:["salmon-burger-bowl","turkey-burger-traybake","carne-asada-bowls","sockeye-quinoa","shawarma-bowl"]},
  {id:"omega",theme:"health",name:"Omega-3 and plants",desc:"Salmon and shrimp, with bean and lentil meals in between.",
-  b:["overnight-oats","walnut-berry-yogurt-bowl","egg-cups","chia-pudding","green-smoothie","overnight-oats","pb-banana-oatmeal"],
-  l:["chickpea-avocado-wraps","lentil-crunch-jar","salmon-salad-wraps","tomato-chickpea-soup","mezze-plate"],
+  b:["zaatar-eggs","menemen-eggs","edamame-rice-bowl","chia-pudding","egg-fruit-breakfast","walnut-berry-yogurt-bowl","banana-pancakes"],
+  l:["sweet-potato-bean-bowl","apple-walnut-chicken-salad","edamame-corn-jar","turmeric-chicken-bowl","mezze-plate"],
   d:["salmon-power-bowl","sesame-tofu-bowl","shrimp-avocado-bowl","sweetpot-bean-chili","pesto-salmon"]},
  {id:"quick",theme:"everyday",name:"Quick weeknights",desc:"Everything about 30 minutes or less.",
-  b:["walnut-berry-yogurt-bowl","green-smoothie","pb-banana-oatmeal","egg-spinach-bowl","chia-pudding"],
-  l:["hummus-chicken-wraps","apple-walnut-chicken-salad","mezze-plate","bean-egg-burritos","salmon-salad-wraps"],
+  b:["menemen-eggs","egg-fruit-breakfast","banana-pancakes","walnut-berry-yogurt-bowl","chia-pudding"],
+  l:["hummus-chicken-bowl","cauli-chicken-bowl","mezze-plate","bean-egg-burritos","salmon-salad-wraps"],
   d:["salmon-spinach-salad","chickpea-feta-salad","shrimp-stirfry","chicken-fajita-bowls","egg-cauli-rice"]},
  {id:"freezer",theme:"everyday",name:"Cook once, freeze extras",desc:"Soups, chili and burritos that make great leftovers.",
-  b:["egg-cups","overnight-oats","banana-pancakes","egg-cups","overnight-oats"],
-  l:["bean-egg-burritos","tomato-chickpea-soup","sweetpot-bean-quesadillas","lentil-spinach-soup","chicken-soup"],
+  b:["chia-pudding","egg-fruit-breakfast","banana-pancakes","walnut-berry-yogurt-bowl","tofu-scramble"],
+  l:["lentil-dal","egg-avocado-wraps","bean-egg-burritos","lentil-spinach-soup","black-bean-patties"],
   d:["turkey-chili","stuffed-peppers","salmon-cakes","sweetpot-bean-chili","turkey-meatballs"]},
  {id:"tj",theme:"everyday",name:"Trader Joe's shortcuts",desc:"Steamed lentils, riced cauliflower and frozen grains.",
-  b:["overnight-oats","egg-spinach-bowl","walnut-berry-yogurt-bowl","chia-pudding","green-smoothie"],
-  l:["lentil-crunch-jar","hummus-chicken-wraps","chickpea-avocado-wraps","mezze-plate","tomato-chickpea-soup"],
+  b:["daily-dozen-oats","edamame-rice-bowl","mango-smoothie","chia-pudding","green-smoothie"],
+  l:["mujadara","shawarma-wraps","chicken-fajita-bowls","med-chickpea-salad","salada-de-grao"],
   d:["lentil-feta-bowl","cauli-chicken-bowl","tzatziki-chicken-bowl","crunch-salmon-salad","shrimp-cauli-bowl"]},
  {id:"plants",theme:"health",name:"Mostly plants",desc:"Beans, tofu and chickpeas most nights, with one salmon dinner.",
-  b:["mango-smoothie","tofu-scramble","overnight-oats","chia-pudding","apple-baked-oats"],
-  l:["black-bean-corn-salad","edamame-corn-jar","chickpea-avocado-wraps","tomato-chickpea-soup","mezze-plate"],
+  b:["zaatar-eggs","overnight-oats","green-smoothie","chia-pudding","egg-cups"],
+  l:["black-bean-corn-salad","edamame-corn-jar","chickpea-feta-salad","egg-quinoa-bowl","mezze-plate"],
   d:["peanut-tofu-noodles","chickpea-sweetpot-traybake","black-bean-patties","salmon-mango-bowl","chickpea-curry"]},
  {id:"fish",theme:"health",name:"Three fish nights",desc:"Cod, salmon and shrimp, with turkey and chicken in between.",
-  b:["savory-oats","banana-pancakes","walnut-berry-yogurt-bowl","egg-cups","mango-smoothie"],
-  l:["tuna-chickpea-salad","chicken-quinoa-box","egg-avocado-wraps","black-bean-corn-salad","edamame-corn-jar"],
+  b:["chia-pudding","broccoli-egg-muffins","green-smoothie","balila","mango-smoothie"],
+  l:["salada-de-grao","salmon-cakes","chickpea-avocado-wraps","shrimp-avocado-bowl","edamame-corn-jar"],
   d:["lemon-cod-traybake","turkey-taco-bowls","salmon-power-bowl","chicken-tortilla-soup","shrimp-mango-salad"]},
  {id:"lunchbox",theme:"everyday",name:"Packed lunches all week",desc:"Seven grab-and-go lunches, plus dinners that leave leftovers.",
-  b:["overnight-oats","apple-baked-oats","egg-cups","chia-pudding","overnight-oats","apple-baked-oats","egg-cups"],
-  l:["chicken-quinoa-box","edamame-corn-jar","tuna-avocado-wraps","black-bean-corn-salad","egg-avocado-wraps","bean-egg-burritos","hummus-chicken-wraps"],
+  b:["broccoli-egg-muffins","green-smoothie","balila","chia-pudding","mango-smoothie","daily-dozen-oats","egg-cups"],
+  l:["chicken-quinoa-box","mezze-plate","salmon-burger-salad","black-bean-soup","turkey-burger-bean-bowl","tempeh-taco-bowl","hummus-chicken-wraps"],
   d:["chicken-tortilla-soup","cod-corn-chowder","sweetpot-bean-chili","turkey-taco-bowls","black-bean-patties"]},
  {id:"either",theme:"everyday",name:"Works at either store",desc:"Every meal can be bought at Costco alone or Trader Joe's alone.",
-  b:["overnight-oats","mango-smoothie","savory-oats","tofu-scramble","banana-pancakes"],
-  l:["tuna-chickpea-salad","black-bean-corn-salad","egg-avocado-wraps","chickpea-avocado-wraps","tuna-rice-bowl"],
+  b:["chia-pudding","walnut-berry-yogurt-bowl","egg-fruit-breakfast","menemen-eggs","banana-pancakes"],
+  l:["mezze-plate","shrimp-avocado-bowl","turmeric-chicken-bowl","bean-egg-burritos","tuna-rice-bowl"],
   d:["lemon-cod-traybake","turkey-taco-bowls","chickpea-sweetpot-traybake","shrimp-mango-salad","chicken-fajita-bowls","tofu-mushroom-stirfry"]}
 ];
 function loadPreset(id){
@@ -1549,13 +1551,17 @@ function presetCard(p){
   const ms=MK.filter(m=>p[m]&&p[m].length), counts=ms.map(m=>`${p[m].length} ${(p[m].length>1?MEALS[m].pl:MEALS[m].lbl).toLowerCase()}`);
   const swaps=ms.reduce((a,m)=>a+p[m].filter(id=>RX[id]&&!avail(RX[id])).length,0);
   const dinners=(p.d||[]).map(id=>RX[id]).filter(Boolean);
+  /* packs of fresh food that would spoil, not counting what can go in the freezer */
+  const T=needOf(ms.flatMap(m=>p[m]).map(id=>RX[id]).filter(r=>r&&avail(r)));
+  const left=Object.keys(T).reduce((a,k)=>{const l=lifeOf(k); return l!=null&&l<=tw("spoil")&&!I[k].fz?a+leftPacks(k,T[k]):a;},0);
+  const leftTxt=left<.75?"Little fresh food goes to waste.":`About ${Math.round(left*2)/2} pack${left>=1.25?"s":""} of fresh food may go to waste.`;
   const all=ms.map(m=>`<div><b>${MEALS[m].pl}</b><ul>${p[m].map(id=>RX[id]?`<li>${RX[id].n}</li>`:"").join("")}</ul></div>`).join("");
   return `<article class="card disc t-${p.theme}">
     <div class="disc-head"><h3>${p.name}</h3>${inSeason?chip("fresh","In season"):""}</div>
     <p class="meta" style="margin:0">${p.desc}</p>
     <div class="plates" aria-hidden="true">${dinners.map(r=>glyph(r.ing)).join("")}</div>
     <ul class="disc-list">${dinners.slice(0,4).map(r=>`<li>${r.n}</li>`).join("")}${dinners.length>4?`<li class="meta">and ${dinners.length-4} more</li>`:""}</ul>
-    <p class="meta" style="margin:0">${list(counts)}.${swaps?` ${swaps} meal${swaps>1?"s":""} will be swapped for ones ${STORE_LBL[S.store]} carries.`:""}</p>
+    <p class="meta" style="margin:0">${list(counts)}. ${leftTxt}${swaps?` ${swaps} meal${swaps>1?"s":""} will be swapped for ones ${STORE_LBL[S.store]} carries.`:""}</p>
     <details><summary>See every meal</summary><div class="disc-all">${all}</div></details>
     <button class="btn primary" id="pre-${p.id}" data-act="preset" data-id="${p.id}" style="width:max-content">Use this week</button>
   </article>`;
