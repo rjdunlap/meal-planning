@@ -655,31 +655,36 @@ const OLD_REPEATS={none:{b:1,l:1,d:1},lunch:{b:1,l:2,d:1},any:{b:2,l:2,d:2}};
    "surprise" adds up to 1.2. */
 const TUNE=[
  {g:"What a week favors"},
- {k:"waste",label:"Use up fresh food",min:0,max:3,step:.1,def:1,u:"x",help:"How hard the planner works to finish the packs you buy."},
- {k:"protein",label:"Spread proteins across the week",min:0,max:2.5,step:.1,def:.9,help:"Points off each time a protein is already planned."},
- {k:"fish",label:"Include fish",min:0,max:3,step:.1,def:1.2,help:"Points for the first fish meal. At Off, a week can have no fish."},
- {k:"plant",label:"Include a plant-based meal",min:0,max:2,step:.1,def:.9,help:"Points for the first bean, lentil or tofu meal."},
- {k:"prep",label:"Breakfast shares prep with lunch",min:0,max:1.5,step:.05,def:.5,help:"Points per ingredient a prep-day breakfast shares with that day's lunch."},
- {k:"repeat",label:"Cost of repeating a recipe",min:0,max:3,step:.1,def:1,u:"x",help:"Up to the limits set above. Higher means fewer repeats."},
- {k:"dinnerLunch",label:"Avoid a dinner again as lunch",min:0,max:2,step:.1,def:.4,help:"Points off a lunch that is already one of the week's dinners."},
- {k:"realLunch",label:"Prefer lunch recipes for lunch",min:0,max:2,step:.1,def:.8,help:"Points for a lunch recipe over a dinner that works as lunch."},
- {k:"quickLunch",label:"Prefer lunches ready in 20 minutes",min:0,max:1.5,step:.1,def:.4,help:"Points for a quick lunch."},
- {k:"longDinner",label:"Longest easy dinner",min:20,max:90,step:5,def:45,u:"min",help:"Dinners that take longer than this lose points."},
+ {k:"waste",lv:1,def:1,label:"Use up fresh food",help:"How hard the planner works to finish the fresh packs you buy. Higher means fewer different ingredients and more repeats."},
+ {k:"protein",lv:1,def:.9,label:"Mix up the proteins",help:"How much it avoids the same protein, like chicken, several times in a week."},
+ {k:"fish",lv:1,def:1.2,label:"Include fish",help:"How much it wants a fish meal in the week. At Off, a week can have no fish."},
+ {k:"plant",lv:1,def:.9,label:"Include a plant-based meal",help:"How much it wants a bean, lentil or tofu meal in the week."},
+ {k:"prep",lv:1,def:.5,label:"Breakfast shares prep with lunch",help:"How much a prep-day breakfast should use the same ingredients as that day's lunch."},
+ {k:"repeat",lv:1,def:1,label:"Avoid repeats",help:"How much it avoids repeating a recipe, within the limits above. Off repeats whenever that saves food."},
+ {k:"dinnerLunch",lv:1,def:.4,label:"Avoid a dinner again as lunch",help:"How much it avoids planning one of the week's dinners as a lunch too."},
+ {k:"realLunch",lv:1,def:.8,label:"Prefer lunch recipes for lunch",help:"How much it picks lunch recipes over dinners that also work as lunch."},
+ {k:"quickLunch",lv:1,def:.4,label:"Prefer quick lunches",help:"How much it favors lunches ready in 20 minutes or less."},
+ {k:"longDinner",label:"Longest easy dinner",min:20,max:90,step:5,def:45,u:"min",help:"Dinners that take longer than this are picked less often."},
  {g:"How the planner searches"},
- {k:"random",label:"Surprise",min:0,max:3,step:.1,def:1.2,help:"Random points per recipe. Higher gives more variety, lower sticks to the best fit."},
- {k:"tries",label:"Weeks tried per shuffle",min:1,max:80,step:1,def:30,u:"",help:"More tries find better weeks but take a little longer."},
- {k:"band",label:"How close to the best week",min:0,max:2,step:.1,def:.6,help:"Picks at random among weeks scoring this close to the best. 0 always takes the best."},
+ {k:"random",lv:1,def:1.2,label:"Surprise",help:"Higher gives more variety from one shuffle to the next. Lower sticks to the best fit."},
+ {k:"band",lv:1,def:.6,label:"Pick from good weeks, not only the best",help:"Higher gives more variety between shuffles. Off always takes the single best week it found."},
+ {k:"tries",label:"Weeks tried per shuffle",min:1,max:80,step:1,def:30,u:"weeks",help:"More tries find better weeks but take a moment longer."},
  {g:"What counts as waste"},
  {k:"spoil",label:"Counts as fresh if it keeps up to",min:3,max:30,step:1,def:14,u:"days",help:"Food that keeps longer is not counted as waste."},
- {k:"frozen",label:"Leftovers you can freeze count as",min:0,max:100,step:5,def:35,u:"%",help:"Share of waste counted for food that freezes well."},
+ {k:"frozen",label:"Leftovers you can freeze count as",min:0,max:100,step:5,def:35,u:"%",help:"How much of a freezable leftover counts as waste. 0% means freezing it is as good as eating it."},
  {g:"Shopping list"},
- {k:"storeSwitch",label:"Buy at Trader Joe's when it wastes less by",min:0,max:100,step:5,def:15,u:"%",help:"In Both stores mode, for fresh food. Measured against what the week needs."},
+ {k:"storeSwitch",label:"Buy at Trader Joe's when it wastes less by",min:0,max:100,step:5,def:15,u:"%",help:"In Both stores mode, for fresh food, as a share of what the week needs."},
  {k:"ideas",label:"Suggest recipes for items used under",min:0,max:100,step:5,def:60,u:"%",help:"Shows ideas to use up a fresh item the week barely uses."},
  {k:"extra",label:"Flag extra packs over",min:0,max:100,step:5,def:25,u:"%",help:"On the week page, mentions meat and fish left over beyond this share of a pack."}
 ];
+/* Weighting sliders (lv) move on a word scale; Medium is the built-in value. */
+const LEVELS=["Off","Very low","Low","Medium","High","Very high"], LV_MULT=[0,.33,.67,1,1.5,2.25];
 const TUNEX=Object.fromEntries(TUNE.filter(t=>t.k).map(t=>[t.k,t]));
 const tw=k=>own(S.tune||{},k)?S.tune[k]:TUNEX[k].def;
-const tuneFmt=(t,v)=>t.u==="x"?(v?(+v.toFixed(2))+"×":"Off"):t.u==="%"||t.u==="min"||t.u==="days"?`${v}${t.u==="%"?"%":" "+t.u}`:t.u===""?String(v):(v?String(+v.toFixed(2)):"Off");
+const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<Math.abs(v-t.def*LV_MULT[bi])) bi=i;}); return bi;};
+const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
+const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
+const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
 function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2},prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
@@ -695,7 +700,7 @@ function normalize(d){
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
   s.tune={}; if(d.tune&&typeof d.tune==="object") for(const t of TUNE){if(!t.k) continue; const v=d.tune[t.k];
     if(typeof v!=="number"||!isFinite(v)) continue;
-    const c=+(Math.round((Math.min(t.max,Math.max(t.min,v))-t.min)/t.step)*t.step+t.min).toFixed(4); if(c!==t.def) s.tune[t.k]=c;}
+    const c=t.lv?fromSlider(t,levelOf(t,v)):+(Math.round((Math.min(t.max,Math.max(t.min,v))-t.min)/t.step)*t.step+t.min).toFixed(4); if(c!==t.def) s.tune[t.k]=c;}
   s.store=d.store==="c"||d.store==="t"||d.store==="both"?d.store:"both";
   s.src={}; if(d.src&&typeof d.src==="object") for(const k of Object.keys(d.src)){const v=d.src[k]; if(own(I,k)&&(v==="c"||v==="t")&&I[k][v]) s.src[k]=v;}
   for(const m of MK){const a=d[MEALS[m].arr];
@@ -1036,8 +1041,8 @@ function viewProfile(){
     </div>
     <div class="card stack">
       <h3>Fine-tune the planner</h3>
-      <p class="meta" style="margin:0">Every slider starts at the value the planner was built with. Changes apply the next time you generate or shuffle a week.</p>
-      ${TUNE.map(t=>t.g?`<h4 class="tune-g">${t.g}</h4>`:`<div class="tune"><label for="tn-${t.k}"><span>${t.label}</span><output id="tno-${t.k}" for="tn-${t.k}">${tuneFmt(t,tw(t.k))}</output></label><input type="range" id="tn-${t.k}" data-act="tune" data-k="${t.k}" min="${t.min}" max="${t.max}" step="${t.step}" value="${tw(t.k)}"><span class="meta">${t.help} Default: ${tuneFmt(t,t.def)}.</span></div>`).join("")}
+      <p class="meta" style="margin:0">Every slider starts at its default, which is Medium for the ones on a Low to High scale. Changes apply the next time you generate or shuffle a week.</p>
+      ${TUNE.map(t=>t.g?`<h4 class="tune-g">${t.g}</h4>`:`<div class="tune"><label for="tn-${t.k}"><span>${t.label}</span><output id="tno-${t.k}" for="tn-${t.k}">${tuneFmt(t,tw(t.k))}</output></label><input type="range" id="tn-${t.k}" data-act="tune" data-k="${t.k}" min="${t.lv?0:t.min}" max="${t.lv?5:t.max}" step="${t.lv?1:t.step}" value="${sliderVal(t)}" aria-valuetext="${tuneFmt(t,tw(t.k))}"><span class="meta">${t.help} Default: ${tuneFmt(t,t.def)}.</span></div>`).join("")}
       <button class="btn ghost" id="tune-reset" data-act="tune-reset" style="width:max-content" ${Object.keys(S.tune).length?"":"disabled"}>Reset all to defaults</button>
     </div>
     <a class="btn primary" href="#week" id="profile-done" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Back to your week</a>
@@ -1283,7 +1288,7 @@ function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on")
 function act(el,ev){
   const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
-  if(a==="tune"){if(ev.type!=="change") return; const t=TUNEX[el.dataset.k], v=+el.value; if(v===t.def) delete S.tune[t.k]; else S.tune[t.k]=v;
+  if(a==="tune"){if(ev.type!=="change") return; const t=TUNEX[el.dataset.k], v=fromSlider(t,+el.value); if(v===t.def) delete S.tune[t.k]; else S.tune[t.k]=v;
     const rb=$("#tune-reset"); if(rb) rb.disabled=!Object.keys(S.tune).length; persist(); return;}
   if(a==="share"){
     const text=listText();
@@ -1324,7 +1329,7 @@ function act(el,ev){
 document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el) act(el,e);});
 document.addEventListener("change",e=>{const el=e.target.closest("select[data-act],input[data-act]"); if(el) act(el,e);});
 document.addEventListener("input",e=>{if(e.target.id==="rq"){rsearch=e.target.value; applySearch();}
-  if(e.target.dataset&&e.target.dataset.act==="tune"){const t=TUNEX[e.target.dataset.k], o=$("#tno-"+t.k); if(o) o.textContent=tuneFmt(t,+e.target.value);}});
+  if(e.target.dataset&&e.target.dataset.act==="tune"){const t=TUNEX[e.target.dataset.k], o=$("#tno-"+t.k), w=tuneFmt(t,fromSlider(t,+e.target.value)); if(o) o.textContent=w; e.target.setAttribute("aria-valuetext",w);}});
 document.addEventListener("toggle",e=>{const el=e.target; if(el.dataset&&el.dataset.rid){if(el.open) openSet.add(el.dataset.rid); else openSet.delete(el.dataset.rid);}},true);
 window.addEventListener("hashchange",()=>{render(); window.scrollTo(0,0);});
 render();
