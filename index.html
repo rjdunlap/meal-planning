@@ -724,6 +724,58 @@ R.push(
   steps:["Hard-boil the eggs for 10 minutes, cool and chop.","Toss the rinsed chickpeas, flaked tuna, finely sliced onion and tomatoes with olive oil, vinegar and parsley.","Top with the egg."]}
 );
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
+/* ---------- air fryer steps ----------
+   For families who cook with an air fryer (Family setting, the default), these replace the oven
+   or stovetop step that contains the matching text. Air fryers run hotter and faster than an
+   oven, so temperatures drop about 25°F and times about a fifth. Recipes that need a baking dish
+   or muffin tin (frittata, egg cups and muffins, baked oatmeal, stuffed peppers, kafta tray)
+   keep their oven steps. */
+const AF_CHICKEN="Air fry the chicken at 380°F for 12 to 15 minutes, flipping once, until it reaches 165°F";
+const AF_SALMON="Air fry the salmon at 400°F for 8 to 10 minutes";
+const AFX={
+ "salmon-power-bowl":[["Roast the salmon","Cook the quinoa. "+AF_SALMON+", skin side down."]],
+ "turmeric-chicken-bowl":[["Roast sweet potato cubes","Start the rice. Air fry the sweet potato cubes at 400°F for 12 minutes, shaking once, then set aside."],["Add the chicken and broccoli","Air fry the chicken at 380°F for 10 to 12 minutes, to 165°F, then the broccoli for 6 to 8 minutes. Keep each in one layer, in batches if needed."]],
+ "sweet-potato-bean-bowl":[["Roast sweet potato cubes and pepper","Air fry the sweet potato cubes and pepper strips with oil, cumin and paprika at 400°F for 15 to 18 minutes, shaking twice."]],
+ "chicken-berry-salad":[["Sear the chicken",AF_CHICKEN+". Rest it, then slice."]],
+ "hummus-chicken-bowl":[["Sear the chicken",AF_CHICKEN+", then slice."]],
+ "greek-chicken":[["Sear the chicken",AF_CHICKEN+", then slice."]],
+ "tzatziki-chicken-bowl":[["Sear the chicken",AF_CHICKEN+", then slice."]],
+ "hummus-chicken-wraps":[["Sear the chicken",AF_CHICKEN+", then slice. Cook extra at dinner to save time."]],
+ "chicken-quinoa-box":[["Sear the chicken","Rub the chicken with oil, garlic powder and oregano. "+AF_CHICKEN+", then slice."]],
+ "salmon-quinoa":[["Roast the salmon",AF_SALMON+" with a little olive oil and lemon slices."]],
+ "crunch-salmon-salad":[["Roast the salmon",AF_SALMON+"."]],
+ "salmon-lentils":[["Roast the salmon",AF_SALMON+"."]],
+ "salmon-mango-bowl":[["Roast the salmon","Start the rice. Air fry the salmon with oil and cumin at 400°F for 8 to 10 minutes."]],
+ "lentil-feta-bowl":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and cumin at 400°F for 15 to 18 minutes, shaking twice."]],
+ "shawarma-wraps":[["Cook the thighs","Air fry the thighs at 380°F for 16 to 20 minutes, flipping once, to 165°F, or use leftovers from dinner, and slice thin."]],
+ "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes, shaking once."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
+ "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, flipping once, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
+ "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, shaking once, to 165°F."]],
+ "stuffed-sweet-potato":[["Prick the sweet potatoes","Prick the sweet potatoes and microwave 8 to 10 minutes, turning once, or air fry at 390°F for 35 to 40 minutes."]],
+ "brussels-chicken-salad":[["Roast halved sprouts","Air fry the halved sprouts and sweet potato cubes with oil at 380°F for 15 to 18 minutes, shaking twice."],["Sear the chicken",AF_CHICKEN+", then slice."]],
+ "chicken-brussels-quinoa":[["Toss halved sprouts","Cook the quinoa. Toss halved sprouts with oil and air fry at 380°F for 12 to 15 minutes, then set aside."],["Add oiled and seasoned","Air fry the oiled and seasoned chicken thighs at 380°F for 18 to 20 minutes, flipping once, to 165°F."]],
+ "pesto-salmon":[["Roast broccoli and tomatoes","Air fry the broccoli and tomatoes with oil at 380°F for 6 minutes."],["Add the salmon, spread","Add the salmon, spread with pesto, and air fry at 380°F for 8 to 10 minutes more."]],
+ "cod-tacos":[["Heat the oven","Heat the air fryer to 390°F. Take out her piece of cod to cook plain alongside the rest."],["Rub the rest","Rub the rest with oil, cumin, paprika and garlic powder and air fry 8 to 10 minutes, until it flakes."]],
+ "lemon-cod-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil at 400°F for 12 minutes, shaking once."],["Roast 12 minutes more","Air fry at 380°F for 8 to 10 minutes more, until the fish flakes. Cook in two batches if the basket is crowded."]],
+ "black-bean-patties":[["Bake on an oiled tray","Air fry on parchment at 375°F for 12 to 14 minutes, flipping once."]],
+ "chicken-tortilla-soup":[["Bake tortilla strips","Air fry tortilla strips at 350°F for 4 to 5 minutes and serve on top with avocado and lime."]],
+ "chickpea-sweetpot-traybake":[["Set her share on one corner","Toss sweet potato cubes and rinsed chickpeas with oil and cumin. Set her share aside in a small bowl."],["Add paprika to the rest","Air fry her share at 390°F for 12 minutes and set aside, then add paprika to the rest and air fry 15 minutes, shaking twice."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes."]],
+ "turkey-burger-traybake":[["Toss sweet potato wedges","Toss sweet potato wedges with oil and air fry at 400°F for 15 minutes, then set aside."],["Add the frozen burgers","Air fry the frozen burgers at 380°F for 12 to 15 minutes, flipping once, until they reach 165°F, then the broccoli for 6 to 8 minutes."]],
+ "turkey-burger-bean-bowl":[["Cook the burgers from frozen","Air fry the frozen burgers at 380°F for 12 to 15 minutes, flipping once, to 165°F."]],
+ "salmon-burger-bowl":[["Cook the burgers from frozen","Air fry the burgers from frozen at 390°F for 10 to 12 minutes, turning once."]],
+ "salmon-burger-salad":[["Cook the burgers from frozen","Air fry the burgers from frozen at 390°F for 10 to 12 minutes, turning once."]],
+ "sockeye-quinoa":[["Roast the salmon and broccoli",AF_SALMON+", then the broccoli with oil and garlic for 6 to 8 minutes."]],
+ "sockeye-mango-tacos":[["Rub with oil and cumin","Rub with oil and cumin and air fry at 400°F for 7 to 9 minutes."]],
+ "shawarma-bowl":[["Cook the thighs","Air fry the thighs at 380°F for 16 to 20 minutes, flipping once, to 165°F. Rest, then slice."]],
+ "shish-tawook":[["Thread on skewers","Air fry the chicken cubes, on short skewers or loose, at 400°F for 10 to 12 minutes, shaking once, to 165°F."]],
+ "fattoush":[["Cut the pita","Cut the pita into pieces and air fry at 350°F for 4 to 5 minutes until crisp."]],
+ "frango-piri-piri":[["Toss potato chunks","Toss potato chunks with oil and air fry at 400°F for 18 to 20 minutes, shaking twice, then keep warm."],["Add the chicken to the tray","Air fry the chicken at 380°F for 18 to 22 minutes, flipping once, to 165°F."]],
+ "bacalhau-a-bras":[["Cut the potatoes into thin matchsticks","Cut the potatoes into thin matchsticks, toss with a little oil and air fry at 380°F for 12 to 15 minutes, shaking often."]],
+ "peixe-assado":[["Toss sliced potatoes","Air fry sliced potatoes, peppers and onion with oil, garlic and bay leaves at 380°F for 15 minutes, shaking once."],["Lay the salmon","Lay the salmon and tomatoes on top and air fry 8 to 10 minutes more."]]
+};
+for(const id in AFX){const r=RX[id]; if(!r) continue; r.af={};
+  for(const [m,txt] of AFX[id]){const i=r.steps.findIndex(s=>s.includes(m)); if(i>=0) r.af[i]=txt;}}
+const stepsFor=r=>S.cook==="air"&&r.af?r.steps.map((s,i)=>r.af[i]||s):r.steps;
 
 /* ---------- state ---------- */
 const MEALS={b:{arr:"bf",cnt:"nb",lbl:"Breakfast",pl:"Breakfasts",short:"Bkfst"},l:{arr:"lunches",cnt:"nl",lbl:"Lunch",pl:"Lunches",short:"Lunch"},d:{arr:"dinners",cnt:"nd",lbl:"Dinner",pl:"Dinners",short:"Dinner"}};
@@ -773,7 +825,7 @@ const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<M
 const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
 const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
 const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2},life:{},prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2},life:{},cook:"air",prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -784,7 +836,7 @@ function normalize(d){
   s.kidPortion=own(KID_PORTIONS,d.kidPortion)&&Number.isInteger(d.kidPortion)?d.kidPortion:25;
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,2);
-  s.prepDays=int(d.prepDays,0,127,62);
+  s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air";
   s.life={}; if(d.life&&typeof d.life==="object") for(const k of Object.keys(d.life)){if(own(I,k)&&I[k].life!=null){const v=int(d.life[k],1,60,I[k].life); if(v!==I[k].life) s.life[k]=v;}}
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
   s.tune={}; if(d.tune&&typeof d.tune==="object") for(const t of TUNE){if(!t.k) continue; const v=d.tune[t.k];
@@ -1062,7 +1114,8 @@ function recipeBody(r,mult){
   return `<p class="meta" style="margin:8px 0 0">Amounts for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}${mult>1?", cooked double":""}.</p>
         <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
         ${S.kids?`<p class="kid"><b>For your little one:</b> ${r.kid}</p>`:""}
-        <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;
+        ${S.cook==="air"&&r.af?`<p class="meta" style="margin:0">Air fryer steps. Keep food in one layer and cook in batches if the basket is full.</p>`:""}
+        <ol class="steps">${stepsFor(r).map(s=>`<li>${s}</li>`).join("")}</ol>`;
 }
 let openWeek=new Set();
 function mealRow(m,i,x){
@@ -1123,6 +1176,11 @@ function viewProfile(){
       <h3>Shopping</h3>
       <div class="field">Where you shop<div class="choices three" role="group" aria-label="Where you shop">${[["c","Costco"],["t","Trader Joe's"],["both","Both"]].map(([v,l])=>`<button class="choice" id="store-${v}" data-act="store" data-v="${v}" aria-pressed="${S.store===v}"><b>${l}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">With Both, each item goes to the store that wastes less.</span></div>
       <label class="field" for="shopday">Shopping day<select id="shopday" data-act="shopday">${DAYL.map((d,i)=>`<option value="${i}" ${i===S.shopDay?"selected":""}>${d}</option>`).join("")}</select></label>
+    </div>
+    <div class="card stack">
+      <h3>How you cook</h3>
+      <div class="choices three" role="group" aria-label="How you cook" style="grid-template-columns:repeat(2,1fr)">${[["air","Air fryer"],["oven","Oven"]].map(([v,l])=>`<button class="choice" id="cook-${v}" data-act="cook" data-v="${v}" aria-pressed="${S.cook===v}"><b>${l}</b></button>`).join("")}</div>
+      <span class="meta">Recipes that roast or sear show air fryer times and temperatures. Dishes that need a baking dish or muffin tin stay in the oven.</span>
     </div>
     <div class="card stack">
       <h3>How often a recipe can repeat</h3>
@@ -1407,6 +1465,7 @@ function act(el,ev){
   else if(a==="life-reset"){delete S.life[el.dataset.id];}
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
+  else if(a==="cook"){S.cook=el.dataset.v;}
   else if(a==="kidp"){S.kidPortion=+el.dataset.v;}
   else if(a==="rep"){S.rep[m]=+el.dataset.v;}
   else if(a==="prep"){S.prepDays^=1<<(+el.dataset.w);}
