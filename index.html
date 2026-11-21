@@ -103,6 +103,22 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .prep h3{font:700 20px/1.1 var(--display);margin-bottom:6px}
 .prep ul{margin:0;padding-left:18px} .prep li{margin:4px 0;font-size:14.5px}
 .sec-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+
+[hidden]{display:none!important}
+.dayg{display:flex;flex-direction:column;gap:8px}
+.dayh{font:700 22px/1 var(--display);display:flex;align-items:baseline;gap:10px;margin:10px 0 0}
+.dayh small{font:700 10px/1 var(--body);color:var(--brand);letter-spacing:.06em}
+.dayg .day{grid-template-columns:50px 1fr 48px}
+.dayg .dow{font:700 11px/1.2 var(--body);letter-spacing:.06em;color:var(--muted);padding-left:4px;padding-top:2px}
+.gen{display:flex;flex-direction:column;gap:12px}
+.gen h3{font:700 20px/1.1 var(--display)}
+.gen summary{cursor:pointer;font-weight:700;font-size:14px}
+.presets{display:grid;gap:8px;margin-top:10px}
+.preset{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.preset b{font-size:15px} .preset span{font-size:13px;color:var(--muted)}
+.preset:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.empty{padding:14px 16px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:14.5px}
+.search{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:inherit;font:inherit;font-size:16px}
 /* recipes */
 .filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .filters::-webkit-scrollbar{display:none}
@@ -314,7 +330,7 @@ const R=[
 ];
 const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], DAYL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const TABS=["week","recipes","shopping-list","shelf-life"];
-const KEY="costco-week-planner-v1";
+const KEY="costco-week-planner-v2";
 
 
 /* ---------- store data, roles and new recipes ---------- */
@@ -411,28 +427,125 @@ R.push(
   kid:"Scramble hers soft with a little spinach and serve sweet potato cubes and avocado spears. Cook the egg all the way through.",
   steps:["Pan-fry small sweet potato cubes in oil for 8 minutes, or reheat roasted ones.","Wilt in the spinach, then scramble in the eggs.","Serve with sliced avocado and a little feta."]}
 );
+
+
+/* ---------- more items and recipes ---------- */
+Object.assign(I,{
+ tortilla:{s:"tortillas",u:"tortilla",cat:"Pantry",role:"grain",life:14,fz:1,keep:"About 1 to 2 weeks in the fridge. Freezes well.",left:"Freeze extras flat in a bag with parchment between them.",c:{n:"Whole wheat tortillas",pack:"2 packs, about 20 total",q:20},t:{n:"Whole wheat tortillas",pack:"1 pack of about 10",q:10}},
+ chia:{s:"chia seeds",u:"oz",cat:"Pantry",role:"fat",life:null,keep:"2 years or more, sealed and dry.",left:"One bag lasts months. Stir a spoonful into oats or yogurt.",c:{n:"Organic chia seeds",pack:"bag, about 2 lb",q:32},t:{n:"Chia seeds",pack:"about 12 oz bag",q:12}},
+ apple:{s:"apples",u:"lb",cat:"Produce",role:"fruit",life:21,keep:"3 to 4 weeks in the fridge.",left:"They keep for weeks. Slice thin for snacks.",c:{n:"Apples",pack:"bag, about 5 lb",q:5},t:{n:"Apples",pack:"bag, about 3 lb",q:3}},
+ mushroom:{s:"mushrooms",u:"oz",cat:"Produce",role:"veg",life:5,keep:"About 5 days in the fridge, in a paper bag.",left:"Saute the rest and add it to eggs or pasta.",c:{n:"Mushrooms",pack:"24 oz tub",q:24},t:{n:"Sliced mushrooms",pack:"10 oz tub",q:10}}
+});
+R.push(
+/* lunches */
+ {id:"chickpea-avocado-wraps",n:"Smashed chickpea and avocado wraps",meal:"lunch",t:10,tags:["Vegetarian","No-cook protein"],ing:{tortilla:1,chickpea:.4,avocado:.5,spinach:1,yogurt:1,lemon:.15},st:["black pepper"],
+  kid:"Serve hers deconstructed: mashed chickpea and avocado on a soft strip of tortilla, with the spinach chopped fine.",
+  steps:["Mash the rinsed chickpeas and avocado with lemon juice, yogurt and pepper.","Spread on the tortillas and add the spinach.","Roll tightly and cut in half."]},
+ {id:"hummus-chicken-wraps",n:"Hummus, chicken and cucumber wraps",meal:"lunch",t:15,tags:["Lean protein"],ing:{tortilla:1,cb:.25,hummus:2,cucumber:2,tomato:2,spinach:1},st:["extra virgin olive oil","dried oregano"],
+  kid:"Hummus has sesame, so start small if it is new. Shred her chicken and cut cucumber into thin peeled strips.",
+  steps:["Sear the chicken with oil and oregano until it reaches 165°F, then slice. Cook extra at dinner to save time.","Spread hummus on each tortilla.","Add chicken, cucumber, tomato and spinach, then roll."]},
+ {id:"lentil-crunch-jar",n:"Lentil crunch jar salad",meal:"lunch",t:10,tags:["Bowl or salad","Vegetarian","Make ahead"],ing:{lentil:.4,kalecrunch:2.5,carrot:.15,feta:.5,lemon:.25},st:["extra virgin olive oil","Dijon mustard"],
+  kid:"Give her the lentils mashed with a little grated carrot. The raw crunch mix is tough for small mouths.",
+  steps:["Whisk olive oil, lemon juice and mustard in the bottom of each jar.","Layer the lentils, grated carrot, crunch mix and feta.","Shake into a bowl at lunch. It keeps 3 days."]},
+ {id:"salmon-salad-wraps",n:"Canned salmon salad wraps",meal:"lunch",t:10,tags:["Omega-3","No-cook protein"],ing:{tortilla:1,cansalmon:.5,yogurt:1,cucumber:2,spinach:1,lemon:.15},st:["Dijon mustard","black pepper"],
+  kid:"Canned salmon is salty, so give her a small flaked portion mixed into yogurt. Check for soft bones.",
+  steps:["Flake the salmon and mix with yogurt, lemon juice, mustard and pepper.","Spread on the tortillas with cucumber and spinach.","Roll and slice."]},
+ {id:"bean-egg-burritos",n:"Black bean, egg and veggie burritos",meal:"lunch",t:25,tags:["Vegetarian","Freezes well","Make ahead"],ing:{tortilla:1,eggs:1.5,beans:.25,pepper:.3,spinach:1,cheese:.75,avocado:.25},st:["cumin"],
+  kid:"Offer hers as a scramble with beans and avocado on the side. Cook the egg all the way through.",
+  steps:["Soften the diced pepper, then scramble in the eggs and spinach.","Warm the rinsed beans with cumin.","Fill the tortillas with eggs, beans, cheese and avocado and roll.","Wrap extras in foil and freeze. Reheat from frozen."]},
+ {id:"apple-walnut-chicken-salad",n:"Apple, walnut and chicken yogurt salad",meal:"lunch",t:15,tags:["Bowl or salad","Lean protein"],ing:{cb:.25,yogurt:1.5,apple:.25,walnut:.3,spinach:1.5,lemon:.15},st:["Dijon mustard","black pepper"],
+  kid:"Grate or stew her apple, since raw chunks are hard to chew. Leave the walnuts off her plate.",
+  steps:["Cook and chop the chicken, or use leftovers.","Stir yogurt, lemon juice, mustard and pepper together.","Fold in the chicken, diced apple and walnuts and serve over spinach."]},
+ {id:"mezze-plate",n:"Mezze lunch plate with hummus and eggs",meal:"lunch",t:15,tags:["Vegetarian","No-cook protein"],ing:{hummus:3,eggs:1.5,cucumber:3,tomato:3,pepper:.5,feta:.5},st:["extra virgin olive oil","dried oregano"],
+  kid:"This plate is mostly finger food for her. Quarter the tomatoes, peel the cucumber and cut the egg into wedges.",
+  steps:["Hard-boil the eggs for 10 minutes, cool and peel.","Slice the cucumber and pepper and quarter the tomatoes.","Arrange everything with hummus and feta, and drizzle with oil and oregano."]},
+ {id:"tomato-chickpea-soup",n:"Tomato, chickpea and spinach soup",meal:"lunch",t:25,tags:["Freezes well","One pot"],ing:{chickpea:.5,dicedtom:.5,stock:.75,carrot:.25,spinach:1.5,pasta:1,onion:.2},st:["extra virgin olive oil","garlic","dried oregano"],
+  kid:"Thin her bowl with water, since boxed broth is salted, and squash the chickpeas flat.",
+  steps:["Soften the onion, carrot and garlic in oil.","Add the tomatoes, broth, rinsed chickpeas and pasta and simmer 12 minutes.","Stir in the spinach until wilted."]},
+ {id:"sweetpot-bean-quesadillas",n:"Sweet potato and black bean quesadillas",meal:"lunch",t:25,tags:["Vegetarian","Freezes well"],ing:{tortilla:1,sweetpot:.3,beans:.25,cheese:1,spinach:1},st:["cumin","olive oil"],
+  kid:"Cut hers into thin strips. The sweet potato and beans are soft enough to mash into the cheese.",
+  steps:["Microwave diced sweet potato until soft, about 5 minutes, and mash it with the beans and cumin.","Fill the tortillas with the mash, spinach and cheese.","Toast 2 to 3 minutes a side in a lightly oiled pan."]},
+/* dinners */
+ {id:"chicken-mushroom-skillet",n:"Chicken, mushroom and spinach skillet with quinoa",meal:"dinner",t:30,tags:["Lean protein"],ing:{cb:.3,mushroom:3,spinach:2,quinoa:.3,onion:.2,lemon:.25},st:["extra virgin olive oil","garlic","dried thyme"],
+  kid:"Chop her mushrooms small and cook them well. Shred the chicken and stir it through the quinoa.",
+  steps:["Cook the quinoa. Sear sliced chicken in oil, about 6 minutes, then set aside.","Brown the mushrooms and onion for 8 minutes with garlic and thyme.","Add the spinach and chicken, then finish with lemon juice."]},
+ {id:"salmon-cakes",n:"Salmon cakes with yogurt sauce and broccoli",meal:"dinner",t:30,tags:["Omega-3","Freezes well"],ing:{cansalmon:.75,eggs:.5,oats:.1,broccoli:4,yogurt:1.5,lemon:.2},st:["Dijon mustard","garlic powder"],
+  kid:"Salmon cakes are a good finger food for her. Check for soft bones, and steam her broccoli until it squashes easily.",
+  steps:["Mix the salmon, egg, oats, mustard and garlic powder and shape into small patties.","Pan-fry 3 to 4 minutes a side until golden, and steam the broccoli.","Stir yogurt with lemon juice for the sauce. Freeze extra cooked patties."]},
+ {id:"turkey-sweetpot-skillet",n:"Turkey and sweet potato skillet",meal:"dinner",t:30,tags:["One pot"],ing:{turkey:.3,sweetpot:.4,spinach:2,pepper:.5,onion:.2},st:["extra virgin olive oil","cumin","smoked paprika"],
+  kid:"Everything here is soft. Take out her portion before the paprika.",
+  steps:["Brown the turkey with the onion in oil.","Add small sweet potato cubes, pepper, cumin and a splash of water, cover and cook 12 minutes.","Stir in the spinach and paprika."]},
+ {id:"stuffed-peppers",n:"Turkey and quinoa stuffed peppers",meal:"dinner",t:50,tags:["Freezes well"],ing:{turkey:.25,pepper:1,quinoa:.25,dicedtom:.25,cheese:1,onion:.2},st:["garlic","dried oregano"],
+  kid:"Scoop her filling out of the pepper and mash it, since pepper skin is tough for her.",
+  steps:["Cook the quinoa and brown the turkey with the onion and garlic.","Mix with the tomatoes and oregano and stuff halved peppers.","Top with cheese and bake at 375°F for 30 minutes. Freeze extras."]},
+ {id:"shrimp-coconut-curry",n:"Coconut shrimp curry with spinach",meal:"dinner",t:25,tags:["One pot","Lean protein"],ing:{shrimp:.3,coconut:.33,spinach:2,dicedtom:.25,rice:.4,pepper:.3,onion:.2},st:["extra virgin olive oil","fresh ginger","garlic","mild curry powder"],
+  kid:"Shellfish is a common allergen, so offer a little early in the day first if it is new. Chop her shrimp small.",
+  steps:["Start the rice. Soften the onion, pepper, ginger and garlic in oil.","Stir in curry powder, tomatoes and coconut milk and simmer 8 minutes.","Add the thawed shrimp and cook 3 minutes, then stir in the spinach."]},
+ {id:"chicken-fajita-bowls",n:"Chicken fajita bowls",meal:"dinner",t:30,tags:["Bowl or salad","Lean protein"],ing:{cb:.3,pepper:1,onion:.25,beans:.33,rice:.33,avocado:.5,tomato:2,yogurt:1},st:["extra virgin olive oil","cumin","smoked paprika","lime or lemon"],
+  kid:"Cook her pepper and onion until very soft. Shred the chicken and serve yogurt as a dip.",
+  steps:["Start the rice. Slice the chicken, pepper and onion.","Cook the chicken with cumin and paprika, then the vegetables until soft.","Warm the rinsed beans and build bowls with avocado, tomato and yogurt."]},
+ {id:"tofu-mushroom-stirfry",n:"Tofu, mushroom and broccoli stir-fry",meal:"dinner",t:25,tags:["Plant-based","Vegetarian"],ing:{tofu:.4,mushroom:3,broccoli:4,rice:.33},st:["low-sodium soy sauce","garlic","fresh ginger","sesame oil"],
+  kid:"Soft tofu cubes and well-cooked mushrooms work for her. Take her portion out before the soy sauce.",
+  steps:["Start the rice. Press and cube the tofu and brown it in oil for 8 minutes.","Stir-fry the mushrooms and broccoli with garlic and ginger for 6 minutes.","Return the tofu and season with soy sauce and sesame oil."]},
+ {id:"sweetpot-bean-chili",n:"Sweet potato and black bean chili",meal:"dinner",t:40,tags:["Plant-based","Vegetarian","Freezes well","One pot"],ing:{beans:.6,sweetpot:.5,dicedtom:.5,pepper:.5,onion:.25,spinach:1},st:["extra virgin olive oil","garlic","cumin","chili powder"],
+  kid:"Scoop out her portion before the chili powder and mash the beans with a fork.",
+  steps:["Soften the onion, pepper and garlic in oil.","Add diced sweet potato, the tomatoes, rinsed beans, cumin and 1 cup water and simmer 25 minutes.","Stir in the spinach and chili powder."]},
+ {id:"salmon-lentils",n:"Baked salmon with lemony lentils and spinach",meal:"dinner",t:25,tags:["Omega-3","Bowl or salad"],ing:{salmon:.35,lentil:.5,spinach:2,lemon:.25,carrot:.15},st:["extra virgin olive oil","Dijon mustard"],
+  kid:"Flake her salmon and check for bones. Mash the lentils with a little carrot.",
+  steps:["Roast the salmon at 425°F for 10 to 12 minutes.","Warm the lentils with grated carrot, then wilt in the spinach.","Whisk oil, lemon juice and mustard, spoon over the lentils and top with salmon."]},
+ {id:"chicken-brussels-quinoa",n:"Roasted chicken thighs with Brussels sprouts and quinoa",meal:"dinner",t:40,tags:["One pan"],ing:{chx:.4,brussels:4,quinoa:.3,lemon:.25},st:["extra virgin olive oil","garlic","salt and pepper"],
+  kid:"Roasted sprouts are soft inside. Quarter or chop them small and shred her chicken.",
+  steps:["Cook the quinoa. Toss halved sprouts with oil and roast at 425°F for 15 minutes.","Add oiled and seasoned chicken thighs and roast 20 minutes, to 165°F.","Squeeze lemon over everything and serve on the quinoa."]},
+ {id:"pesto-salmon",n:"Pesto salmon with roasted broccoli and tomatoes",meal:"dinner",t:25,tags:["Omega-3","One pan"],ing:{salmon:.35,pesto:1,broccoli:4,tomato:3},st:["extra virgin olive oil"],
+  kid:"Pesto has tree nuts and cheese. If either is new, offer a small taste early in the day first. Quarter her tomatoes.",
+  steps:["Roast broccoli and tomatoes with oil at 425°F for 10 minutes.","Add the salmon, spread with pesto and roast 10 to 12 minutes more.","Serve with the roasted vegetables."]},
+ {id:"egg-cauli-rice",n:"Egg-fried cauliflower rice with edamame",meal:"dinner",t:20,tags:["Vegetarian","Freezer meal"],ing:{eggs:1.5,cauli:4,edamame:2,stirfry:3},st:["low-sodium soy sauce","sesame oil","garlic"],
+  kid:"Scrambled egg and soft cauliflower rice are easy for her. Squash the edamame and take her portion out before the soy sauce.",
+  steps:["Stir-fry the frozen stir-fry vegetables and garlic for 5 minutes.","Add the cauliflower rice and edamame and cook 5 more.","Push aside, scramble the eggs, then mix together and season."]},
+ {id:"chickpea-shakshuka",n:"Chickpea shakshuka with eggs and spinach",meal:"dinner",t:30,tags:["Vegetarian","One pot"],ing:{chickpea:.33,eggs:2,dicedtom:.5,pepper:.5,onion:.25,spinach:1,feta:.5},st:["extra virgin olive oil","garlic","cumin","smoked paprika"],
+  kid:"Cook the eggs until firm all the way through. Mash the chickpeas and serve the sauce thinned.",
+  steps:["Soften the onion, pepper and garlic in oil, then add the spices and tomatoes and simmer 10 minutes.","Add the rinsed chickpeas and spinach.","Make wells, crack in the eggs, cover and cook 6 to 8 minutes until set. Top with feta."]},
+ {id:"chicken-fried-rice",n:"Chicken and egg fried rice with vegetables",meal:"dinner",t:25,tags:["Freezer meal"],ing:{cb:.25,eggs:1,stirfry:5,rice:.4},st:["low-sodium soy sauce","garlic","sesame oil"],
+  kid:"Chop her chicken small. Take her portion out before the soy sauce.",
+  steps:["Cook the rice ahead if you can. Cold rice fries better.","Brown the sliced chicken, then the frozen vegetables and garlic.","Scramble in the eggs, add the rice and fry 3 minutes, then season."]},
+/* breakfasts */
+ {id:"chia-pudding",n:"Berry chia pudding",meal:"breakfast",t:5,tags:["Vegetarian","Make ahead"],ing:{chia:.7,yogurt:3,berries:3,banana:.25},st:["milk","cinnamon"],
+  kid:"Chia seeds swell, so let the pudding set fully before serving. Mash the berries into hers.",
+  steps:["Stir the chia, yogurt and milk together and chill overnight.","Top with thawed berries and sliced banana."]},
+ {id:"pb-banana-oatmeal",n:"Peanut butter banana oatmeal",meal:"breakfast",t:10,tags:["Vegetarian"],ing:{oats:.4,banana:1,pb:.4,blueberry:1.5},st:["milk","cinnamon"],
+  kid:"Peanut is a common allergen. If it is new, offer a tiny taste early in the day first. Stir the peanut butter in until thin.",
+  steps:["Simmer the oats in milk or water for 5 minutes.","Stir in mashed banana, peanut butter and cinnamon.","Top with blueberries."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 
 /* ---------- state ---------- */
-function starter(){return {v:2,adults:2,kids:1,shopDay:6,store:"both",src:{},
-  dinners:[{r:"salmon-quinoa",double:false},{r:"sheetpan-chicken",double:false},{r:"burrito-bowls",double:false},{r:"turkey-chili",double:true},{r:"chickpea-curry",double:false},null,null],
-  breakfasts:{"overnight-oats":3,"egg-cups":2},checked:{},edited:false};}
+const MEALS={b:{arr:"bf",cnt:"nb",lbl:"Breakfast",pl:"Breakfasts",short:"Bkfst"},l:{arr:"lunches",cnt:"nl",lbl:"Lunch",pl:"Lunches",short:"Lunch"},d:{arr:"dinners",cnt:"nd",lbl:"Dinner",pl:"Dinners",short:"Dinner"}};
+const MK=["b","l","d"];
+const canB=r=>r.meal==="breakfast";
+const canD=r=>r.meal==="dinner";
+const canL=r=>r.meal==="lunch"||(r.meal==="dinner"&&r.tags.some(t=>["Bowl or salad","Freezes well","No-cook protein","Make ahead"].includes(t)));
+const can={b:canB,l:canL,d:canD};
+const defM=r=>r.meal==="breakfast"?"b":r.meal==="lunch"?"l":"d";
+function starter(){return {v:3,adults:2,kids:1,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
+  bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
   const s=starter(); if(!d||typeof d!=="object") return s;
   const int=(x,lo,hi,def)=>Number.isInteger(x)&&x>=lo&&x<=hi?x:def;
   s.adults=int(d.adults,1,8,2); s.kids=int(d.kids,0,6,1); s.shopDay=int(d.shopDay,0,6,6);
+  s.nb=int(d.nb,0,7,7); s.nl=int(d.nl,0,7,5); s.nd=int(d.nd,0,7,5);
   s.store=d.store==="c"||d.store==="t"||d.store==="both"?d.store:"both";
   s.src={}; if(d.src&&typeof d.src==="object") for(const k of Object.keys(d.src)){const v=d.src[k]; if(own(I,k)&&(v==="c"||v==="t")&&I[k][v]) s.src[k]=v;}
-  if(Array.isArray(d.dinners)) s.dinners=Array.from({length:7},(_,i)=>{const x=d.dinners[i];return x&&own(RX,x.r)&&RX[x.r].meal==="dinner"?{r:x.r,double:!!x.double}:null;});
-  s.breakfasts={}; if(d.breakfasts&&typeof d.breakfasts==="object") for(const r of R) if(r.meal==="breakfast"){const c=int(d.breakfasts[r.id],1,7,0); if(c) s.breakfasts[r.id]=c;}
+  for(const m of MK){const a=d[MEALS[m].arr];
+    if(Array.isArray(a)) s[MEALS[m].arr]=Array.from({length:7},(_,i)=>{const x=a[i];return x&&typeof x.r==="string"&&own(RX,x.r)&&can[m](RX[x.r])?{r:x.r,double:m==="d"&&!!x.double}:null;});}
   s.checked={}; if(d.checked&&typeof d.checked==="object") for(const k of Object.keys(d.checked).sort()) if(d.checked[k]===true&&k.length<60) s.checked[k]=true;
   s.edited=!!d.edited; return s;
 }
 let S=starter();
 try{const raw=localStorage.getItem(KEY); if(raw) S=normalize(JSON.parse(raw));}catch(e){}
-let filter="all", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
-
+let filter="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
+const arr=m=>S[MEALS[m].arr], cnt=m=>S[MEALS[m].cnt];
+function slots(){const o=[]; for(const m of MK) arr(m).slice(0,cnt(m)).forEach((x,i)=>{if(x) o.push({m,i,x});}); return o;}
 function persist(){
   S.edited=true;
   try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
@@ -448,7 +561,7 @@ function setSync(m){syncMsg=m; renderStatus();}
   try{
     if(!window.claude||typeof window.claude.use!=="function") return;
     const db=await window.claude.use("db"); if(!db) return;
-    ref=db.doc("planner/week");
+    ref=db.doc("planner/week-v2");
     ref.onSnapshot(snap=>{
       if(snap.metadata&&snap.metadata.hasPendingWrites) return;
       if(dirty) return;
@@ -471,9 +584,7 @@ function fq(q,u,down){
 }
 function totals(){
   const T={}, st=new Set();
-  const add=(r,m)=>{for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*m; r.st.forEach(x=>st.add(x));};
-  S.dinners.forEach(x=>{if(x) add(RX[x.r],P()*(x.double?2:1));});
-  for(const id in S.breakfasts) add(RX[id],P()*S.breakfasts[id]);
+  slots().forEach(({x})=>{const r=RX[x.r], k2=P()*(x.double?2:1); for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*k2; r.st.forEach(y=>st.add(y));});
   return {T,st:[...st].sort()};
 }
 const packsAt=(k,need,s)=>Math.max(1,Math.ceil(need/I[k][s].q-.02));
@@ -510,20 +621,83 @@ function dayCheck(r,d){
     if(d>it.life){(it.fz?thaw:late).push(k);}}
   return {thaw,late,perishable};
 }
-function inPlan(id){const out=[]; S.dinners.forEach((x,i)=>{if(x&&x.r===id) out.push(i);}); return out;}
-function addRecipe(id){
-  const r=RX[id];
-  if(r.meal==="breakfast"){S.breakfasts[id]=Math.min(7,(S.breakfasts[id]||0)+(S.breakfasts[id]?1:2)); toast(r.n+": "+S.breakfasts[id]+" mornings"); return true;}
-  const i=S.dinners.indexOf(null); if(i<0){toast("All 7 dinners are filled. Remove one first."); return false;}
-  S.dinners[i]={r:id,double:false}; toast("Added to "+dayName(i,true)); return true;
+function inPlan(id){const out=[]; slots().forEach(s=>{if(s.x.r===id) out.push(s);}); return out;}
+function addRecipe(id,m){
+  const r=RX[id]; m=m||defM(r); const a=arr(m), n=cnt(m);
+  const i=a.slice(0,n).indexOf(null);
+  if(i<0){toast(n?`Your ${n} ${MEALS[m].pl.toLowerCase()} are planned. Remove one or raise the count.`:`Raise the number of ${MEALS[m].pl.toLowerCase()} first.`); return false;}
+  a[i]={r:id,double:false}; toast(`Added as ${MEALS[m].lbl.toLowerCase()} on ${dayName(i,true)}`); return true;
 }
 function orderByFreshness(){
-  const slots=[], recs=[];
-  S.dinners.forEach((x,i)=>{if(x){slots.push(i);recs.push(x);}});
-  recs.sort((a,b)=>minLife(RX[a.r]).m-minLife(RX[b.r]).m);
-  slots.forEach((s,j)=>S.dinners[s]=recs[j]);
+  for(const m of ["l","d"]){
+    const a=arr(m), idx=[], recs=[];
+    a.slice(0,cnt(m)).forEach((x,i)=>{if(x){idx.push(i);recs.push(x);}});
+    recs.sort((p,q)=>minLife(RX[p.r]).m-minLife(RX[q.r]).m);
+    idx.forEach((s,j)=>a[s]=recs[j]);
+  }
 }
-
+const protGroup=r=>{const k=Object.keys(r.ing);
+  if(k.includes("salmon")||k.includes("cansalmon")) return "fish";
+  if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")) return "turkey";
+  if(k.includes("chx")||k.includes("cb")) return "chicken"; if(k.includes("eggs")) return "egg";
+  if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
+function pickMeals(m,n,chosen){
+  const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], used=new Set();
+  for(let i=0;i<n;i++){
+    let cand=pool.filter(r=>!used.has(r.id)); if(!cand.length){used.clear(); cand=pool.slice();}
+    if(!cand.length) break;
+    const sc=cand.map(r=>{
+      let s=Math.random()*1.2; const g=protGroup(r);
+      if(m!=="b"){
+        s-=chosen.filter(x=>protGroup(x)===g&&x.meal!=="breakfast").length*(g==="other"?.3:.9);
+        if(g==="fish"&&!chosen.some(x=>protGroup(x)==="fish")) s+=1.2;
+        if(g==="plant"&&n>=4&&!chosen.some(x=>protGroup(x)==="plant")) s+=.9;
+        if(chosen.some(x=>x.id===r.id)) s-=1.5;
+        if(m==="l"){ if(r.meal==="lunch") s+=.8; if(r.t<=20) s+=.4; } else if(r.t>45) s-=.8;
+      } else if(chosen.some(x=>x.id===r.id)) s-=1;
+      for(const k in r.ing){const l=I[k].life; if(l!=null&&l<=10&&chosen.some(x=>x.ing[k])) s+=.25;}
+      return [s,r];}).sort((p,q)=>q[0]-p[0]);
+    const r=sc[0][1]; out.push(r); used.add(r.id); chosen.push(r);
+  }
+  return out;
+}
+function genWeek(){
+  if(!S.nb&&!S.nl&&!S.nd){toast("Set at least one meal to plan first."); return false;}
+  const chosen=[];
+  const d=pickMeals("d",S.nd,chosen), l=pickMeals("l",S.nl,chosen), b=pickMeals("b",S.nb,chosen);
+  const set=(m,a)=>{arr(m).fill(null); a.forEach((r,i)=>arr(m)[i]={r:r.id,double:false});};
+  set("d",d); set("l",l); set("b",b); orderByFreshness(); return true;
+}
+const PRESETS=[
+ {id:"omega",name:"Omega-3 and plants",desc:"Salmon and shrimp, with bean and lentil meals in between.",
+  b:["overnight-oats","walnut-berry-yogurt-bowl","egg-cups","chia-pudding","green-smoothie","overnight-oats","pb-banana-oatmeal"],
+  l:["chickpea-avocado-wraps","lentil-crunch-jar","salmon-salad-wraps","tomato-chickpea-soup","mezze-plate"],
+  d:["salmon-power-bowl","sesame-tofu-bowl","shrimp-avocado-bowl","sweetpot-bean-chili","pesto-salmon"]},
+ {id:"quick",name:"Quick weeknights",desc:"Everything about 30 minutes or less.",
+  b:["walnut-berry-yogurt-bowl","green-smoothie","pb-banana-oatmeal","egg-spinach-bowl","chia-pudding"],
+  l:["hummus-chicken-wraps","apple-walnut-chicken-salad","mezze-plate","bean-egg-burritos","salmon-salad-wraps"],
+  d:["salmon-spinach-salad","chickpea-feta-salad","shrimp-stirfry","chicken-fajita-bowls","egg-cauli-rice"]},
+ {id:"freezer",name:"Cook once, freeze extras",desc:"Soups, chili and burritos that make great leftovers.",
+  b:["egg-cups","overnight-oats","banana-pancakes","egg-cups","overnight-oats"],
+  l:["bean-egg-burritos","tomato-chickpea-soup","sweetpot-bean-quesadillas","lentil-spinach-soup","chicken-soup"],
+  d:["turkey-chili","stuffed-peppers","salmon-cakes","sweetpot-bean-chili","turkey-meatballs"]},
+ {id:"tj",name:"Trader Joe's shortcuts",desc:"Steamed lentils, riced cauliflower and frozen grains.",
+  b:["overnight-oats","egg-spinach-bowl","walnut-berry-yogurt-bowl","chia-pudding","green-smoothie"],
+  l:["lentil-crunch-jar","hummus-chicken-wraps","chickpea-avocado-wraps","mezze-plate","tomato-chickpea-soup"],
+  d:["lentil-feta-bowl","cauli-chicken-bowl","tzatziki-chicken-bowl","crunch-salmon-salad","shrimp-cauli-bowl"]}
+];
+function loadPreset(id){
+  const p=PRESETS.find(x=>x.id===id); if(!p) return false;
+  for(const m of MK){
+    const ids=p[m], used=new Set(ids), a=arr(m); a.fill(null); S[MEALS[m].cnt]=ids.length;
+    ids.forEach((rid,i)=>{
+      let r=RX[rid];
+      if(!r||!avail(r)){const alt=R.filter(x=>can[m](x)&&avail(x)&&!used.has(x.id)); r=alt.length?alt[Math.floor(Math.random()*alt.length)]:null; if(r) used.add(r.id);}
+      if(r) a[i]={r:r.id,double:false};
+    });
+  }
+  return true;
+}
 /* ---------- views ---------- */
 const $=s=>document.querySelector(s);
 const chip=(c,t)=>`<span class="chip ${c}">${t}</span>`;
@@ -545,67 +719,76 @@ function renderSeg(){
   $("#seg").innerHTML=opts.map(([v,l])=>`<button id="store-${v}" data-act="store" data-v="${v}" aria-pressed="${S.store===v}">${l}</button>`).join("");
 }
 function renderStatus(){
-  const {T}=totals(); const ids=Object.keys(T);
-  const nd=S.dinners.filter(Boolean).length, nb=Object.values(S.breakfasts).reduce((a,b)=>a+b,0);
+  const {T}=totals(); const ids=Object.keys(T), sl=slots(), n=m=>sl.filter(s=>s.m===m).length;
   const left=ids.filter(k=>!S.checked[k]).length;
-  $("#status").innerHTML=`<span><b>${nd}</b> dinners, <b>${nb}</b> breakfasts</span><span><b>${left}</b> of ${ids.length} items to grab</span><span>${syncMsg}</span>`;
+  $("#status").innerHTML=`<span><b>${n("b")}</b> breakfasts, <b>${n("l")}</b> lunches, <b>${n("d")}</b> dinners</span><span><b>${left}</b> of ${ids.length} items to grab</span><span>${syncMsg}</span>`;
   const b=$("#badge"); if(b) b.textContent=left>0?String(left):"";
 }
-
+function stepper(id,label,val,act,extra){
+  return `<div class="field">${label}<div class="stepper" role="group" aria-label="${label}"><button id="${id}-m" data-act="${act}" ${extra} data-d="-1" aria-label="Fewer ${label.toLowerCase()}">−</button><output>${val}</output><button id="${id}-p" data-act="${act}" ${extra} data-d="1" aria-label="More ${label.toLowerCase()}">+</button></div></div>`;
+}
+function mealRow(m,i,x){
+  const word=MEALS[m].lbl.toLowerCase(), lab=`<div class="dow">${MEALS[m].short}</div>`;
+  if(!x){
+    const opts=R.filter(r=>can[m](r)&&avail(r)).sort((a,b)=>(b.meal===MEALS[m].lbl.toLowerCase())-(a.meal===MEALS[m].lbl.toLowerCase())).map(r=>`<option value="${r.id}">${r.n} (${r.t} min)</option>`).join("");
+    return `<div class="day">${lab}<div class="body"><label class="meta" for="pick-${m}-${i}">No ${word} planned</label><select id="pick-${m}-${i}" data-act="pick" data-m="${m}" data-day="${i}"><option value="">Pick a ${word}…</option>${opts}</select></div><div></div></div>`;
+  }
+  const r=RX[x.r], c=dayCheck(r,i); let cls="s-fresh", chips="";
+  const miss=(S.store==="c"||S.store==="t")?Object.keys(r.ing).filter(k=>!has(k,S.store)):[];
+  if(miss.length){cls="s-warn"; chips+=chip("warn",`Not at ${STORE_LBL[S.store]}: ${list(miss.map(k=>I[k].s))}`);}
+  if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${I[k].life} days. Cook this earlier`)).join("");}
+  if(c.thaw.length){if(cls!=="s-warn") cls="s-freeze"; chips+=chip("freeze",`Freeze the ${list(c.thaw.map(k=>I[k].s))} on shop day, thaw the night before`);}
+  if(!miss.length&&!c.late.length&&!c.thaw.length) chips+=c.perishable?chip("fresh","Fresh ingredients are still good"):chip("plain","Pantry and freezer meal. Any day works");
+  const last=cnt(m)-1;
+  return `<div class="day ${cls}">${lab}<div class="body">
+    <h3>${r.n}</h3><div class="row">${chip("plain",r.t+" min")}${chips}</div>
+    <div class="row">
+      <button class="btn small ghost" id="up-${m}-${i}" data-act="move" data-m="${m}" data-day="${i}" data-dir="-1" ${i===0?"disabled":""} aria-label="Move ${r.n} a day earlier">↑ Earlier</button>
+      <button class="btn small ghost" id="down-${m}-${i}" data-act="move" data-m="${m}" data-day="${i}" data-dir="1" ${i>=last?"disabled":""} aria-label="Move ${r.n} a day later">↓ Later</button>
+      ${m==="d"?`<button class="btn small" id="dbl-${i}" data-act="double" data-m="d" data-day="${i}" aria-pressed="${x.double}">Cook double</button>`:""}
+      <button class="btn small ghost" id="rm-${m}-${i}" data-act="remove" data-m="${m}" data-day="${i}" aria-label="Remove ${r.n}">Remove</button>
+    </div></div>${glyph(r.ing)}</div>`;
+}
 function viewWeek(){
-  const {T}=totals();
-  const dinnerOpts=R.filter(r=>r.meal==="dinner"&&avail(r)).map(r=>`<option value="${r.id}">${r.n} (${r.t} min)</option>`).join("");
+  const {T}=totals(), any=slots().length>0;
   const prep=[];
   for(const k of Object.keys(T)){const it=I[k]; if(it.cat!=="Meat & fish"||it.life==null) continue;
     const s=storeFor(k,T[k]); if(!s) continue;
     let lateQ=0; const lateDays=[];
-    S.dinners.forEach((x,i)=>{if(x&&RX[x.r].ing[k]&&i>it.life){lateQ+=RX[x.r].ing[k]*P()*(x.double?2:1); lateDays.push(dayName(i,true));}});
-    if(lateQ) prep.push(`Freeze ${fq(lateQ,it.u)} of ${it.s} for ${list(lateDays)}. Move it to the fridge the night before.`);
+    slots().forEach(({m,i,x})=>{if(RX[x.r].ing[k]&&i>it.life){lateQ+=RX[x.r].ing[k]*P()*(x.double?2:1); lateDays.push(dayName(i,true));}});
+    if(lateQ) prep.push(`Freeze ${fq(lateQ,it.u)} of ${it.s} for ${list([...new Set(lateDays)])}. Move it to the fridge the night before.`);
     const over=packsAt(k,T[k],s)*I[k][s].q-T[k];
     if(over/I[k][s].q>.25) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} is more than this week needs. ${I[k][s].left||it.left}`);
   }
-  const days=S.dinners.map((x,i)=>{
-    const dn=`<div class="dow">${dayName(i)}${i===0?"<small>SHOP DAY</small>":""}</div>`;
-    if(!x) return `<div class="day"><div class="dow">${dayName(i)}</div><div class="body"><label class="meta" for="pick-${i}">No dinner planned</label><select id="pick-${i}" data-act="pick" data-day="${i}"><option value="">Pick a dinner…</option>${dinnerOpts}</select></div><div></div></div>`;
-    const r=RX[x.r], c=dayCheck(r,i); let cls="s-fresh", chips="";
-    const miss=(S.store==="c"||S.store==="t")?Object.keys(r.ing).filter(k=>!has(k,S.store)):[];
-    if(miss.length){cls="s-warn"; chips+=chip("warn",`Not at ${STORE_LBL[S.store]}: ${list(miss.map(k=>I[k].s))}`);}
-    if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${I[k].life} days. Cook this earlier`)).join("");}
-    if(c.thaw.length){if(cls!=="s-warn") cls="s-freeze"; chips+=chip("freeze",`Freeze the ${list(c.thaw.map(k=>I[k].s))} on shop day, thaw the night before`);}
-    if(!miss.length&&!c.late.length&&!c.thaw.length) chips+=c.perishable?chip("fresh","Fresh ingredients are still good"):chip("plain","Pantry and freezer meal. Any day works");
-    return `<div class="day ${cls}">${dn}<div class="body">
-      <h3>${r.n}</h3><div class="row">${chip("plain",r.t+" min")}${chips}</div>
-      <div class="row">
-        <button class="btn small ghost" id="up-${i}" data-act="move" data-day="${i}" data-dir="-1" ${i===0?"disabled":""} aria-label="Move ${r.n} a day earlier">↑ Earlier</button>
-        <button class="btn small ghost" id="down-${i}" data-act="move" data-day="${i}" data-dir="1" ${i===6?"disabled":""} aria-label="Move ${r.n} a day later">↓ Later</button>
-        <button class="btn small" id="dbl-${i}" data-act="double" data-day="${i}" aria-pressed="${x.double}">Cook double</button>
-        <button class="btn small ghost" id="rm-${i}" data-act="remove" data-day="${i}" aria-label="Remove ${r.n}">Remove</button>
-      </div></div>${glyph(r.ing)}</div>`;
-  }).join("");
-  const bIds=Object.keys(S.breakfasts);
-  const bOpts=R.filter(r=>r.meal==="breakfast"&&!S.breakfasts[r.id]&&avail(r)).map(r=>`<option value="${r.id}">${r.n}</option>`).join("");
-  const bRows=bIds.map(id=>`<div class="card" style="display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:center">${glyph(RX[id].ing)}<div class="stack" style="gap:8px"><div><h3>${RX[id].n}</h3><div class="meta">${RX[id].t} min${(S.store==="c"||S.store==="t")&&!avail(RX[id])?" · not all items at "+STORE_LBL[S.store]:""}</div></div>
-    <div class="row"><div class="stepper" role="group" aria-label="Mornings for ${RX[id].n}"><button id="bm-${id}" data-act="bcount" data-id="${id}" data-d="-1" aria-label="Fewer mornings">−</button><output>${S.breakfasts[id]}</output><button id="bp-${id}" data-act="bcount" data-id="${id}" data-d="1" aria-label="More mornings">+</button></div><span class="meta">mornings</span></div></div></div>`).join("");
+  const maxN=Math.max(S.nb,S.nl,S.nd); let days="";
+  for(let i=0;i<maxN;i++){
+    const rows=MK.filter(m=>i<cnt(m)).map(m=>mealRow(m,i,arr(m)[i])).join("");
+    days+=`<section class="dayg" aria-label="${dayName(i,true)}"><h3 class="dayh">${dayName(i,true)}${i===0?`<small>SHOP DAY</small>`:""}</h3>${rows}</section>`;
+  }
   return `<section class="stack">
-    <div><h2>Your week</h2><p class="lead">${S.edited?"":"This is a starter week so you can see how it works. Swap anything. "}Day one is the day you shop. Amounts are sized for your household, counting each little one as a quarter portion.</p></div>
+    <div><h2>Your week</h2><p class="lead">Choose how many breakfasts, lunches and dinners you want, then let the planner fill the week or pick your own. Day one is the day you shop. Amounts are sized for your household, counting each little one as a quarter portion.</p></div>
     <div class="card settings">
-      <div class="field">Adults<div class="stepper" role="group" aria-label="Adults"><button id="ad-m" data-act="hh" data-k="adults" data-d="-1" aria-label="Fewer adults">−</button><output>${S.adults}</output><button id="ad-p" data-act="hh" data-k="adults" data-d="1" aria-label="More adults">+</button></div></div>
-      <div class="field">Little ones<div class="stepper" role="group" aria-label="Little ones"><button id="kd-m" data-act="hh" data-k="kids" data-d="-1" aria-label="Fewer little ones">−</button><output>${S.kids}</output><button id="kd-p" data-act="hh" data-k="kids" data-d="1" aria-label="More little ones">+</button></div></div>
+      ${stepper("ad","Adults",S.adults,"hh",'data-k="adults"')}
+      ${stepper("kd","Little ones",S.kids,"hh",'data-k="kids"')}
       <label class="field" for="shopday">Shopping day<select id="shopday" data-act="shopday">${["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"].map((d,i)=>`<option value="${i}" ${i===S.shopDay?"selected":""}>${d}</option>`).join("")}</select></label>
     </div>
+    <div class="card gen">
+      <h3>Meals to plan</h3>
+      <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}</div>
+      <div class="row"><button class="btn primary" id="gen" data-act="gen">${any?"Shuffle a new week":"Generate my week"}</button>${any?`<button class="btn ghost" id="clear" data-act="clear">Clear week</button>`:""}</div>
+      <p class="meta">The generator varies the protein, includes fish, and reuses fresh ingredients so little goes to waste.</p>
+      <details><summary>Or start from a sample week</summary><div class="presets">${PRESETS.map(p=>`<button class="preset" id="pre-${p.id}" data-act="preset" data-id="${p.id}"><b>${p.name}</b><span>${p.desc}</span></button>`).join("")}</div></details>
+    </div>
+    ${any?"":`<div class="empty"><b>Your week is empty.</b> Press Generate, load a sample week, or pick meals one by one below.</div>`}
     ${prep.length?`<div class="prep"><h3>When you get home on ${dayName(0,true)}</h3><ul>${prep.map(p=>`<li>${p}</li>`).join("")}</ul></div>`:""}
-    <div class="sec-head"><h2>Dinners</h2><button class="btn primary" id="order" data-act="order">Put most perishable first</button></div>
-    ${days}
-    <div class="sec-head"><h2>Breakfasts</h2></div>
-    <p class="lead" style="margin:0">Batch recipes for the week. Set how many mornings each one covers.</p>
-    ${bRows||`<p class="meta">No breakfasts planned.</p>`}
-    ${bOpts?`<div class="row"><label class="meta" for="pick-b">Add a breakfast</label><select id="pick-b" data-act="pickb"><option value="">Choose…</option>${bOpts}</select></div>`:""}
+    ${any?`<div class="sec-head"><h2>Day by day</h2><button class="btn" id="order" data-act="order">Put most perishable first</button></div>`:`<div class="sec-head"><h2>Day by day</h2></div>`}
+    ${maxN?days:`<p class="meta">Raise a meal count above to start planning.</p>`}
   </section>`;
 }
 
-const FILTERS=[["all","All"],["dinner","Dinners"],["breakfast","Breakfasts"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"));
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"));
   const shown=R.filter(r=>avail(r)&&match(r)), hidden=R.filter(r=>!avail(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
@@ -613,27 +796,36 @@ function viewRecipes(){
     else if(ml.m<=6) fresh=chip("fresh",`Best within ${ml.m} days of shopping`);
     else fresh=chip("plain","Any day of the week");
     const tag=storeTag(r);
-    const where=r.meal==="dinner"?inPlan(r.id).map(i=>dayName(i)).join(", "):(S.breakfasts[r.id]?S.breakfasts[r.id]+" mornings":"");
+    const where=inPlan(r.id).map(s=>`${MEALS[s.m].lbl.toLowerCase()} ${dayName(s.i)}`).join(", ");
     const ings=Object.keys(r.ing).map(k=>`<li><span>${nm(k)}</span><b>${fq(r.ing[k]*P(),I[k].u)}</b></li>`).join("");
-    return `<article class="card recipe">
+    const ms=MK.filter(m=>can[m](r)), pm=defM(r);
+    const btns=ms.map(m=>`<button class="btn ${m===pm?"primary":"ghost"}" id="add-${m}-${r.id}" data-act="add" data-m="${m}" data-id="${r.id}">Add as ${MEALS[m].lbl.toLowerCase()}</button>`).join("");
+    const hay=(r.n+" "+r.tags.join(" ")+" "+Object.keys(r.ing).map(k=>I[k].s).join(" ")).toLowerCase();
+    return `<article class="card recipe" data-name="${hay.replace(/"/g,"")}" ${hay.includes(rsearch.toLowerCase())?"":"hidden"}>
       <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${r.tags.filter(t=>t!=="Bowl or salad").map(t=>chip("plain",t)).join("")}</div></div><div class="time">${r.t}<small>min</small></div></div>
       <p class="kid"><b>For your 1-year-old:</b> ${r.kid}</p>
       <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}</summary>
         <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
         <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol></details>
-      <div class="row"><button class="btn primary" id="add-${r.id}" data-act="add" data-id="${r.id}">${r.meal==="dinner"?"Add to week":where?"Add a morning":"Add to breakfasts"}</button>${where?`<span class="meta">In your week: ${where}</span>`:""}</div>
+      <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
     </article>`;}).join("");
   return `<section class="stack">
-    <div><h2>Recipes</h2><p class="lead">${shown.length} recipes${S.store==="both"?"":" you can shop for at "+STORE_LBL[S.store]}. Each plate shows what is in the recipe by color. Low added salt and no added sugar, so one pot feeds all three of you.</p></div>
+    <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" you can shop for at "+STORE_LBL[S.store]}. Each plate shows what is in the recipe by color. Low added salt and no added sugar, so one pot feeds all three of you.</p></div>
+    <input class="search" id="rq" type="search" placeholder="Search recipes or ingredients" aria-label="Search recipes" value="${rsearch.replace(/"/g,"&quot;")}" autocomplete="off">
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
     ${hidden?`<p class="meta">${hidden} more recipe${hidden>1?"s":""} use items ${STORE_LBL[S.store]} does not carry. Choose Both stores to see them.</p>`:""}
     <details class="card"><summary>Build your own bowl</summary><ul class="tips"><li><b>Base:</b> quinoa, brown rice, baby spinach or roasted sweet potato.</li><li><b>Protein:</b> salmon, chicken, shrimp, tofu, edamame, lentils, beans or chickpeas.</li><li><b>Two vegetables, one raw and one cooked.</b></li><li><b>Healthy fat:</b> avocado, olive oil, hummus, or walnuts for the adults.</li><li><b>Flavor:</b> lemon, ginger, garlic, turmeric with black pepper, or a yogurt sauce.</li></ul></details>
     <details class="card"><summary>Feeding a 1-year-old from the family pot</summary><ul class="tips"><li>Take her portion out before you add salt, soy sauce or heat.</li><li>Quarter grapes and grape tomatoes lengthwise, flatten beans, chickpeas and blueberries, and shred meat finely.</li><li>For salads, chop raw leaves very finely or wilt them, and serve her bowl as separate soft piles.</li><li>No whole or chopped nuts. Stir nut butter into food so it is thin, never a spoonful.</li><li>Offer a new allergen such as shellfish, tree nuts, soy or egg in a small amount early in the day, one at a time.</li></ul></details>
+    <p class="meta" id="rnone" hidden>No recipes match your search.</p>
     ${cards||`<p class="meta">No recipes match this filter.</p>`}
   </section>`;
 }
-
+function applySearch(){
+  const q=rsearch.trim().toLowerCase(); let n=0;
+  document.querySelectorAll("article.recipe").forEach(a=>{const ok=a.dataset.name.includes(q); a.hidden=!ok; if(ok) n++;});
+  const c=$("#rcount"); if(c) c.textContent=n+" recipe"+(n===1?"":"s"); const z=$("#rnone"); if(z) z.hidden=n>0;
+}
 function itemRow(l,planned){
   const k=l.k, it=I[k], sd=it[l.s], pct=Math.min(100,Math.round(l.need/l.tot*100)), over=l.tot-l.need;
   let ideas="";
@@ -652,7 +844,7 @@ function itemRow(l,planned){
 function viewShop(){
   const {T,st,lines,missing}=plan();
   if(!Object.keys(T).length) return `<section class="stack"><h2>Shopping list</h2><p class="lead">Your week is empty. Add a few recipes and the list builds itself.</p><a class="btn primary" href="#recipes" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Browse recipes</a></section>`;
-  const planned=new Set([...S.dinners.filter(Boolean).map(x=>x.r),...Object.keys(S.breakfasts)]);
+  const planned=new Set(slots().map(s=>s.x.r));
   const stores=S.store==="both"?["c","t"]:[S.store];
   let html="";
   for(const s of stores){
@@ -695,14 +887,15 @@ function render(){
   document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.tab===t) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");});
   renderSeg();
   $("#app").innerHTML=t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():t==="shelf-life"?viewShelf():viewWeek();
+  if(t==="recipes") applySearch();
   renderStatus();
-  if(fid){const el=document.getElementById(fid); if(el&&!el.disabled) el.focus({preventScroll:true});}
+  if(fid&&fid!=="rq"){const el=document.getElementById(fid); if(el&&!el.disabled) el.focus({preventScroll:true});}
 }
 let toastT=null;
 function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("on"),2600);}
 
 function act(el,ev){
-  const a=el.dataset.act, d=+el.dataset.day;
+  const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
   if(a==="copy"){
     const {lines,st,missing}=plan(); const out=[];
@@ -717,16 +910,18 @@ function act(el,ev){
   }
   if(a==="store"){if(S.store===el.dataset.v) return; S.store=el.dataset.v;}
   else if(a==="swap"){const k=el.dataset.id; const cur=storeFor(k,totals().T[k]||0); S.src[k]=cur==="c"?"t":"c";}
-  else if(a==="add"){if(!addRecipe(el.dataset.id)) return;}
-  else if(a==="pick"){if(ev.type!=="change"||!el.value) return; S.dinners[d]={r:el.value,double:false};}
-  else if(a==="pickb"){if(ev.type!=="change"||!el.value) return; S.breakfasts[el.value]=2;}
-  else if(a==="remove"){S.dinners[d]=null;}
-  else if(a==="double"){S.dinners[d].double=!S.dinners[d].double;}
-  else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>6) return; [S.dinners[d],S.dinners[j]]=[S.dinners[j],S.dinners[d]];}
+  else if(a==="add"){if(!addRecipe(el.dataset.id,m)) return;}
+  else if(a==="gen"){if(!genWeek()) return; toast("Week ready. Shuffle for a different mix.");}
+  else if(a==="clear"){for(const k of MK) arr(k).fill(null); S.checked={}; toast("Week cleared");}
+  else if(a==="preset"){if(!loadPreset(el.dataset.id)) return; toast("Sample week loaded. Swap anything.");}
+  else if(a==="cnt"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<0||v>7) return; S[k]=v;}
+  else if(a==="pick"){if(ev.type!=="change"||!el.value) return; arr(m)[d]={r:el.value,double:false};}
+  else if(a==="remove"){arr(m)[d]=null;}
+  else if(a==="double"){arr("d")[d].double=!arr("d")[d].double;}
+  else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>=cnt(m)) return; const A=arr(m); [A[d],A[j]]=[A[j],A[d]];}
   else if(a==="order"){orderByFreshness(); toast("Reordered. Fresh meat and fish come first.");}
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
-  else if(a==="bcount"){const id=el.dataset.id, v=(S.breakfasts[id]||0)+(+el.dataset.d); if(v>7) return; if(v<1) delete S.breakfasts[id]; else S.breakfasts[id]=v;}
   else if(a==="check"){if(ev.type!=="change") return; if(el.checked) S.checked[el.dataset.id]=true; else delete S.checked[el.dataset.id];}
   else if(a==="uncheck"){S.checked={};}
   else return;
@@ -735,6 +930,7 @@ function act(el,ev){
 }
 document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el) act(el,e);});
 document.addEventListener("change",e=>{const el=e.target.closest("select[data-act],input[data-act]"); if(el) act(el,e);});
+document.addEventListener("input",e=>{if(e.target.id==="rq"){rsearch=e.target.value; applySearch();}});
 document.addEventListener("toggle",e=>{const el=e.target; if(el.dataset&&el.dataset.rid){if(el.open) openSet.add(el.dataset.rid); else openSet.delete(el.dataset.rid);}},true);
 window.addEventListener("hashchange",()=>{render(); window.scrollTo(0,0);});
 render();
