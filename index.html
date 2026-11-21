@@ -1114,7 +1114,8 @@ function viewRecipes(){
     const hay=(r.n+" "+r.tags.join(" ")+" "+Object.keys(r.ing).map(k=>I[k].s).join(" ")).toLowerCase();
     return `<article class="card recipe" data-name="${hay.replace(/"/g,"")}" ${hay.includes(rsearch.toLowerCase())?"":"hidden"}>
       <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${r.tags.filter(t=>t!=="Bowl or salad").map(t=>chip("plain",t)).join("")}</div></div><div class="time">${r.t}<small>min</small></div></div>
-      <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}</summary>
+      <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps</summary>
+        <p class="meta" style="margin:8px 0 0">Amounts for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}.</p>
         <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
         ${S.kids?`<p class="kid"><b>For your little one:</b> ${r.kid}</p>`:""}
         <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol></details>
