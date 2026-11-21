@@ -158,6 +158,7 @@ ol.steps{margin:8px 0 0;padding-left:20px;font-size:14.5px;max-width:65ch} ol.st
 .pantry{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px 14px}
 .pantry label{display:flex;gap:8px;align-items:center;font-size:14.5px}
 .pantry input{width:20px;height:20px;accent-color:var(--brand)}
+.copybox{width:100%;min-height:220px;font:16px/1.45 inherit;font-family:inherit;padding:10px;border:1.5px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink)}
 /* shelf life */
 .shelf{display:grid;grid-template-columns:78px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px}
 .shelf .n{font:700 34px/.9 var(--display);font-variant-numeric:tabular-nums}
@@ -520,7 +521,7 @@ R.push(
 /* ---------- healthy additions: fish, plant lunches and bowls ---------- */
 Object.assign(I,{
  tuna:{s:"canned tuna",u:"oz",cat:"Pantry",role:"protein",life:null,keep:"Years unopened. 3 to 4 days once opened.",left:"Unopened cans keep for years. Move leftover tuna to a lidded container in the fridge.",c:{n:"Solid white albacore tuna in water",pack:"8 cans, 7 oz each",q:56},t:{n:"Albacore tuna in water, no salt added",pack:"1 can, about 4 oz",q:4}},
- cod:{s:"cod",u:"lb",cat:"Frozen",role:"protein",life:null,keep:"6 to 8 months frozen. Thaw overnight in the fridge, or in cold water in 30 minutes.",left:"Take out only the portions you need and reseal the bag.",c:{n:"Wild Pacific cod loins, frozen",pack:"2 lb bag",q:2},t:{n:"Wild cod fillets, frozen",pack:"about 1 lb bag",q:1}},
+ cod:{s:"cod",u:"lb",cat:"Frozen",role:"protein",life:null,fzm:6,keep:"6 to 8 months frozen. Thaw overnight in the fridge, or in cold water in 30 minutes.",left:"Take out only the portions you need and reseal the bag.",c:{n:"Wild Pacific cod loins, frozen",pack:"2 lb bag",q:2},t:{n:"Wild cod fillets, frozen",pack:"about 1 lb bag",q:1}},
  corn:{s:"sweet corn",u:"oz",cat:"Frozen",role:"veg",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. It thaws in a minute under warm water.",c:{n:"Organic sweet corn, frozen",pack:"5 lb bag",q:80},t:{n:"Organic sweet cut corn, frozen",pack:"16 oz bag",q:16}},
  mango:{s:"mango chunks",u:"oz",cat:"Frozen",role:"fruit",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. Thawed chunks are soft enough to mash for the baby.",c:{n:"Organic mango chunks, frozen",pack:"5 lb bag",q:80},t:{n:"Mango chunks, frozen",pack:"16 oz bag",q:16}}
 });
@@ -548,10 +549,10 @@ R.push(
   kid:"Fish, soy and sesame are all common allergens, so introduce each one early in the day on its own first. Squash the edamame, flake the tuna and take her portion out before the soy sauce.",
   steps:["Warm leftover or frozen brown rice.","Thaw the edamame and grate the carrot. Slice the cucumber and avocado.","Top the rice with tuna and vegetables.","Take out her bowl, then season the rest with soy sauce, vinegar and a few drops of sesame oil."]},
 /* dinners */
- {id:"cod-tacos",n:"Baked cod tacos with corn and avocado",meal:"dinner",t:25,tags:["Lean protein"],ing:{cod:.35,tortilla:1.5,corn:2,avocado:.4,pepper:.3,yogurt:1,lemon:.25},st:["extra virgin olive oil","cumin","smoked paprika","garlic powder"],
+ {id:"cod-tacos",n:"Baked cod tacos with corn and avocado",meal:"dinner",t:25,tags:["Lean protein","Freezer meal"],ing:{cod:.35,tortilla:1.5,corn:2,avocado:.4,pepper:.3,yogurt:1,lemon:.25},st:["extra virgin olive oil","cumin","smoked paprika","garlic powder"],
   kid:"Fish is a common allergen, so offer it early in the day if it is new. Flake her cod and check for bones, mash the corn into avocado, and keep her piece plain before the paprika and salt.",
   steps:["Heat the oven to 425°F. Take out her piece of cod and bake it plain.","Rub the rest with oil, cumin, paprika and garlic powder and bake 10 to 12 minutes, until it flakes.","Warm the corn with the diced pepper for 4 minutes.","Fill warm tortillas with cod, corn, avocado and yogurt mixed with lemon juice."]},
- {id:"lemon-cod-traybake",n:"Lemon cod with sweet potato and broccoli",meal:"dinner",t:35,tags:["Lean protein","One pan"],ing:{cod:.4,sweetpot:.4,broccoli:4,lemon:.25},st:["extra virgin olive oil","garlic","dried thyme"],
+ {id:"lemon-cod-traybake",n:"Lemon cod with sweet potato and broccoli",meal:"dinner",t:35,tags:["Lean protein","One pan","Freezer meal"],ing:{cod:.4,sweetpot:.4,broccoli:4,lemon:.25},st:["extra virgin olive oil","garlic","dried thyme"],
   kid:"Fish is a common allergen, so offer it early in the day if it is new. Cod flakes soft and is low in mercury. Check for bones, mash her sweet potato, and salt only the adult plates.",
   steps:["Roast 3/4-inch sweet potato cubes with oil at 425°F for 15 minutes.","Add the broccoli and the cod, rubbed with oil, garlic and thyme, and lay lemon slices on top.","Roast 12 minutes more, until the fish flakes.","Squeeze over more lemon and season the adult plates."]},
  {id:"cod-corn-chowder",n:"Cod, corn and sweet potato chowder",meal:"dinner",t:35,tags:["Lean protein","One pot"],ing:{cod:.3,corn:2,sweetpot:.3,stock:1,onion:.2,carrot:.15},st:["extra virgin olive oil","dried thyme","milk"],
@@ -713,7 +714,7 @@ function orderByFreshness(){
   }
 }
 const protGroup=r=>{const k=Object.keys(r.ing);
-  if(k.includes("salmon")||k.includes("cansalmon")) return "fish";
+  if(["salmon","cansalmon","tuna","cod"].some(x=>k.includes(x))) return "fish";
   if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")) return "turkey";
   if(k.includes("chx")||k.includes("cb")) return "chicken"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
@@ -881,7 +882,7 @@ function viewWeek(){
 const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"]];
 function viewRecipes(){
   const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"));
-  const shown=R.filter(r=>avail(r)&&match(r)), hidden=R.filter(r=>!avail(r)).length;
+  const shown=R.filter(r=>avail(r)&&match(r)), hidden=R.filter(r=>!avail(r)&&match(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
     if(ml.m<=2) fresh=chip("freeze",`Cook within 2 days of shopping, or freeze the ${I[ml.who].s}`);
@@ -902,12 +903,12 @@ function viewRecipes(){
       <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
     </article>`;}).join("");
   return `<section class="stack">
-    <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" you can shop for at "+STORE_LBL[S.store]}. Each plate shows what is in the recipe by color. Low added salt and no added sugar, so one pot feeds all three of you.</p></div>
+    <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" you can shop for at "+STORE_LBL[S.store]}. Each plate shows what is in the recipe by color. Low added salt and no added sugar, so one pot feeds the whole family.</p></div>
     <input class="search" id="rq" type="search" placeholder="Search recipes or ingredients" aria-label="Search recipes" value="${rsearch.replace(/"/g,"&quot;")}" autocomplete="off">
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
     ${hidden?`<p class="meta">${hidden} more recipe${hidden>1?"s":""} use items ${STORE_LBL[S.store]} does not carry. Choose Both stores to see them.</p>`:""}
-    <details class="card"><summary>Build your own bowl</summary><ul class="tips"><li><b>Base:</b> quinoa, brown rice, baby spinach or roasted sweet potato.</li><li><b>Protein:</b> salmon, chicken, shrimp, tofu, edamame, lentils, beans or chickpeas.</li><li><b>Two vegetables, one raw and one cooked.</b></li><li><b>Healthy fat:</b> avocado, olive oil, hummus, or walnuts for the adults.</li><li><b>Flavor:</b> lemon, ginger, garlic, turmeric with black pepper, or a yogurt sauce.</li></ul></details>
+    <details class="card"><summary>Build your own bowl</summary><ul class="tips"><li><b>Base:</b> quinoa, brown rice, baby spinach or roasted sweet potato.</li><li><b>Protein:</b> salmon, cod, tuna, chicken, shrimp, tofu, edamame, lentils, beans or chickpeas.</li><li><b>Two vegetables, one raw and one cooked.</b></li><li><b>Healthy fat:</b> avocado, olive oil, hummus, or walnuts for the adults.</li><li><b>Flavor:</b> lemon, ginger, garlic, turmeric with black pepper, or a yogurt sauce.</li></ul></details>
     <details class="card"><summary>Feeding a 1-year-old from the family pot</summary><ul class="tips"><li>Take her portion out before you add salt, soy sauce or heat.</li><li>Quarter grapes and grape tomatoes lengthwise, flatten beans, chickpeas and blueberries, and shred meat finely.</li><li>For salads, chop raw leaves very finely or wilt them, and serve her bowl as separate soft piles.</li><li>No whole or chopped nuts. Stir nut butter into food so it is thin, never a spoonful.</li><li>Offer a new allergen such as shellfish, tree nuts, soy or egg in a small amount early in the day, one at a time.</li></ul></details>
     <p class="meta" id="rnone" hidden>No recipes match your search.</p>
     ${cards||`<p class="meta">No recipes match this filter.</p>`}
@@ -959,14 +960,42 @@ function viewShop(){
     <div><h2>Shopping list</h2><p class="lead">Amounts are added up across your week and rounded up to whole packs.${S.store==="both"?" Each item goes to whichever store wastes less, and you can switch any of them.":""} The bar shows how much of each pack this week eats.</p></div>
     ${html}
     ${st.length?`<div class="cat">Check at home</div><div class="card"><ul class="pantry">${pantry}</ul></div>`:""}
-    <div class="row"><button class="btn ghost" id="uncheck" data-act="uncheck">Clear all ticks</button><button class="btn ghost" id="copy" data-act="copy">Copy list as text</button></div>
+    <div class="row">${navigator.share?`<button class="btn primary" id="share" data-act="share">Share list</button>`:""}<button class="btn ${navigator.share?"ghost":"primary"}" id="copy" data-act="copy">Copy list as text</button><button class="btn ghost" id="uncheck" data-act="uncheck">Clear all ticks</button></div>
+    <textarea class="copybox" id="copybox" readonly hidden aria-label="Shopping list as text"></textarea>
   </section>`;
+}
+
+/* Plain-text shopping list for sharing. Items already ticked are listed once at the end. */
+function listText(){
+  const {lines,st,missing}=plan(), out=[`Shopping list, ${dayName(0,true)}`], got=[];
+  const stores=S.store==="both"?["c","t"]:[S.store];
+  for(const s of stores){
+    const mine=lines.filter(l=>l.s===s); if(!mine.length) continue;
+    out.push("",STORE_LBL[s].toUpperCase());
+    for(const cat of CATS){
+      const rows=mine.filter(l=>I[l.k].cat===cat).sort((a,b)=>I[a.k][s].n.localeCompare(I[b.k][s].n)), left=[];
+      rows.forEach(l=>{const sd=I[l.k][s]; if(S.checked[l.k]) got.push(sd.n);
+        else left.push(`- ${sd.n}: ${sd.loose?`${Math.ceil(l.need-1e-6)} loose`:`${l.p} x ${sd.pack}`} (this week uses ${fq(l.need,I[l.k].u)})`);});
+      if(left.length) out.push(cat,...left);
+    }
+  }
+  if(missing.length) out.push("","NOT AT "+STORE_LBL[S.store].toUpperCase()+": "+missing.map(nm).join(", "));
+  const home=st.filter(x=>!S.checked["st:"+x]);
+  if(home.length) out.push("","CHECK AT HOME: "+home.join(", "));
+  if(got.length) out.push("","Already in the cart: "+got.join(", "));
+  return out.join("\n");
+}
+function copyText(text){
+  const fallback=()=>{const box=$("#copybox"); if(!box){toast("Copying is blocked here."); return;}
+    box.value=text; box.hidden=false; box.focus(); box.select(); toast("Copying is blocked here. The list is selected below, so copy it from there.");};
+  if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(text).then(()=>toast("List copied"),fallback);
+  else fallback();
 }
 
 function viewShelf(){
   const ids=Object.keys(I).filter(k=>S.store==="both"||I[k][S.store]).sort((a,b)=>(I[a].life??999)-(I[b].life??999)||nm(a).localeCompare(nm(b)));
   const stores=S.store==="both"?["c","t"]:[S.store];
-  const rows=ids.map(k=>{const it=I[k]; const n=it.life==null?(it.cat==="Frozen"?"12":"∞"):it.life; const lab=it.life==null?(it.cat==="Frozen"?"months frozen":"pantry"):"days";
+  const rows=ids.map(k=>{const it=I[k]; const n=it.life==null?(it.cat==="Frozen"?String(it.fzm||12):"∞"):it.life; const lab=it.life==null?(it.cat==="Frozen"?"months frozen":"pantry"):"days";
     const packs=stores.filter(s=>it[s]).map(s=>`<div class="meta">${stores.length>1?`<b>${STORE_LBL[s]}:</b> `:""}${it[s].pack}</div>`).join("");
     return `<div class="shelf"><div class="n">${n}<small>${lab}</small></div><div class="stack" style="gap:3px"><h3>${nm(k)}</h3>${packs}<div>${it.keep}</div><div class="meta">${it.left}</div></div></div>`;}).join("");
   return `<section class="stack"><div><h2>Shelf life</h2><p class="lead">Shortest-lived first. The number is how many days after shopping the planner trusts each item before it tells you to cook it or freeze it.</p></div><div>${rows}</div></section>`;
@@ -989,17 +1018,12 @@ function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on")
 function act(el,ev){
   const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
-  if(a==="copy"){
-    const {lines,st,missing}=plan(); const out=[];
-    const stores=S.store==="both"?["c","t"]:[S.store];
-    for(const s of stores){const mine=lines.filter(l=>l.s===s); if(!mine.length) continue; out.push(STORE_LBL[s].toUpperCase());
-      for(const cat of CATS){const rows=mine.filter(l=>I[l.k].cat===cat); if(!rows.length) continue; out.push(cat+":"); rows.forEach(l=>out.push(`- ${l.p} x ${I[l.k][s].n} (${I[l.k][s].pack}), need ${fq(l.need,I[l.k].u)}`));}
-      out.push("");}
-    if(missing.length) out.push("NOT AT "+STORE_LBL[S.store].toUpperCase()+": "+missing.map(nm).join(", "),"");
-    if(st.length) out.push("CHECK AT HOME: "+st.join(", "));
-    try{navigator.clipboard.writeText(out.join("\n")).then(()=>toast("List copied"),()=>toast("Copying is blocked here. Select the list instead."));}catch(e){toast("Copying is blocked here. Select the list instead.");}
+  if(a==="share"){
+    const text=listText();
+    navigator.share({title:"Shopping list",text}).catch(e=>{if(!e||e.name!=="AbortError") copyText(text);});
     return;
   }
+  if(a==="copy"){copyText(listText()); return;}
   if(a==="store"){if(S.store===el.dataset.v) return; S.store=el.dataset.v;}
   else if(a==="swap"){const k=el.dataset.id; const cur=storeFor(k,totals().T[k]||0); S.src[k]=cur==="c"?"t":"c";}
   else if(a==="add"){if(!addRecipe(el.dataset.id,m)) return;}
@@ -1017,7 +1041,7 @@ function act(el,ev){
   else if(a==="check"){if(ev.type!=="change") return; if(el.checked) S.checked[el.dataset.id]=true; else delete S.checked[el.dataset.id];}
   else if(a==="uncheck"){S.checked={};}
   else return;
-  const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(!(k in T)&&!st.includes(k.slice(3))) delete S.checked[k];
+  const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(k.startsWith("st:")?!st.includes(k.slice(3)):!(k in T)) delete S.checked[k];
   persist(); render();
 }
 document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el) act(el,e);});
