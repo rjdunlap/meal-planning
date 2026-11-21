@@ -94,6 +94,10 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .tune output{font-variant-numeric:tabular-nums;color:var(--brand);white-space:nowrap}
 .tune input[type=range]{width:100%;min-height:44px;accent-color:var(--brand);margin:0}
 .stepn{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--brand);color:var(--brand-ink);font-size:14px;margin-right:8px;vertical-align:1px}
+.keep{margin-top:6px}
+.keep summary{font-size:13.5px;color:var(--muted);font-weight:600;cursor:pointer;min-height:32px;display:flex;align-items:center}
+.keep .stepper button{width:38px;height:36px}
+.keep .stepper output{font-size:18px}
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .day-t{min-height:44px;border:1.5px solid var(--line);background:transparent;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);padding:0}
 .day-t[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
@@ -176,13 +180,9 @@ ol.steps{margin:8px 0 0;padding-left:20px;font-size:14.5px;max-width:65ch} ol.st
 .pantry label{display:flex;gap:8px;align-items:center;font-size:14.5px}
 .pantry input{width:20px;height:20px;accent-color:var(--brand)}
 .copybox{width:100%;min-height:220px;font-family:inherit;font-size:16px;line-height:1.45;padding:10px;border:1.5px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink)}
-/* shelf life */
-.shelf{display:grid;grid-template-columns:78px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px}
-.shelf .n{font:700 34px/.9 var(--display);font-variant-numeric:tabular-nums}
-.shelf .n small{display:block;font:600 10.5px/1.2 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:4px}
 .foot{font-size:13px;color:var(--muted);margin:30px 0 0;max-width:70ch}
 /* bottom bar */
-nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(19,38,27,.07)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px 8px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(19,38,27,.07)}
 nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--muted);font-size:11.5px;font-weight:600;padding:6px 2px;border-radius:12px;position:relative}
 nav.tabs a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs a[aria-current="page"]{color:var(--brand);background:var(--soft)}
@@ -211,7 +211,6 @@ nav.tabs a[aria-current="page"]{color:var(--brand);background:var(--soft)}
   <a href="#recipes" data-tab="recipes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/><path d="M8 7c0-1.5 1-1.5 1-3M12 7c0-1.5 1-1.5 1-3M16 7c0-1.5 1-1.5 1-3"/></svg>Recipes</a>
   <a href="#profile" data-tab="profile" id="profile-link"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="10" r="2.3"/><path d="M3.5 19c.6-3.4 2.8-5.2 5.5-5.2s4.9 1.8 5.5 5.2M14.5 15.2c.8-.9 1.6-1.3 2.5-1.3 2 0 3.3 1.5 3.6 5.1"/></svg>Family</a>
   <a href="#shopping-list" data-tab="shopping-list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.5l2 11h10l2-8H7"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="16.5" cy="19" r="1.4"/></svg>Shop<span class="badge" id="badge"></span></a>
-  <a href="#shelf-life" data-tab="shelf-life"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Shelf life</a>
 </nav>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -348,7 +347,7 @@ const R=[
   steps:["Blend everything with a splash of milk until smooth.","Add more milk to thin it for her cup."]}
 ];
 const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], DAYL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const TABS=["week","recipes","shopping-list","shelf-life","profile"];
+const TABS=["week","recipes","shopping-list","profile"];
 const KEY="costco-week-planner-v2";
 
 
@@ -539,7 +538,7 @@ R.push(
 /* ---------- healthy additions: fish, plant lunches and bowls ---------- */
 Object.assign(I,{
  tuna:{s:"canned tuna",u:"oz",cat:"Pantry",role:"protein",life:null,keep:"Years unopened. 3 to 4 days once opened.",left:"Unopened cans keep for years. Move leftover tuna to a lidded container in the fridge.",c:{n:"Solid white albacore tuna in water",pack:"8 cans, 7 oz each",q:56},t:{n:"Albacore tuna in water, no salt added",pack:"1 can, about 4 oz",q:4}},
- cod:{s:"cod",u:"lb",cat:"Frozen",role:"protein",life:null,fzm:6,keep:"6 to 8 months frozen. Thaw overnight in the fridge, or in cold water in 30 minutes.",left:"Take out only the portions you need and reseal the bag.",c:{n:"Wild Pacific cod loins, frozen",pack:"2 lb bag",q:2},t:{n:"Wild cod fillets, frozen",pack:"about 1 lb bag",q:1}},
+ cod:{s:"cod",u:"lb",cat:"Frozen",role:"protein",life:null,keep:"6 to 8 months frozen. Thaw overnight in the fridge, or in cold water in 30 minutes.",left:"Take out only the portions you need and reseal the bag.",c:{n:"Wild Pacific cod loins, frozen",pack:"2 lb bag",q:2},t:{n:"Wild cod fillets, frozen",pack:"about 1 lb bag",q:1}},
  corn:{s:"sweet corn",u:"oz",cat:"Frozen",role:"veg",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. It thaws in a minute under warm water.",c:{n:"Organic sweet corn, frozen",pack:"5 lb bag",q:80},t:{n:"Organic sweet cut corn, frozen",pack:"16 oz bag",q:16}},
  mango:{s:"mango chunks",u:"oz",cat:"Frozen",role:"fruit",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. Thawed chunks are soft enough to mash for the baby.",c:{n:"Organic mango chunks, frozen",pack:"5 lb bag",q:80},t:{n:"Mango chunks, frozen",pack:"16 oz bag",q:16}}
 });
@@ -685,7 +684,7 @@ const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<M
 const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
 const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
 const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2},prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2},life:{},prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -697,6 +696,7 @@ function normalize(d){
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,2);
   s.prepDays=int(d.prepDays,0,127,62);
+  s.life={}; if(d.life&&typeof d.life==="object") for(const k of Object.keys(d.life)){if(own(I,k)&&I[k].life!=null){const v=int(d.life[k],1,60,I[k].life); if(v!==I[k].life) s.life[k]=v;}}
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
   s.tune={}; if(d.tune&&typeof d.tune==="object") for(const t of TUNE){if(!t.k) continue; const v=d.tune[t.k];
     if(typeof v!=="number"||!isFinite(v)) continue;
@@ -761,7 +761,7 @@ function storeFor(k,need){
   if(m==="c"||m==="t") return it[m]?m:null;
   if(!it.t) return it.c?"c":null; if(!it.c) return "t";
   if(S.src[k]) return S.src[k];
-  if(it.life!=null&&it.life<=tw("spoil")&&need>0){
+  if(lifeOf(k)!=null&&lifeOf(k)<=tw("spoil")&&need>0){
     const w=s=>(packsAt(k,need,s)*it[s].q-need)/need;
     if(w("t")<w("c")-tw("storeSwitch")/100) return "t";
   }
@@ -782,10 +782,12 @@ function storeTag(r){
   return c&&t?["plain","Either store"]:c?["sc","Costco only"]:t?["st","Trader Joe's only"]:["plain","Needs both stores"];
 }
 const dayName=(i,long)=>(long?["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]:DAYS)[(S.shopDay+i)%7];
-function minLife(r){let m=99,who=null; for(const k in r.ing){const l=I[k].life; if(l!=null&&l<m){m=l;who=k;}} return {m,who};}
+/* Days an item keeps in the fridge: the family's own number if they set one, else the catalog's. */
+const lifeOf=k=>own(S.life,k)?S.life[k]:I[k].life;
+function minLife(r){let m=99,who=null; for(const k in r.ing){const l=lifeOf(k); if(l!=null&&l<m){m=l;who=k;}} return {m,who};}
 function dayCheck(r,d){
   const thaw=[],late=[];
-  for(const k in r.ing){const it=I[k]; if(it.life!=null&&d>it.life) (it.fz?thaw:late).push(k);}
+  for(const k in r.ing){const l=lifeOf(k); if(l!=null&&d>l) (I[k].fz?thaw:late).push(k);}
   return {thaw,late};
 }
 function inPlan(id){const out=[]; slots().forEach(s=>{if(s.x.r===id) out.push(s);}); return out;}
@@ -811,7 +813,7 @@ const protGroup=r=>{const k=Object.keys(r.ing);
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
 /* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
    packs; freezable items count about a third, since the rest can go in the freezer. */
-const wasteW=k=>{const it=I[k]; return it.life==null||it.life>tw("spoil")?0:it.fz?tw("frozen")/100:1;};
+const wasteW=k=>{const l=lifeOf(k); return l==null||l>tw("spoil")?0:I[k].fz?tw("frozen")/100:1;};
 function leftPacks(k,need){if(need<=0) return 0; const s=storeFor(k,need); if(!s) return 0; const q=I[k][s].q; return Math.max(0,packsAt(k,need,s)*q-need)/q;}
 function wasteOf(T){let w=0; for(const k in T){const ww=wasteW(k); if(ww) w+=ww*leftPacks(k,T[k]);} return w;}
 function needOf(rs){const T={}; for(const r of rs) for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*P(); return T;}
@@ -969,7 +971,7 @@ function mealRow(m,i,x){
   const r=RX[x.r], c=dayCheck(r,i); let cls="s-fresh", chips="";
   const miss=(S.store==="c"||S.store==="t")?Object.keys(r.ing).filter(k=>!has(k,S.store)):[];
   if(miss.length){cls="s-warn"; chips+=chip("warn",`Not at ${STORE_LBL[S.store]}: ${list(miss.map(k=>I[k].s))}`);}
-  if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${I[k].life} days. Cook this earlier`)).join("");}
+  if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${lifeOf(k)} days. Cook this earlier`)).join("");}
   if(c.thaw.length){if(cls!=="s-warn") cls="s-freeze"; chips+=chip("freeze",`Freeze the ${list(c.thaw.map(k=>I[k].s))} on shop day, thaw the night before`);}
   const j=arr(m).slice(0,i).findIndex(y=>y&&y.r===x.r);
   const batch=m!=="b"||r.tags.some(t=>t==="Make ahead"||t==="Freezes well");
@@ -1058,10 +1060,10 @@ function viewWelcome(){
 function viewWeek(){
   const {T}=totals(), any=slots().length>0;
   const prep=[];
-  for(const k of Object.keys(T)){const it=I[k]; if(it.cat!=="Meat & fish"||it.life==null) continue;
+  for(const k of Object.keys(T)){const it=I[k]; if(it.cat!=="Meat & fish"||lifeOf(k)==null) continue;
     const s=storeFor(k,T[k]); if(!s) continue;
     let lateQ=0; const lateDays=[];
-    slots().forEach(({m,i,x})=>{if(RX[x.r].ing[k]&&i>it.life){lateQ+=RX[x.r].ing[k]*P()*(x.double?2:1); lateDays.push(dayName(i,true));}});
+    slots().forEach(({m,i,x})=>{if(RX[x.r].ing[k]&&i>lifeOf(k)){lateQ+=RX[x.r].ing[k]*P()*(x.double?2:1); lateDays.push(dayName(i,true));}});
     if(lateQ) prep.push(`Freeze ${fq(lateQ,it.u)} of ${it.s} for ${list([...new Set(lateDays)])}. Move it to the fridge the night before.`);
     const over=packsAt(k,T[k],s)*I[k][s].q-T[k];
     if(over/I[k][s].q>tw("extra")/100) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} left over. ${I[k][s].left||it.left}`);
@@ -1135,10 +1137,17 @@ function applySearch(){
   document.querySelectorAll("article.recipe").forEach(a=>{const ok=a.dataset.name.includes(q); a.hidden=!ok; if(ok) n++;});
   const c=$("#rcount"); if(c) c.textContent=n+" recipe"+(n===1?"":"s"); const z=$("#rnone"); if(z) z.hidden=n>0;
 }
+let openStore=new Set();
+function storeInfo(k){
+  const it=I[k], base=it.life, l=lifeOf(k), mine=own(S.life,k);
+  const sum=base==null?(it.cat==="Frozen"?"Freezer":"Pantry"):`Keeps about ${l} day${l>1?"s":""}${mine?" (your number)":""}`;
+  const edit=base==null?"":`<div class="row" style="align-items:center"><span class="meta">In your fridge it lasts</span><div class="stepper" role="group" aria-label="Days ${it.s} lasts"><button id="life-${k}-m" data-act="life" data-id="${k}" data-d="-1" aria-label="One day less">−</button><output>${l}</output><button id="life-${k}-p" data-act="life" data-id="${k}" data-d="1" aria-label="One day more">+</button></div><span class="meta">days</span>${mine?`<button class="btn small ghost" id="life-reset-${k}" data-act="life-reset" data-id="${k}">Use ${base}</button>`:""}</div><p class="meta" style="margin:0">The planner uses this for cook-or-freeze reminders and waste.</p>`;
+  return `<details class="keep" data-sk="${k}" ${openStore.has(k)?"open":""}><summary>${sum}</summary><p class="meta" style="margin:6px 0 0">${it.keep}</p>${edit}</details>`;
+}
 function itemRow(l,planned){
   const k=l.k, it=I[k], sd=it[l.s], pct=Math.min(100,Math.round(l.need/l.tot*100)), over=l.tot-l.need;
   let ideas="";
-  if(it.life!=null&&it.life<=tw("spoil")&&pct<tw("ideas")){const more=R.filter(r=>r.ing[k]&&!planned.has(r.id)&&avail(r)).slice(0,2);
+  if(lifeOf(k)!=null&&lifeOf(k)<=tw("spoil")&&pct<tw("ideas")){const more=R.filter(r=>r.ing[k]&&!planned.has(r.id)&&avail(r)).slice(0,2);
     if(more.length) ideas=`<div class="row"><span class="meta">Use more of it:</span>${more.map(r=>`<button class="btn small ghost" id="idea-${k}-${r.id}" data-act="add" data-id="${r.id}">+ ${r.n}</button>`).join("")}</div>`;}
   const other=l.s==="c"?"t":"c";
   const swap=S.store==="both"&&it.c&&it.t?`<div class="row"><button class="btn small ghost" id="swap-${k}" data-act="swap" data-id="${k}">Buy at ${STORE_LBL[other]} instead</button></div>`:"";
@@ -1148,7 +1157,7 @@ function itemRow(l,planned){
     <div class="info"><h3><label for="chk-${k}">${sd.n}</label></h3><div class="meta">${sd.loose?"Sold individually":`Buy ${l.p} × ${sd.pack}`}</div>
       <div class="use" role="img" aria-label="${pct}% of what you buy is used this week"><i style="width:${pct}%"></i></div>
       <div class="nums">This week uses <b>${fq(l.need,it.u)}</b>, ${pct}% of what you buy.${pct<95?` About ${fq(over,it.u,1)} left over.`:""}</div>
-      ${pct<95?`<div class="meta">${sd.left||it.left}</div>`:""}${ideas}${swap}</div></div>`;
+      ${pct<95?`<div class="meta">${sd.left||it.left}</div>`:""}${ideas}${swap}${storeInfo(k)}</div></div>`;
 }
 function viewShop(){
   const {T,st,lines,missing}=plan();
@@ -1250,22 +1259,14 @@ function dropWeekQuery(){if(location.search) history.replaceState(null,"",pageUR
 {const q=new URLSearchParams(location.search).get("week");
   if(q){incoming=readWeekCode(q); if(!incoming){dropWeekQuery(); setTimeout(()=>toast("That link does not hold a week the planner can read."),0);}}}
 
-function viewShelf(){
-  const ids=Object.keys(I).filter(k=>S.store==="both"||I[k][S.store]).sort((a,b)=>(I[a].life??999)-(I[b].life??999)||nm(a).localeCompare(nm(b)));
-  const stores=S.store==="both"?["c","t"]:[S.store];
-  const rows=ids.map(k=>{const it=I[k]; const n=it.life==null?(it.cat==="Frozen"?String(it.fzm||12):"∞"):it.life; const lab=it.life==null?(it.cat==="Frozen"?"months frozen":"pantry"):"days";
-    const packs=stores.filter(s=>it[s]).map(s=>`<div class="meta">${stores.length>1?`<b>${STORE_LBL[s]}:</b> `:""}${it[s].pack}</div>`).join("");
-    return `<div class="shelf"><div class="n">${n}<small>${lab}</small></div><div class="stack" style="gap:3px"><h3>${nm(k)}</h3>${packs}<div>${it.keep}</div><div class="meta">${it.left}</div></div></div>`;}).join("");
-  return `<section class="stack"><div><h2>Shelf life</h2><p class="lead">Shortest-lived first, with how long each item keeps after shopping.</p></div><div>${rows}</div></section>`;
-}
 
 /* ---------- render + events ---------- */
-function tab(){const h=location.hash.slice(1); return TABS.includes(h)?h:"week";}
+function tab(){const h=location.hash.slice(1); return h==="shelf-life"?"shopping-list":TABS.includes(h)?h:"week";}
 function render(){
   const t=tab(), fid=document.activeElement&&document.activeElement.id;
   document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.tab===t) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");});
   renderSeg();
-  $("#app").innerHTML=t==="week"&&!S.setup&&!incoming&&!slots().length?viewWelcome():t==="profile"?viewProfile():t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():t==="shelf-life"?viewShelf():viewWeek();
+  $("#app").innerHTML=t==="week"&&!S.setup&&!incoming&&!slots().length?viewWelcome():t==="profile"?viewProfile():t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():viewWeek();
   if(t==="recipes") applySearch();
   renderStatus();
   if(fid&&fid!=="rq"){const el=document.getElementById(fid); if(el&&!el.disabled) el.focus({preventScroll:true});}
@@ -1300,6 +1301,8 @@ function act(el,ev){
   else if(a==="double"){arr("d")[d].double=!arr("d")[d].double;}
   else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>=cnt(m)) return; const A=arr(m); [A[d],A[j]]=[A[j],A[d]];}
   else if(a==="order"){orderByFreshness(); pairBreakfasts(); toast("Reordered so fresh meat and fish come first");}
+  else if(a==="life"){const k=el.dataset.id, v=lifeOf(k)+(+el.dataset.d); if(v<1||v>60) return; if(v===I[k].life) delete S.life[k]; else S.life[k]=v;}
+  else if(a==="life-reset"){delete S.life[el.dataset.id];}
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
   else if(a==="kidp"){S.kidPortion=+el.dataset.v;}
@@ -1318,7 +1321,9 @@ document.addEventListener("click",e=>{const el=e.target.closest("button[data-act
 document.addEventListener("change",e=>{const el=e.target.closest("select[data-act],input[data-act]"); if(el) act(el,e);});
 document.addEventListener("input",e=>{if(e.target.id==="rq"){rsearch=e.target.value; applySearch();}
   if(e.target.dataset&&e.target.dataset.act==="tune"){const t=TUNEX[e.target.dataset.k], o=$("#tno-"+t.k), w=tuneFmt(t,fromSlider(t,+e.target.value)); if(o) o.textContent=w; e.target.setAttribute("aria-valuetext",w);}});
-document.addEventListener("toggle",e=>{const el=e.target; if(el.dataset&&el.dataset.rid){if(el.open) openSet.add(el.dataset.rid); else openSet.delete(el.dataset.rid);}},true);
+document.addEventListener("toggle",e=>{const el=e.target; if(!el.dataset) return;
+  if(el.dataset.rid){if(el.open) openSet.add(el.dataset.rid); else openSet.delete(el.dataset.rid);}
+  if(el.dataset.sk){if(el.open) openStore.add(el.dataset.sk); else openStore.delete(el.dataset.sk);}},true);
 window.addEventListener("hashchange",()=>{render(); window.scrollTo(0,0);});
 render();
 </script>
