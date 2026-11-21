@@ -93,6 +93,15 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .keep summary{font-size:13.5px;color:var(--muted);font-weight:600;cursor:pointer;min-height:32px;display:flex;align-items:center}
 .keep .stepper button{width:38px;height:36px}
 .keep .stepper output{font-size:18px}
+.disc{display:flex;flex-direction:column;gap:10px;border-top:5px solid var(--brand)}
+.disc.t-season{border-top-color:var(--lemon)} .disc.t-health{border-top-color:var(--r-fruit)} .disc.t-family{border-top-color:var(--r-legume)}
+.disc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.disc-theme{font-size:22px}
+.plates{display:flex;gap:4px;flex-wrap:wrap}
+.plates .glyph{width:40px;height:40px}
+.disc-list{margin:0;padding-left:18px;font-size:14.5px;display:grid;gap:2px}
+.disc-all{display:grid;gap:8px;margin-top:8px;font-size:14px}
+.disc-all ul{margin:2px 0 0;padding-left:18px}
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .day-t{min-height:44px;border:1.5px solid var(--line);background:transparent;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);padding:0}
 .day-t[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
@@ -184,7 +193,7 @@ ol.steps{margin:8px 0 0;padding-left:20px;font-size:14.5px;max-width:65ch} ol.st
 .copybox{width:100%;min-height:220px;font-family:inherit;font-size:16px;line-height:1.45;padding:10px;border:1.5px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink)}
 .foot{font-size:13px;color:var(--muted);margin:30px 0 0;max-width:70ch}
 /* bottom bar */
-nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px 8px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(19,38,27,.07)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(19,38,27,.07)}
 nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--muted);font-size:11.5px;font-weight:600;padding:6px 2px;border-radius:12px;position:relative}
 nav.tabs a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs a[aria-current="page"]{color:var(--brand);background:var(--soft)}
@@ -210,6 +219,7 @@ nav.tabs a[aria-current="page"]{color:var(--brand);background:var(--soft)}
   <a href="#week" data-tab="week"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Week</a>
   <a href="#recipes" data-tab="recipes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/><path d="M8 7c0-1.5 1-1.5 1-3M12 7c0-1.5 1-1.5 1-3M16 7c0-1.5 1-1.5 1-3"/></svg>Recipes</a>
   <a href="#profile" data-tab="profile" id="profile-link"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="10" r="2.3"/><path d="M3.5 19c.6-3.4 2.8-5.2 5.5-5.2s4.9 1.8 5.5 5.2M14.5 15.2c.8-.9 1.6-1.3 2.5-1.3 2 0 3.3 1.5 3.6 5.1"/></svg>Family</a>
+  <a href="#discover" data-tab="discover" id="discover-link"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Discover</a>
   <a href="#shopping-list" data-tab="shopping-list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.5l2 11h10l2-8H7"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="16.5" cy="19" r="1.4"/></svg>Shop<span class="badge" id="badge"></span></a>
 </nav>
 <div id="toast" role="status" aria-live="polite"></div>
@@ -347,7 +357,7 @@ const R=[
   steps:["Blend everything with a splash of milk until smooth.","Add more milk to thin it for her cup."]}
 ];
 const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], DAYL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const TABS=["week","recipes","shopping-list","profile"];
+const TABS=["week","recipes","shopping-list","profile","discover"];
 const KEY="costco-week-planner-v2";
 
 
@@ -917,6 +927,21 @@ R.push(
   kid:"Fish and yogurt are common allergens, so offer each early in the day if new. Smoked trout is salty, so give her a few flakes mixed into yogurt on soft pita rather than hard crispbread.",
   steps:["Stir lemon juice and dill into the yogurt.","Spread on the crispbread and top with cucumber and flaked trout."]}
 );
+/* ---------- hard-boiled eggs ---------- */
+R.push(
+ {id:"hb-eggs",n:"Hard-boiled eggs with pepper and paprika",meal:"snack",t:15,tags:["Vegetarian","Make ahead"],ing:{eggs:1},st:["black pepper","smoked paprika"],
+  kid:"Egg is a common allergen, so offer it early in the day if it is new. Cook the eggs all the way through and cut hers into small pieces or mash the yolk with a little yogurt. No salt needed.",
+  steps:["Hard-boil a batch: cover the eggs with cold water, bring to a boil, cover and leave off the heat for 10 minutes, then cool in cold water.","Keep them in the fridge for up to a week, peeled or not.","Halve and sprinkle with pepper and paprika."]},
+ {id:"egg-protein-box",n:"Egg and hummus protein box with vegetables and grapes",meal:"snack",t:5,tags:["Vegetarian","Make ahead"],ing:{eggs:1,hummus:1.5,cucumber:2,tomato:2,grapes:2},st:["black pepper"],
+  kid:"Egg and the sesame in hummus are common allergens, so offer each early in the day if new. Cut her egg into wedges, quarter the grapes and tomatoes lengthwise and peel the cucumber.",
+  steps:["Hard-boil the eggs ahead, or use ones from the fridge.","Pack halved eggs with hummus, cucumber, tomatoes and grapes."]},
+ {id:"egg-fruit-breakfast",n:"Grab-and-go hard-boiled eggs with fruit and walnuts",meal:"breakfast",t:5,tags:["Vegetarian","Make ahead"],ing:{eggs:2,banana:.5,blueberry:1.5,walnut:.2},st:["black pepper"],
+  kid:"Egg and walnuts are common allergens, so offer each early in the day if new. Chop her egg small, flatten the blueberries, and grind the walnuts fine or leave them out.",
+  steps:["Hard-boil a batch of eggs on shopping day and keep them in the fridge.","Peel two per person and serve with banana, blueberries and walnuts."]},
+ {id:"egg-quinoa-bowl",n:"Hard-boiled egg, quinoa and spinach bowl with lemon",meal:"lunch",t:10,tags:["Bowl or salad","Vegetarian","Make ahead"],ing:{eggs:1.5,quinoa:.25,spinach:2,tomato:2,chickpea:.2,lemon:.2},st:["extra virgin olive oil","black pepper"],
+  kid:"Egg is a common allergen, so offer it early in the day if it is new. Chop her egg small, squash the chickpeas, quarter the tomatoes and stir finely chopped spinach into warm quinoa.",
+  steps:["Hard-boil the eggs ahead and cook a pot of quinoa for the week.","Toss the quinoa with spinach, tomatoes, chickpeas, lemon juice and olive oil.","Top with the sliced eggs and pepper."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1236,48 +1261,61 @@ function genWeek(){
   MK.forEach((m,j)=>pick[j].forEach((x,i)=>arr(m)[i]=x));
   return true;
 }
+/* Discover groups sample weeks by theme. A week can name the months it suits (1 to 12) to show
+   as in season. Add holiday or seasonal weeks with theme:"season". */
+const THEMES=[
+ {k:"season",name:"Seasons and holidays",desc:"Weeks for the time of year."},
+ {k:"everyday",name:"Everyday weeks",desc:"Quick, make-ahead and store-friendly plans."},
+ {k:"health",name:"Healthy focus",desc:"Fish, plants and the Daily Dozen."},
+ {k:"family",name:"Family kitchens",desc:"Dishes from the Lebanese and Portuguese sides of the family."}
+];
 const PRESETS=[
- {id:"dozen",name:"Daily Dozen week",desc:"Plant-based and salt-free, after Dr. Greger's Daily Dozen: beans, greens, berries, flax and whole grains.",
+ {id:"cozy",theme:"season",months:[11,12,1,2],name:"Cozy soups and stews",desc:"Chili, curry and chowder for cold nights, with warm drinks.",
+  b:["savory-oats","apple-baked-oats","overnight-oats","savory-oats","banana-pancakes"],
+  l:["caldo-verde","sopa-de-legumes","turmeric-bean-soup","corn-chowder","tomato-chickpea-soup"],
+  d:["turkey-chili","chickpea-curry","cod-corn-chowder","sweetpot-bean-chili","chicken-soup"],
+  p:["golden-milk","date-hot-cocoa","cha-de-limao","golden-milk","date-hot-cocoa"]},
+ {id:"dozen",theme:"health",name:"Daily Dozen week",desc:"Plant-based and salt-free, after Dr. Greger's Daily Dozen: beans, greens, berries, flax and whole grains.",
   b:["daily-dozen-oats","mango-berry-chia","carrot-cake-oats","daily-dozen-oats","mango-berry-chia"],
   l:["southwest-salad","turmeric-bean-soup","corn-chowder","ginger-carrot-soup","fattoush"],
   d:["greens-grain-bowl","bean-mushroom-burgers","mushroom-bolognese","mushroom-cottage-pie","loubieh"]},
- {id:"family",name:"Lebanese and Portuguese week",desc:"Shish tawook, piri-piri chicken, cod à Brás and soups from both kitchens.",
+ {id:"family",theme:"family",name:"Lebanese and Portuguese week",desc:"Shish tawook, piri-piri chicken, cod à Brás and soups from both kitchens.",
   b:["zaatar-eggs","balila","overnight-oats","zaatar-eggs","balila"],
   l:["fattoush","sopa-de-legumes","salada-de-grao","caldo-verde","fattoush"],
   d:["shish-tawook","frango-piri-piri","loubieh","bacalhau-a-bras","kafta-tray","peixe-assado"]},
- {id:"shortcuts",name:"Busy week shortcuts",desc:"Frozen salmon and turkey burgers, marinated meats and quick sides.",
+ {id:"shortcuts",theme:"everyday",name:"Busy week shortcuts",desc:"Frozen salmon and turkey burgers, marinated meats and quick sides.",
   b:["overnight-oats","broccoli-egg-muffins","mango-smoothie","broccoli-egg-muffins","overnight-oats"],
   l:["salmon-burger-salad","turkey-burger-bean-bowl","shawarma-wraps","tuna-chickpea-salad","black-bean-corn-salad"],
   d:["salmon-burger-bowl","turkey-burger-traybake","carne-asada-bowls","sockeye-quinoa","shawarma-bowl"]},
- {id:"omega",name:"Omega-3 and plants",desc:"Salmon and shrimp, with bean and lentil meals in between.",
+ {id:"omega",theme:"health",name:"Omega-3 and plants",desc:"Salmon and shrimp, with bean and lentil meals in between.",
   b:["overnight-oats","walnut-berry-yogurt-bowl","egg-cups","chia-pudding","green-smoothie","overnight-oats","pb-banana-oatmeal"],
   l:["chickpea-avocado-wraps","lentil-crunch-jar","salmon-salad-wraps","tomato-chickpea-soup","mezze-plate"],
   d:["salmon-power-bowl","sesame-tofu-bowl","shrimp-avocado-bowl","sweetpot-bean-chili","pesto-salmon"]},
- {id:"quick",name:"Quick weeknights",desc:"Everything about 30 minutes or less.",
+ {id:"quick",theme:"everyday",name:"Quick weeknights",desc:"Everything about 30 minutes or less.",
   b:["walnut-berry-yogurt-bowl","green-smoothie","pb-banana-oatmeal","egg-spinach-bowl","chia-pudding"],
   l:["hummus-chicken-wraps","apple-walnut-chicken-salad","mezze-plate","bean-egg-burritos","salmon-salad-wraps"],
   d:["salmon-spinach-salad","chickpea-feta-salad","shrimp-stirfry","chicken-fajita-bowls","egg-cauli-rice"]},
- {id:"freezer",name:"Cook once, freeze extras",desc:"Soups, chili and burritos that make great leftovers.",
+ {id:"freezer",theme:"everyday",name:"Cook once, freeze extras",desc:"Soups, chili and burritos that make great leftovers.",
   b:["egg-cups","overnight-oats","banana-pancakes","egg-cups","overnight-oats"],
   l:["bean-egg-burritos","tomato-chickpea-soup","sweetpot-bean-quesadillas","lentil-spinach-soup","chicken-soup"],
   d:["turkey-chili","stuffed-peppers","salmon-cakes","sweetpot-bean-chili","turkey-meatballs"]},
- {id:"tj",name:"Trader Joe's shortcuts",desc:"Steamed lentils, riced cauliflower and frozen grains.",
+ {id:"tj",theme:"everyday",name:"Trader Joe's shortcuts",desc:"Steamed lentils, riced cauliflower and frozen grains.",
   b:["overnight-oats","egg-spinach-bowl","walnut-berry-yogurt-bowl","chia-pudding","green-smoothie"],
   l:["lentil-crunch-jar","hummus-chicken-wraps","chickpea-avocado-wraps","mezze-plate","tomato-chickpea-soup"],
   d:["lentil-feta-bowl","cauli-chicken-bowl","tzatziki-chicken-bowl","crunch-salmon-salad","shrimp-cauli-bowl"]},
- {id:"plants",name:"Mostly plants",desc:"Beans, tofu and chickpeas most nights, with one salmon dinner.",
+ {id:"plants",theme:"health",name:"Mostly plants",desc:"Beans, tofu and chickpeas most nights, with one salmon dinner.",
   b:["mango-smoothie","tofu-scramble","overnight-oats","chia-pudding","apple-baked-oats"],
   l:["black-bean-corn-salad","edamame-corn-jar","chickpea-avocado-wraps","tomato-chickpea-soup","mezze-plate"],
   d:["peanut-tofu-noodles","chickpea-sweetpot-traybake","black-bean-patties","salmon-mango-bowl","chickpea-curry"]},
- {id:"fish",name:"Three fish nights",desc:"Cod, salmon and shrimp, with turkey and chicken in between.",
+ {id:"fish",theme:"health",name:"Three fish nights",desc:"Cod, salmon and shrimp, with turkey and chicken in between.",
   b:["savory-oats","banana-pancakes","walnut-berry-yogurt-bowl","egg-cups","mango-smoothie"],
   l:["tuna-chickpea-salad","chicken-quinoa-box","egg-avocado-wraps","black-bean-corn-salad","edamame-corn-jar"],
   d:["lemon-cod-traybake","turkey-taco-bowls","salmon-power-bowl","chicken-tortilla-soup","shrimp-mango-salad"]},
- {id:"lunchbox",name:"Packed lunches all week",desc:"Seven grab-and-go lunches, plus dinners that leave leftovers.",
+ {id:"lunchbox",theme:"everyday",name:"Packed lunches all week",desc:"Seven grab-and-go lunches, plus dinners that leave leftovers.",
   b:["overnight-oats","apple-baked-oats","egg-cups","chia-pudding","overnight-oats","apple-baked-oats","egg-cups"],
   l:["chicken-quinoa-box","edamame-corn-jar","tuna-avocado-wraps","black-bean-corn-salad","egg-avocado-wraps","bean-egg-burritos","hummus-chicken-wraps"],
   d:["chicken-tortilla-soup","cod-corn-chowder","sweetpot-bean-chili","turkey-taco-bowls","black-bean-patties"]},
- {id:"either",name:"Works at either store",desc:"Every meal can be bought at Costco alone or Trader Joe's alone.",
+ {id:"either",theme:"everyday",name:"Works at either store",desc:"Every meal can be bought at Costco alone or Trader Joe's alone.",
   b:["overnight-oats","mango-smoothie","savory-oats","tofu-scramble","banana-pancakes"],
   l:["tuna-chickpea-salad","black-bean-corn-salad","egg-avocado-wraps","chickpea-avocado-wraps","tuna-rice-bowl"],
   d:["lemon-cod-traybake","turkey-taco-bowls","chickpea-sweetpot-traybake","shrimp-mango-salad","chicken-fajita-bowls","tofu-mushroom-stirfry"]}
@@ -1374,6 +1412,29 @@ function genText(){
 function repControls(){
   return MK.map(m=>`<div class="field">${MEALS[m].pl}<div class="choices three" role="group" aria-label="${MEALS[m].pl}: most times one recipe can appear">${[1,2,3].map(n=>`<button class="choice" id="rep-${m}-${n}" data-act="rep" data-m="${m}" data-v="${n}" aria-pressed="${S.rep[m]===n}"><b>${n===1?"Once":n+" times"}</b></button>`).join("")}</div></div>`).join("");
 }
+function presetCard(p){
+  const now=new Date().getMonth()+1, inSeason=p.months&&p.months.includes(now);
+  const ms=MK.filter(m=>p[m]&&p[m].length), counts=ms.map(m=>`${p[m].length} ${(p[m].length>1?MEALS[m].pl:MEALS[m].lbl).toLowerCase()}`);
+  const swaps=ms.reduce((a,m)=>a+p[m].filter(id=>RX[id]&&!avail(RX[id])).length,0);
+  const dinners=(p.d||[]).map(id=>RX[id]).filter(Boolean);
+  const all=ms.map(m=>`<div><b>${MEALS[m].pl}</b><ul>${p[m].map(id=>RX[id]?`<li>${RX[id].n}</li>`:"").join("")}</ul></div>`).join("");
+  return `<article class="card disc t-${p.theme}">
+    <div class="disc-head"><h3>${p.name}</h3>${inSeason?chip("fresh","In season"):""}</div>
+    <p class="meta" style="margin:0">${p.desc}</p>
+    <div class="plates" aria-hidden="true">${dinners.map(r=>glyph(r.ing)).join("")}</div>
+    <ul class="disc-list">${dinners.slice(0,4).map(r=>`<li>${r.n}</li>`).join("")}${dinners.length>4?`<li class="meta">and ${dinners.length-4} more</li>`:""}</ul>
+    <p class="meta" style="margin:0">${list(counts)}.${swaps?` ${swaps} meal${swaps>1?"s":""} will be swapped for ones ${STORE_LBL[S.store]} carries.`:""}</p>
+    <details><summary>See every meal</summary><div class="disc-all">${all}</div></details>
+    <button class="btn primary" id="pre-${p.id}" data-act="preset" data-id="${p.id}" style="width:max-content">Use this week</button>
+  </article>`;
+}
+function viewDiscover(){
+  const now=new Date().getMonth()+1;
+  const order=t=>t.k==="season"&&!PRESETS.some(p=>p.theme==="season"&&p.months&&p.months.includes(now))?9:0;
+  const groups=THEMES.slice().sort((a,b)=>order(a)-order(b)).map(t=>{const ps=PRESETS.filter(p=>p.theme===t.k); if(!ps.length) return "";
+    return `<section class="stack"><div><h2 class="disc-theme">${t.name}</h2><p class="meta" style="margin:2px 0 0">${t.desc}</p></div>${ps.map(presetCard).join("")}</section>`;}).join("");
+  return `<section class="stack"><div><h2>Discover</h2><p class="lead">Sample weeks to start from. Using one replaces the meals it includes; swap anything after.</p></div>${groups}</section>`;
+}
 function viewProfile(){
   const opt=(act,v,cur,label,desc)=>`<button class="choice" id="${act}-${v}" data-act="${act}" data-v="${v}" aria-pressed="${cur===v}"><b>${label}</b>${desc?`<span>${desc}</span>`:""}</button>`;
   return `<section class="stack">
@@ -1443,6 +1504,9 @@ function viewWeek(){
     const over=packsAt(k,T[k],s)*I[k][s].q-T[k];
     if(over/I[k][s].q>tw("extra")/100) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} left over. ${I[k][s].left||it.left}`);
   }
+  const hb=slots().filter(({x})=>RX[x.r].steps.some(t=>/hard-boil/i.test(t)));
+  if(hb.length){const n=Math.ceil(hb.reduce((a,{x})=>a+(RX[x.r].ing.eggs||0)*P()*(x.double?2:1),0));
+    if(n) prep.push(`Hard-boil ${n} egg${n>1?"s":""} for ${list(hb.map(({m,i})=>`${dayName(i,true)} ${MEALS[m].lbl.toLowerCase()}`))}. Peeled or not, they keep a week in the fridge.`);}
   const maxN=Math.max(...MK.map(cnt)); let days="";
   for(let i=0;i<maxN;i++){
     const rows=MK.filter(m=>i<cnt(m)).map(m=>mealRow(m,i,arr(m)[i])).join("");
@@ -1457,7 +1521,7 @@ function viewWeek(){
       <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}${stepper("ns","Snacks",S.ns,"cnt",'data-k="ns"')}${stepper("ne","Desserts",S.ne,"cnt",'data-k="ne"')}${stepper("np","Sips",S.np,"cnt",'data-k="np"')}</div>
       <div class="row"><button class="btn primary" id="gen" data-act="gen">${any?"Shuffle a new week":"Generate my week"}</button>${any?`<button class="btn ghost" id="clear" data-act="clear">Clear week</button>`:""}</div>
       <p class="meta">${genText()}</p>
-      <details><summary>Or start from a sample week</summary><div class="presets">${PRESETS.map(p=>`<button class="preset" id="pre-${p.id}" data-act="preset" data-id="${p.id}"><b>${p.name}</b><span>${p.desc}</span></button>`).join("")}</div></details>
+      <a href="#discover" id="to-discover">Or start from a sample week in Discover</a>
     </div>
     ${any?"":`<div class="empty"><b>Your week is empty.</b> Press Generate, load a sample week, or pick meals one by one below.</div>`}
     ${prep.length?`<div class="prep"><h3>When you get home on ${dayName(0,true)}</h3><ul>${prep.map(p=>`<li>${p}</li>`).join("")}</ul></div>`:""}
@@ -1635,7 +1699,7 @@ function tab(){const h=location.hash.slice(1); return h==="shelf-life"?"shopping
 function render(){
   const t=tab(), fid=document.activeElement&&document.activeElement.id;
   document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.tab===t) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");});
-  $("#app").innerHTML=t==="week"&&!S.setup&&!incoming&&!slots().length?viewWelcome():t==="profile"?viewProfile():t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():viewWeek();
+  $("#app").innerHTML=t==="week"&&!S.setup&&!incoming&&!slots().length?viewWelcome():t==="profile"?viewProfile():t==="discover"?viewDiscover():t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():viewWeek();
   if(t==="recipes") applySearch();
   renderStatus();
   if(fid&&fid!=="rq"){const el=document.getElementById(fid); if(el&&!el.disabled) el.focus({preventScroll:true});}
@@ -1664,7 +1728,7 @@ function act(el,ev){
   else if(a==="add"){if(!addRecipe(el.dataset.id,m)) return;}
   else if(a==="gen"){if(!genWeek()) return; openWeek.clear(); toast("Week ready. Shuffle for a different mix.");}
   else if(a==="clear"){openWeek.clear(); for(const k of MK) arr(k).fill(null); S.checked={}; toast("Week cleared");}
-  else if(a==="preset"){if(!loadPreset(el.dataset.id)) return; openWeek.clear(); toast("Sample week loaded. Swap anything.");}
+  else if(a==="preset"){if(!loadPreset(el.dataset.id)) return; openWeek.clear(); toast("Sample week loaded. Swap anything."); if(tab()==="discover") setTimeout(()=>{location.hash="#week";},0);}
   else if(a==="cnt"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<0||v>7) return; S[k]=v;}
   else if(a==="pick"){if(ev.type!=="change"||!el.value) return; arr(m)[d]={r:el.value,double:false};}
   else if(a==="remove"){arr(m)[d]=null; openWeek.delete(m+":"+d);}
