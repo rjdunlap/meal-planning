@@ -723,6 +723,49 @@ R.push(
   kid:"Fish and egg are common allergens, so offer each early in the day if new, and keep albacore to a small portion once a week. Mash her chickpeas with the egg, flake the tuna fine, quarter the tomatoes and skip the raw onion.",
   steps:["Hard-boil the eggs for 10 minutes, cool and chop.","Toss the rinsed chickpeas, flaked tuna, finely sliced onion and tomatoes with olive oil, vinegar and parsley.","Top with the egg."]}
 );
+/* ---------- Daily Dozen recipes ----------
+   Original recipes in the spirit of Dr. Michael Greger's How Not to Die, How Not to Diet and How
+   Not to Age: beans, greens, cruciferous vegetables, berries, ground flax, nuts, whole grains and
+   turmeric with black pepper, cooked without oil, salt or added sugar. */
+Object.assign(I,{
+ flax:{s:"ground flaxseed",u:"oz",cat:"Pantry",role:"fat",life:null,keep:"About 6 months in the fridge or freezer once opened.",left:"Keep the opened bag in the freezer so the oils stay fresh.",c:{n:"Organic ground flaxseed",pack:"4 lb bag",q:64},t:{n:"Organic flaxseed meal",pack:"16 oz bag",q:16}},
+ soymilk:{s:"soy milk",u:"cup",cat:"Pantry",role:"dairy",life:null,keep:"Months unopened. 7 to 10 days in the fridge once opened.",left:"Unopened cartons keep for months on the shelf.",c:{n:"Organic soy beverage, plain",pack:"12 cartons, 32 oz each",q:48},t:{n:"Organic soy beverage, unsweetened",pack:"32 oz carton",q:4}}
+});
+R.push(
+ {id:"daily-dozen-oats",n:"Daily Dozen oat bowl with berries, flax and walnuts",meal:"breakfast",t:10,tags:["Plant-based","Vegetarian","Daily Dozen"],ing:{oats:.5,soymilk:.75,berries:3,flax:.25,walnut:.3,banana:.5},st:["cinnamon"],
+  kid:"Soy and walnuts are common allergens, so offer each early in the day if new. Grind her walnuts to a fine meal or leave them out, mash the berries and banana in, and let the oats cool. There is no added salt or sugar.",
+  steps:["Simmer the oats in the soy milk for 5 minutes, or soak overnight.","Stir in the flax and cinnamon.","Top with thawed berries, sliced banana and chopped walnuts."]},
+ {id:"carrot-cake-oats",n:"Carrot cake baked oatmeal with walnuts and flax",meal:"breakfast",t:35,tags:["Plant-based","Vegetarian","Make ahead","Freezes well","Daily Dozen"],ing:{oats:.5,carrot:.15,banana:.75,walnut:.25,flax:.25,soymilk:.6},st:["cinnamon","ground ginger","baking powder"],
+  kid:"Soy and walnuts are common allergens, so offer each early in the day if new. Grind her walnuts fine or leave them out. Mashed banana is the only sweetener, and the squares are soft enough to hold.",
+  steps:["Mash the banana, then stir in the soy milk, flax, cinnamon, ginger and baking powder.","Mix in the oats, finely grated carrot and chopped walnuts.","Bake in a lined dish at 350°F for 30 minutes.","Cut into squares. It keeps 4 days in the fridge or 2 months frozen."]},
+ {id:"mango-berry-chia",n:"Mango and berry chia pudding with soy milk",meal:"breakfast",t:5,tags:["Plant-based","Vegetarian","Make ahead","Daily Dozen"],ing:{chia:.7,soymilk:.75,mango:2,berries:1.5,flax:.15},st:["cinnamon"],
+  kid:"Soy is a common allergen, so offer it early in the day if new. Let the chia set fully so no dry seeds remain, and mash the fruit into hers. No sugar is needed: the mango sweetens it.",
+  steps:["Blend half the mango with the soy milk.","Stir in the chia and flax and chill overnight.","Top with the rest of the mango and the thawed berries."]},
+ {id:"bean-mushroom-burgers",n:"Black bean, mushroom and oat burgers with greens",meal:"dinner",t:35,tags:["Plant-based","Vegetarian","Freezes well","Daily Dozen"],ing:{beans:.5,mushroom:2,oats:.2,flax:.15,spinach:2,avocado:.25,tomato:2},st:["cumin","smoked paprika","garlic powder"],
+  kid:"There are no common allergens here. These have no added salt, so they suit her well. Make hers small and soft and serve with mashed avocado and quartered tomatoes. Wilt and chop her greens.",
+  steps:["Stir the flax into 2 tablespoons of water per serving and let it thicken.","Cook the chopped mushrooms in a dry pan until their water is gone, about 8 minutes.","Mash the rinsed beans and mix in the mushrooms, oats, flax, cumin, paprika and garlic powder. Shape into patties.","Bake on parchment at 400°F for 20 minutes, turning once. Serve over spinach with avocado and tomatoes."]},
+ {id:"greens-grain-bowl",n:"Quinoa, chickpea and broccoli bowl with garlicky greens",meal:"dinner",t:25,tags:["Bowl or salad","Plant-based","Vegetarian","Daily Dozen"],ing:{quinoa:.25,chickpea:.4,broccoli:3,spinach:3,lemon:.25},st:["garlic","ground turmeric","black pepper","nutritional yeast","apple cider vinegar"],
+  kid:"There are no common allergens here. Squash the chickpeas flat, steam her broccoli until soft and chop the greens fine. There is no added salt.",
+  steps:["Cook the quinoa with the turmeric and black pepper.","Steam the broccoli for 4 minutes.","Cook the garlic in a splash of water, then wilt in the spinach.","Build bowls with quinoa, chickpeas, broccoli and greens, and finish with lemon, vinegar and nutritional yeast."]},
+ {id:"turmeric-bean-soup",n:"Turmeric two-bean soup with tomatoes and greens",meal:"lunch",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Daily Dozen"],ing:{beans:.3,chickpea:.3,dicedtom:.4,carrot:.2,onion:.25,spinach:2},st:["ground turmeric","black pepper","cumin","garlic"],
+  kid:"There are no common allergens here. Made with water and no salt, it suits her well. Mash the beans in her bowl.",
+  steps:["Cook the onion, carrot and garlic in a splash of water for 6 minutes.","Add the spices, tomatoes, rinsed beans and 1 cup of water per serving and simmer 15 minutes.","Stir in the spinach until wilted. Freeze single portions."]},
+ {id:"corn-chowder",n:"Creamy corn and potato chowder without cream",meal:"lunch",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Daily Dozen"],ing:{corn:3,potato:.3,onion:.25,soymilk:.5,chickpea:.2,pepper:.25},st:["smoked paprika","nutritional yeast","garlic"],
+  kid:"Soy is a common allergen, so offer it early in the day if new. The blended base is smooth, so it is a good texture for her. Mash any whole corn kernels in her bowl.",
+  steps:["Cook the onion, pepper and garlic in a splash of water.","Add the diced potatoes, half the corn, the chickpeas and water to cover, and simmer 15 minutes.","Blend with the soy milk and nutritional yeast until smooth.","Stir in the rest of the corn and the paprika and warm through."]},
+ {id:"southwest-salad",n:"Southwest bean salad with cumin-tomato dressing",meal:"lunch",t:15,tags:["Bowl or salad","Plant-based","Vegetarian","No-cook protein","Daily Dozen"],ing:{spinach:2,romaine:.5,beans:.4,corn:2,tomato:3,avocado:.3},st:["cumin","apple cider vinegar","lime or lemon","garlic powder"],
+  kid:"There are no common allergens here. Raw leaves are hard for her, so give her the beans and corn mashed with avocado and quartered tomatoes. The dressing has no salt or oil.",
+  steps:["Blend a third of the tomatoes with cumin, vinegar, lime juice and garlic powder for the dressing.","Chop the greens and toss with the rinsed beans, thawed corn and the rest of the tomatoes.","Top with avocado and pour the dressing over. Eat it before the main course to fill up on greens."]},
+ {id:"mushroom-bolognese",n:"Spaghetti with mushroom and walnut bolognese",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","Freezes well","Daily Dozen"],ing:{pasta:2.5,mushroom:3,dicedtom:.5,onion:.25,carrot:.15,walnut:.3,spinach:1},st:["garlic","dried oregano","nutritional yeast"],
+  kid:"Walnuts are a common allergen, so offer them early in the day if new. Here they are ground into the sauce, so there are no pieces to choke on. Cut her pasta short. There is no added salt.",
+  steps:["Pulse the mushrooms, walnuts, onion and carrot in a food processor until finely chopped.","Cook the mix with garlic in a dry pan for 10 minutes, until browned.","Add the tomatoes and oregano and simmer 10 minutes. Stir in the spinach.","Toss with the cooked pasta and top with nutritional yeast."]},
+ {id:"mushroom-cottage-pie",n:"Mushroom and black bean cottage pie with sweet potato mash",meal:"dinner",t:50,tags:["Plant-based","Vegetarian","Freezes well","Daily Dozen"],ing:{mushroom:3,beans:.4,mixveg:3,onion:.25,dicedtom:.25,sweetpot:.5},st:["dried thyme","smoked paprika","garlic"],
+  kid:"There are no common allergens here, and no added salt. The filling and mash are soft, so mash her portion together.",
+  steps:["Boil or microwave the sweet potatoes until soft and mash them.","Cook the onion, mushrooms and garlic in a splash of water for 8 minutes.","Add the frozen vegetables, rinsed beans, tomatoes, thyme and paprika and simmer 5 minutes.","Spoon into a dish, spread the mash on top and bake at 400°F for 20 minutes. Freeze extras."]},
+ {id:"ginger-carrot-soup",n:"Ginger carrot soup with chickpeas",meal:"lunch",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Daily Dozen"],ing:{carrot:.4,onion:.2,chickpea:.3,soymilk:.25,lemon:.15},st:["fresh ginger","ground turmeric","black pepper"],
+  kid:"Soy is a common allergen, so offer it early in the day if new. It is smooth and has no added salt, so it suits her well.",
+  steps:["Cook the onion and ginger in a splash of water for 5 minutes.","Add the sliced carrots, rinsed chickpeas, turmeric, pepper and water to cover and simmer 20 minutes.","Blend with the soy milk until smooth and finish with lemon juice."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -749,6 +792,8 @@ const AFX={
  "salmon-mango-bowl":[["Roast the salmon","Start the rice. Air fry the salmon with oil and cumin at 400°F for 8 to 10 minutes."]],
  "lentil-feta-bowl":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and cumin at 400°F for 15 to 18 minutes."]],
  "shawarma-wraps":[["Cook the thighs","Air fry the thighs at 380°F for 16 to 20 minutes, to 165°F, or use leftovers from dinner, and slice thin."]],
+ "bean-mushroom-burgers":[["Bake on parchment","Air fry at 375°F for 12 to 14 minutes. Serve over spinach with avocado and tomatoes."]],
+ "carrot-cake-oats":[["Bake in a lined dish","Bake in a small dish that fits the air fryer at 320°F for 18 to 20 minutes."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1030,6 +1075,10 @@ function genWeek(){
   return true;
 }
 const PRESETS=[
+ {id:"dozen",name:"Daily Dozen week",desc:"Plant-based and salt-free, after Dr. Greger's Daily Dozen: beans, greens, berries, flax and whole grains.",
+  b:["daily-dozen-oats","mango-berry-chia","carrot-cake-oats","daily-dozen-oats","mango-berry-chia"],
+  l:["southwest-salad","turmeric-bean-soup","corn-chowder","ginger-carrot-soup","fattoush"],
+  d:["greens-grain-bowl","bean-mushroom-burgers","mushroom-bolognese","mushroom-cottage-pie","loubieh"]},
  {id:"family",name:"Lebanese and Portuguese week",desc:"Shish tawook, piri-piri chicken, cod à Brás and soups from both kitchens.",
   b:["zaatar-eggs","balila","overnight-oats","zaatar-eggs","balila"],
   l:["fattoush","sopa-de-legumes","salada-de-grao","caldo-verde","fattoush"],
@@ -1260,9 +1309,9 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["lebanese","Lebanese"],["portuguese","Portuguese"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["lebanese","Lebanese"],["portuguese","Portuguese"],["dozen","Daily Dozen"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="lebanese"&&r.tags.includes("Lebanese"))||(filter==="portuguese"&&r.tags.includes("Portuguese"));
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="lebanese"&&r.tags.includes("Lebanese"))||(filter==="portuguese"&&r.tags.includes("Portuguese"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
   const shown=R.filter(r=>avail(r)&&match(r)), hidden=R.filter(r=>!avail(r)&&match(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
