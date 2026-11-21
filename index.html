@@ -718,11 +718,18 @@ const protGroup=r=>{const k=Object.keys(r.ing);
   if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")) return "turkey";
   if(k.includes("chx")||k.includes("cb")) return "chicken"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
+/* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
+   packs; freezable items count about a third, since the rest can go in the freezer. */
+const wasteW=k=>{const it=I[k]; return it.life==null||it.life>14?0:it.fz?.35:1;};
+function leftPacks(k,need){if(need<=0) return 0; const s=storeFor(k,need); if(!s) return 0; const q=I[k][s].q; return Math.max(0,packsAt(k,need,s)*q-need)/q;}
+function wasteOf(T){let w=0; for(const k in T){const ww=wasteW(k); if(ww) w+=ww*leftPacks(k,T[k]);} return w;}
+function needOf(rs){const T={}; for(const r of rs) for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*P(); return T;}
 function pickMeals(m,n,chosen,bonus){
   const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], used=new Set();
   for(let i=0;i<n;i++){
     let cand=pool.filter(r=>!used.has(r.id)); if(!cand.length){used.clear(); cand=pool.slice();}
     if(!cand.length) break;
+    const T=needOf(chosen);
     const sc=cand.map(r=>{
       let s=Math.random()*1.2; const g=protGroup(r);
       if(m!=="b"){
@@ -732,7 +739,7 @@ function pickMeals(m,n,chosen,bonus){
         if(chosen.some(x=>x.id===r.id)) s-=1.5;
         if(m==="l"){ if(r.meal==="lunch") s+=.8; if(r.t<=20) s+=.4; } else if(r.t>45) s-=.8;
       } else if(chosen.some(x=>x.id===r.id)) s-=1;
-      for(const k in r.ing){const l=I[k].life; if(l!=null&&l<=10&&chosen.some(x=>x.ing[k])) s+=.25;}
+      for(const k in r.ing){const ww=wasteW(k); if(ww){const had=T[k]||0; s-=1.2*ww*(leftPacks(k,had+r.ing[k]*P())-leftPacks(k,had));}}
       if(bonus) s+=bonus(r,i);
       return [s,r];}).sort((p,q)=>q[0]-p[0]);
     const r=sc[0][1]; out.push(r); used.add(r.id); chosen.push(r);
@@ -741,10 +748,12 @@ function pickMeals(m,n,chosen,bonus){
 }
 /* Weekday mornings (Monday to Friday) the day's lunch is made alongside breakfast,
    so breakfasts lean toward sharing ingredients with that day's lunch. Lemons, onions,
-   stock and sauces have no role and do not count. */
+   stock and sauces have no role and do not count, and neither do dairy and fruit, which
+   need no prep. */
 const isWeekday=i=>{const w=(S.shopDay+i)%7; return w>=1&&w<=5;};
 const lunchFor=i=>{const x=i<cnt("l")?arr("l")[i]:null; return x?RX[x.r]:null;};
-const shareKeys=(a,b)=>Object.keys(a.ing).filter(k=>b.ing[k]&&I[k].role);
+const PREP_ROLES=["protein","legume","veg","grain","fat"];
+const shareKeys=(a,b)=>Object.keys(a.ing).filter(k=>b.ing[k]&&PREP_ROLES.includes(I[k].role));
 function prepShared(i,r){if(!isWeekday(i)) return []; const L=lunchFor(i); return L?shareKeys(r,L):[];}
 /* Rearranges the planned breakfasts (same recipes) so weekday ones line up with that day's lunch. */
 function pairBreakfasts(){
@@ -753,12 +762,29 @@ function pairBreakfasts(){
   for(const i of idx){let best=-1,bs=0; pool.forEach((x,j)=>{const n=prepShared(i,RX[x.r]).length; if(n>bs){bs=n;best=j;}}); if(best>=0) out[i]=pool.splice(best,1)[0];}
   for(const i of idx) A[i]=out[i]||pool.shift();
 }
-function genWeek(){
-  if(!S.nb&&!S.nl&&!S.nd){toast("Set at least one meal to plan first."); return false;}
+function genOnce(){
   const chosen=[];
   const set=(m,a)=>{arr(m).fill(null); a.forEach((r,i)=>arr(m)[i]={r:r.id,double:false});};
   set("d",pickMeals("d",S.nd,chosen)); set("l",pickMeals("l",S.nl,chosen)); orderByFreshness();
   set("b",pickMeals("b",S.nb,chosen,(r,i)=>Math.min(1.5,.5*prepShared(i,r).length))); pairBreakfasts();
+}
+/* Lower is better: fresh food left over, the same protein too often, no fish dinner,
+   and weekday breakfasts that share no prep with lunch. */
+function weekScore(){
+  const sl=slots(), main=sl.filter(s=>s.m!=="b").map(s=>RX[s.x.r]), g={};
+  main.forEach(r=>{const p=protGroup(r); if(p!=="other") g[p]=(g[p]||0)+1;});
+  const cap=Math.max(2,Math.ceil(main.length/3)), over=Object.values(g).reduce((a,n)=>a+Math.max(0,n-cap),0);
+  const noFish=S.nd&&!sl.some(s=>s.m==="d"&&protGroup(RX[s.x.r])==="fish")?1:0;
+  let pairs=0; sl.forEach(s=>{if(s.m==="b") pairs+=Math.min(2,prepShared(s.i,RX[s.x.r]).length);});
+  return wasteOf(totals().T)+.8*over+3*noFish-.35*pairs;
+}
+function genWeek(){
+  if(!S.nb&&!S.nl&&!S.nd){toast("Set at least one meal to plan first."); return false;}
+  /* Keep a random one of the near-best tries, so shuffling still brings new recipes. */
+  const tries=[];
+  for(let t=0;t<30;t++){genOnce(); tries.push([weekScore(),MK.map(m=>arr(m).map(x=>x&&{...x}))]);}
+  const lo=Math.min(...tries.map(x=>x[0])), good=tries.filter(x=>x[0]<=lo+.6), pick=good[Math.floor(Math.random()*good.length)][1];
+  MK.forEach((m,j)=>pick[j].forEach((x,i)=>arr(m)[i]=x));
   return true;
 }
 const PRESETS=[
@@ -887,7 +913,7 @@ function viewWeek(){
       <h3>Meals to plan</h3>
       <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}</div>
       <div class="row"><button class="btn primary" id="gen" data-act="gen">${any?"Shuffle a new week":"Generate my week"}</button>${any?`<button class="btn ghost" id="clear" data-act="clear">Clear week</button>`:""}</div>
-      <p class="meta">The generator varies the protein, includes fish, and reuses fresh ingredients so little goes to waste. Monday to Friday, breakfast shares ingredients with that day's lunch, so you can make both in one go.</p>
+      <p class="meta">The generator varies the protein, includes fish, and tries many weeks and keeps the one that leaves the least fresh food over. Monday to Friday, breakfast shares ingredients with that day's lunch, so you can make both in one go.</p>
       <details><summary>Or start from a sample week</summary><div class="presets">${PRESETS.map(p=>`<button class="preset" id="pre-${p.id}" data-act="preset" data-id="${p.id}"><b>${p.name}</b><span>${p.desc}</span></button>`).join("")}</div></details>
     </div>
     ${any?"":`<div class="empty"><b>Your week is empty.</b> Press Generate, load a sample week, or pick meals one by one below.</div>`}
