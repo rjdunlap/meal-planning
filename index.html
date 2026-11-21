@@ -193,6 +193,7 @@ nav.tabs a[aria-current="page"]{color:var(--brand);background:var(--soft)}
 #toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
 #toast.on{opacity:1}
 @media (max-width:420px){ .day{grid-template-columns:46px 1fr 48px;gap:10px} .dow{font-size:19px;padding-left:2px} .day .glyph{width:48px;height:48px} .recipe .head{grid-template-columns:48px 1fr auto} .recipe .head .glyph{width:48px;height:48px} }
+.dayg .day{grid-template-columns:62px 1fr 48px}
 @media (prefers-reduced-motion:reduce){ #toast,.rtitle svg{transition:none} }
 </style>
 </head>
@@ -766,6 +767,57 @@ R.push(
   kid:"Soy is a common allergen, so offer it early in the day if new. It is smooth and has no added salt, so it suits her well.",
   steps:["Cook the onion and ginger in a splash of water for 5 minutes.","Add the sliced carrots, rinsed chickpeas, turmeric, pepper and water to cover and simmer 20 minutes.","Blend with the soy milk until smooth and finish with lemon juice."]}
 );
+/* ---------- snacks and desserts ----------
+   Desserts are sweetened only with fruit or date sauce (pitted dates blended with hot water),
+   the way the Daily Dozen books do it. Under age 2 she should have no added sugar, and date
+   sauce is concentrated fruit sugar, so her notes keep it off her plate or to a tiny smear. */
+Object.assign(I,{
+ dates:{s:"Medjool dates",u:"oz",cat:"Produce",role:"fruit",life:null,keep:"About 6 months in the fridge, a year frozen.",left:"Keep them in the fridge. Blend a few with hot water for date sauce.",c:{n:"Organic Medjool dates",pack:"2 lb tub",q:32},t:{n:"Medjool dates",pack:"about 16 oz",q:16}},
+ cherries:{s:"frozen cherries",u:"oz",cat:"Frozen",role:"fruit",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. Blend them straight from frozen.",c:{n:"Dark sweet cherries, frozen",pack:"4 lb bag",q:64},t:{n:"Pitted dark sweet cherries, frozen",pack:"16 oz bag",q:16}}
+});
+R.push(
+/* snacks */
+ {id:"hummus-veggie-snack",n:"Hummus with cucumber, pepper and carrot sticks",meal:"snack",t:5,tags:["Plant-based","Vegetarian"],ing:{hummus:2,cucumber:2,pepper:.25,carrot:.1},st:[],
+  kid:"Hummus has sesame, a common allergen, so start small if it is new. Raw carrot sticks are a choking risk, so steam hers soft or grate them. Peel her cucumber into thin strips to dip.",
+  steps:["Cut the cucumber, pepper and carrots into sticks.","Serve with hummus."]},
+ {id:"apple-pb-snack",n:"Apple slices with peanut butter and cinnamon",meal:"snack",t:5,tags:["Vegetarian"],ing:{apple:.25,pb:.4},st:["cinnamon"],
+  kid:"Peanut is a common allergen, so offer a tiny taste early in the day if it is new. Raw apple is a choking risk, so grate hers or cook thin slices soft, and spread the peanut butter thinly, never by the spoonful.",
+  steps:["Slice the apples thin.","Spread or dip with peanut butter and dust with cinnamon."]},
+ {id:"yogurt-berry-cup",n:"Yogurt cup with berries and flax",meal:"snack",t:5,tags:["Vegetarian"],ing:{yogurt:4,berries:2,flax:.1},st:[],
+  kid:"Yogurt is dairy, a common allergen, so offer it early in the day if it is new. Mash the berries into hers. Plain yogurt has no added sugar.",
+  steps:["Thaw the berries for a minute in the microwave.","Stir into the yogurt and sprinkle with flax."]},
+ {id:"edamame-snack",n:"Warm edamame with lemon",meal:"snack",t:5,tags:["Plant-based","Vegetarian"],ing:{edamame:3,lemon:.1},st:["black pepper"],
+  kid:"Edamame is soy, a common allergen, so offer it early in the day if it is new. Squash each bean flat before she eats it.",
+  steps:["Microwave the edamame with a splash of water for 2 minutes.","Squeeze lemon over and add pepper for the adults."]},
+ {id:"date-energy-bites",n:"Date, oat and peanut butter energy bites",meal:"snack",t:15,tags:["Vegetarian","Make ahead","Freezes well"],ing:{dates:1,oats:.2,pb:.3,flax:.1,chia:.1},st:["cinnamon","unsweetened cocoa powder"],
+  kid:"Peanut is a common allergen, so offer it early in the day if it is new. Balls are a choking shape at this age, so press hers into thin soft discs. Dates are fruit sugar, so give her a small one.",
+  steps:["Blend the pitted dates until they form a paste.","Pulse in the oats, peanut butter, flax, chia, cinnamon and a spoon of cocoa.","Roll into small balls and chill. They keep a week in the fridge or 3 months frozen."]},
+ {id:"crispy-chickpeas",n:"Crispy chickpeas with smoked paprika",meal:"snack",t:20,tags:["Plant-based","Vegetarian"],ing:{chickpea:.4},st:["smoked paprika","garlic powder","cumin"],
+  kid:"Crunchy chickpeas are a choking risk at this age. Take out her share before they crisp and squash each one flat. There are no common allergens here.",
+  steps:["Rinse and pat the chickpeas very dry.","Toss with paprika, garlic powder and cumin.","Bake at 400°F for 25 to 30 minutes, until crisp."]},
+ {id:"banana-oat-cookies",n:"Two-ingredient banana oat cookies with berries",meal:"snack",t:20,tags:["Plant-based","Vegetarian","Freezes well"],ing:{banana:.75,oats:.3,blueberry:1},st:["cinnamon"],
+  kid:"There are no common allergens here and no added sugar. They are soft enough to hold. Squash the blueberries flat before baking.",
+  steps:["Mash the banana and stir in the oats and cinnamon.","Fold in the flattened blueberries and drop spoonfuls onto parchment.","Bake at 350°F for 15 minutes. Freeze extras."]},
+/* desserts */
+ {id:"baked-apples",n:"Baked apples with walnuts, oats and date sauce",meal:"dessert",t:30,tags:["Plant-based","Vegetarian"],ing:{apple:.4,walnut:.25,oats:.1,dates:.5},st:["cinnamon"],
+  kid:"Walnuts are a common allergen, so offer them early in the day if new. Grind hers fine or leave them out. The baked apple is soft enough to mash. Keep the date sauce to a tiny smear, since she should have no added sugar before age 2.",
+  steps:["Blend the pitted dates with a little hot water into a smooth date sauce.","Core the apples and fill with chopped walnuts, oats, cinnamon and a spoon of date sauce.","Bake at 375°F for 25 minutes, until soft.","Drizzle with the rest of the date sauce."]},
+ {id:"berry-nice-cream",n:"Banana berry nice cream",meal:"dessert",t:5,tags:["Plant-based","Vegetarian"],ing:{banana:1,berries:2,soymilk:.2},st:[],
+  kid:"Soy is a common allergen, so offer it early in the day if new. It is just fruit, so it suits her well. Let hers soften a few minutes so it is not too cold.",
+  steps:["Peel and slice ripe bananas and freeze them for at least 4 hours.","Blend the frozen banana with the berries and a splash of soy milk until it looks like soft serve."]},
+ {id:"cherry-cocoa-nice-cream",n:"Cherry chocolate nice cream",meal:"dessert",t:5,tags:["Plant-based","Vegetarian"],ing:{banana:.75,cherries:2,soymilk:.2},st:["unsweetened cocoa powder"],
+  kid:"Soy is a common allergen, so offer it early in the day if new. Cocoa has a little caffeine, so blend her portion before adding it. Let it soften so it is not too cold.",
+  steps:["Blend the frozen banana and cherries with a splash of soy milk.","Take out her portion, then blend in a spoon of cocoa for the rest."]},
+ {id:"chocolate-chia-pudding",n:"Date-sweetened chocolate chia pudding",meal:"dessert",t:10,tags:["Plant-based","Vegetarian","Make ahead"],ing:{chia:.6,soymilk:.75,dates:.6,berries:1},st:["unsweetened cocoa powder","cinnamon"],
+  kid:"Soy is a common allergen, so offer it early in the day if new. For her, make a plain portion with mashed banana or berries instead of the dates and cocoa, and let the chia set fully.",
+  steps:["Blend the soy milk with the pitted dates, cocoa and cinnamon until smooth.","Stir in the chia and chill at least 4 hours.","Top with thawed berries."]},
+ {id:"mango-berry-sorbet",n:"Mango berry sorbet",meal:"dessert",t:5,tags:["Plant-based","Vegetarian"],ing:{mango:3,berries:1,lemon:.1},st:[],
+  kid:"There are no common allergens here, and it is only fruit. Let hers soften a few minutes before serving.",
+  steps:["Blend the frozen mango and berries with lemon juice and a splash of water until smooth.","Serve right away, or freeze 30 minutes to firm up."]},
+ {id:"berry-crumble",n:"Berry crumble with oat walnut topping",meal:"dessert",t:35,tags:["Plant-based","Vegetarian","Make ahead"],ing:{berries:4,oats:.25,walnut:.25,dates:.5,lemon:.1},st:["cinnamon"],
+  kid:"Walnuts are a common allergen, so offer them early in the day if new. Grind her topping fine. The warm berries are soft. Give her the fruit with little of the date-sweetened topping.",
+  steps:["Toss the frozen berries with lemon juice in a baking dish.","Pulse the oats, walnuts, pitted dates and cinnamon into a crumbly topping and scatter it over.","Bake at 375°F for 25 minutes, until bubbling."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -794,6 +846,10 @@ const AFX={
  "shawarma-wraps":[["Cook the thighs","Air fry the thighs at 380°F for 16 to 20 minutes, to 165°F, or use leftovers from dinner, and slice thin."]],
  "bean-mushroom-burgers":[["Bake on parchment","Air fry at 375°F for 12 to 14 minutes. Serve over spinach with avocado and tomatoes."]],
  "carrot-cake-oats":[["Bake in a lined dish","Bake in a small dish that fits the air fryer at 320°F for 18 to 20 minutes."]],
+ "crispy-chickpeas":[["Bake at 400°F","Air fry at 390°F for 12 to 15 minutes, until crisp."]],
+ "banana-oat-cookies":[["Bake at 350°F","Air fry on parchment at 320°F for 8 to 10 minutes. Freeze extras."]],
+ "baked-apples":[["Bake at 375°F","Air fry at 350°F for 15 to 18 minutes, until soft."]],
+ "berry-crumble":[["Bake at 375°F","Bake in a small dish that fits the air fryer at 330°F for 15 minutes, until bubbling."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -824,13 +880,14 @@ for(const id in AFX){const r=RX[id]; if(!r) continue; r.af={};
 const stepsFor=r=>S.cook==="air"&&r.af?r.steps.map((s,i)=>r.af[i]||s):r.steps;
 
 /* ---------- state ---------- */
-const MEALS={b:{arr:"bf",cnt:"nb",lbl:"Breakfast",pl:"Breakfasts",short:"Bkfst"},l:{arr:"lunches",cnt:"nl",lbl:"Lunch",pl:"Lunches",short:"Lunch"},d:{arr:"dinners",cnt:"nd",lbl:"Dinner",pl:"Dinners",short:"Dinner"}};
-const MK=["b","l","d"];
+const MEALS={b:{arr:"bf",cnt:"nb",lbl:"Breakfast",pl:"Breakfasts",short:"Bkfst"},l:{arr:"lunches",cnt:"nl",lbl:"Lunch",pl:"Lunches",short:"Lunch"},d:{arr:"dinners",cnt:"nd",lbl:"Dinner",pl:"Dinners",short:"Dinner"},
+ s:{arr:"snacks",cnt:"ns",lbl:"Snack",pl:"Snacks",short:"Snack"},e:{arr:"desserts",cnt:"ne",lbl:"Dessert",pl:"Desserts",short:"Dessert"}};
+const MK=["b","l","d","s","e"];
 const canB=r=>r.meal==="breakfast";
 const canD=r=>r.meal==="dinner";
 const canL=r=>r.meal==="lunch"||(r.meal==="dinner"&&r.tags.some(t=>["Bowl or salad","Freezes well","No-cook protein","Make ahead"].includes(t)));
-const can={b:canB,l:canL,d:canD};
-const defM=r=>r.meal==="breakfast"?"b":r.meal==="lunch"?"l":"d";
+const can={b:canB,l:canL,d:canD,s:r=>r.meal==="snack",e:r=>r.meal==="dessert"};
+const defM=r=>({breakfast:"b",lunch:"l",dinner:"d",snack:"s",dessert:"e"})[r.meal];
 /* Family profile. kidPortion is the share of an adult portion in percent, rep is the most times
    one recipe may appear in a week per meal type (1 to 3), prepDays is a bitmask of weekdays
    (bit 0 Sunday, 62 = Monday to Friday), and setup is true once the welcome is done. */
@@ -871,14 +928,14 @@ const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<M
 const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
 const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
 const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2},life:{},cook:"air",prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
-  bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),checked:{},edited:false};}
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2},life:{},cook:"air",prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,
+  bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),snacks:Array(7).fill(null),desserts:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
   const s=starter(); if(!d||typeof d!=="object") return s;
   const int=(x,lo,hi,def)=>Number.isInteger(x)&&x>=lo&&x<=hi?x:def;
   s.adults=int(d.adults,1,8,2); s.kids=int(d.kids,0,6,1); s.shopDay=int(d.shopDay,0,6,6);
-  s.nb=int(d.nb,0,7,7); s.nl=int(d.nl,0,7,5); s.nd=int(d.nd,0,7,5);
+  s.nb=int(d.nb,0,7,7); s.nl=int(d.nl,0,7,5); s.nd=int(d.nd,0,7,5); s.ns=int(d.ns,0,7,0); s.ne=int(d.ne,0,7,0);
   s.kidPortion=own(KID_PORTIONS,d.kidPortion)&&Number.isInteger(d.kidPortion)?d.kidPortion:25;
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,2);
@@ -1006,7 +1063,7 @@ function wasteOf(T){let w=0; for(const k in T){const ww=wasteW(k); if(ww) w+=ww*
 function needOf(rs){const T={}; for(const r of rs) for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*P(); return T;}
 /* A recipe can come back in the same meal type up to the family's limit (S.rep), at a small
    cost per repeat: cook once, eat again. */
-const REPEAT_COST={b:.6,l:.7,d:.8};
+const REPEAT_COST={b:.6,l:.7,d:.8,s:.5,e:.6};
 const maxRepeat=m=>S.rep[m];
 function pickMeals(m,n,chosen,bonus){
   const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], seen={};
@@ -1017,7 +1074,7 @@ function pickMeals(m,n,chosen,bonus){
     const T=needOf(chosen);
     const sc=cand.map(r=>{
       let s=Math.random()*tw("random"); const g=protGroup(r);
-      if(m!=="b"){
+      if(m==="l"||m==="d"){
         if(!seen[r.id]) s-=chosen.filter(x=>protGroup(x)===g&&x.meal!=="breakfast").length*(g==="other"?tw("protein")/3:tw("protein"));
         if(g==="fish"&&!chosen.some(x=>protGroup(x)==="fish")) s+=tw("fish");
         if(g==="plant"&&n>=4&&!chosen.some(x=>protGroup(x)==="plant")) s+=tw("plant");
@@ -1054,11 +1111,12 @@ function genOnce(){
   const set=(m,a)=>{arr(m).fill(null); a.forEach((r,i)=>arr(m)[i]={r:r.id,double:false});};
   set("d",pickMeals("d",S.nd,chosen)); set("l",pickMeals("l",S.nl,chosen)); orderByFreshness();
   set("b",pickMeals("b",S.nb,chosen,(r,i)=>Math.min(3*tw("prep"),tw("prep")*prepShared(i,r).length))); pairBreakfasts();
+  set("s",pickMeals("s",S.ns,chosen)); set("e",pickMeals("e",S.ne,chosen));
 }
 /* Lower is better: fresh food left over, the same protein too often, no fish dinner,
    and weekday breakfasts that share no prep with lunch. */
 function weekScore(){
-  const sl=slots(), main=sl.filter(s=>s.m!=="b").map(s=>RX[s.x.r]), g={};
+  const sl=slots(), main=sl.filter(s=>s.m==="l"||s.m==="d").map(s=>RX[s.x.r]), g={};
   main.forEach(r=>{const p=protGroup(r); if(p!=="other") g[p]=(g[p]||0)+1;});
   const cap=Math.max(2,Math.ceil(main.length/3)), over=Object.values(g).reduce((a,n)=>a+Math.max(0,n-cap),0);
   const noFish=S.nd&&!sl.some(s=>s.m==="d"&&protGroup(RX[s.x.r])==="fish")?1:0;
@@ -1066,7 +1124,7 @@ function weekScore(){
   return tw("waste")*wasteOf(totals().T)+.8*over+2.5*tw("fish")*noFish-.7*tw("prep")*pairs;
 }
 function genWeek(){
-  if(!S.nb&&!S.nl&&!S.nd){toast("Set at least one meal to plan first."); return false;}
+  if(MK.every(m=>!cnt(m))){toast("Set at least one meal to plan first."); return false;}
   /* Keep a random one of the near-best tries, so shuffling still brings new recipes. */
   const tries=[];
   for(let t=0;t<tw("tries");t++){genOnce(); tries.push([weekScore(),MK.map(m=>arr(m).map(x=>x&&{...x}))]);}
@@ -1123,6 +1181,7 @@ const PRESETS=[
 function loadPreset(id){
   const p=PRESETS.find(x=>x.id===id); if(!p) return false;
   for(const m of MK){
+    if(!p[m]) continue; /* presets plan breakfast, lunch and dinner; snacks and desserts stay */
     const ids=p[m], used=new Set(ids), a=arr(m); a.fill(null); S[MEALS[m].cnt]=ids.length;
     ids.forEach((rid,i)=>{
       let r=RX[rid];
@@ -1179,7 +1238,7 @@ function mealRow(m,i,x){
   if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${lifeOf(k)} days. Cook this earlier`)).join("");}
   if(c.thaw.length){if(cls!=="s-warn") cls="s-freeze"; chips+=chip("freeze",`Freeze the ${list(c.thaw.map(k=>I[k].s))} on shop day, thaw the night before`);}
   const j=arr(m).slice(0,i).findIndex(y=>y&&y.r===x.r);
-  const batch=m!=="b"||r.tags.some(t=>t==="Make ahead"||t==="Freezes well");
+  const batch=m==="l"||m==="d"||r.tags.some(t=>t==="Make ahead"||t==="Freezes well");
   if(j>=0) chips+=chip("plain",batch&&i-j<=2?`Make extra on ${dayName(j,true)} for today`:`Also on ${dayName(j,true)}`);
   const shared=m==="b"?prepShared(i,r):[];
   if(shared.length) chips+=chip("plain",`Prep with today's lunch: ${list(shared.map(k=>I[k].s))}`);
@@ -1280,7 +1339,7 @@ function viewWeek(){
     const over=packsAt(k,T[k],s)*I[k][s].q-T[k];
     if(over/I[k][s].q>tw("extra")/100) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} left over. ${I[k][s].left||it.left}`);
   }
-  const maxN=Math.max(S.nb,S.nl,S.nd); let days="";
+  const maxN=Math.max(...MK.map(cnt)); let days="";
   for(let i=0;i<maxN;i++){
     const rows=MK.filter(m=>i<cnt(m)).map(m=>mealRow(m,i,arr(m)[i])).join("");
     days+=`<section class="dayg" aria-label="${dayName(i,true)}"><h3 class="dayh">${dayName(i,true)}${i===0?`<small>SHOP DAY</small>`:""}</h3>${rows}</section>`;
@@ -1291,7 +1350,7 @@ function viewWeek(){
     <div class="card famline"><span>${familyText()}</span><a class="btn small ghost" id="edit-profile" href="#profile">Edit</a></div>
     <div class="card gen">
       <h3>Meals to plan</h3>
-      <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}</div>
+      <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}${stepper("ns","Snacks",S.ns,"cnt",'data-k="ns"')}${stepper("ne","Desserts",S.ne,"cnt",'data-k="ne"')}</div>
       <div class="row"><button class="btn primary" id="gen" data-act="gen">${any?"Shuffle a new week":"Generate my week"}</button>${any?`<button class="btn ghost" id="clear" data-act="clear">Clear week</button>`:""}</div>
       <p class="meta">${genText()}</p>
       <details><summary>Or start from a sample week</summary><div class="presets">${PRESETS.map(p=>`<button class="preset" id="pre-${p.id}" data-act="preset" data-id="${p.id}"><b>${p.name}</b><span>${p.desc}</span></button>`).join("")}</div></details>
@@ -1309,9 +1368,9 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["lebanese","Lebanese"],["portuguese","Portuguese"],["dozen","Daily Dozen"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["lebanese","Lebanese"],["portuguese","Portuguese"],["dozen","Daily Dozen"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="lebanese"&&r.tags.includes("Lebanese"))||(filter==="portuguese"&&r.tags.includes("Portuguese"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="lebanese"&&r.tags.includes("Lebanese"))||(filter==="portuguese"&&r.tags.includes("Portuguese"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
   const shown=R.filter(r=>avail(r)&&match(r)), hidden=R.filter(r=>!avail(r)&&match(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
@@ -1427,7 +1486,7 @@ function copyText(text){
 /* ---------- share a week ----------
    A week travels as ?week=<code>#week, where the code is base64url JSON. Only the week and the
    household it was sized for travel; ticks and planner settings stay with each person. */
-const SHARE_FIELDS=["adults","kids","kidPortion","shopDay","store","src","nb","nl","nd","bf","lunches","dinners"];
+const SHARE_FIELDS=["adults","kids","kidPortion","shopDay","store","src","nb","nl","nd","ns","ne","bf","lunches","dinners","snacks","desserts"];
 const b64enc=t=>btoa(unescape(encodeURIComponent(t))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const b64dec=t=>{t=t.replace(/-/g,"+").replace(/_/g,"/"); while(t.length%4) t+="="; return decodeURIComponent(escape(atob(t)));};
 function weekCode(){
@@ -1445,7 +1504,7 @@ function readWeekCode(raw){
     if(!code||code.length>8000) return null;
     const o=JSON.parse(b64dec(code)); if(!o||typeof o!=="object"||o.v!==1) return null;
     let sent=0;
-    for(const m of MK){const a=o[MEALS[m].arr]; if(!Array.isArray(a)) return null;
+    for(const m of MK){let a=o[MEALS[m].arr]; if(a==null&&(m==="s"||m==="e")) a=[]; /* links from before snacks */ if(!Array.isArray(a)) return null;
       o[MEALS[m].arr]=a.slice(0,7).map(x=>{const id=Array.isArray(x)?x[0]:x; if(typeof id!=="string") return null; sent++; return {r:id,double:Array.isArray(x)&&x[1]===1};});}
     const data=normalize(o); let meals=0;
     for(const m of MK) meals+=data[MEALS[m].arr].filter(Boolean).length;
