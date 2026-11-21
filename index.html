@@ -102,6 +102,7 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .disc-list{margin:0;padding-left:18px;font-size:14.5px;display:grid;gap:2px}
 .disc-all{display:grid;gap:8px;margin-top:8px;font-size:14px}
 .disc-all ul{margin:2px 0 0;padding-left:18px}
+.chip .x{border:0;background:transparent;font-size:18px;line-height:1;cursor:pointer;padding:0 0 0 6px;color:inherit;min-width:32px;min-height:32px}
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .day-t{min-height:44px;border:1.5px solid var(--line);background:transparent;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);padding:0}
 .day-t[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
@@ -1154,6 +1155,48 @@ R.push(
   kid:"Everything here is finger food for her: cut the chicken into long soft strips she can hold, the sweet potato into wedges and the broccoli into trees with stalks for handles. Season hers with garlic powder only.",
   steps:["Cut the chicken thighs into strips and the sweet potato into wedges.","Toss with oil and garlic powder, set hers aside, and add paprika to the rest.","Roast the sweet potato at 425°F for 15 minutes, then add the chicken and broccoli for 15 to 18 minutes, until the chicken reaches 165°F."]}
 );
+/* ---------- little chef and more asparagus ----------
+   Little chef snacks are jobs a toddler can do at a play kitchen with a grown-up: rinsing,
+   tearing, smashing, spreading, stirring, layering and snapping. Steps say who does what. */
+R.push(
+ {id:"chef-wash-dip",n:"Little chef: wash the berries and dip in yogurt",meal:"snack",t:5,tags:["Vegetarian","Little chef"],ing:{blueberry:2.5,yogurt:2},st:[],
+  kid:"Flatten the blueberries before she eats them. Rinsing in the colander is the fun part, so let her take her time.",
+  steps:["She: tip the blueberries into the colander and rinse them under the tap.","You: squash her blueberries flat on her plate.","She: spoon yogurt into a small bowl and dip."]},
+ {id:"chef-smash-avocado",n:"Little chef: smash avocado onto warm pita",meal:"snack",t:5,tags:["Plant-based","Vegetarian","Little chef"],ing:{avocado:.4,pita:.5,lemon:.05},st:[],
+  kid:"Cut the pita into strips she can hold. Ripe avocado mashes easily with a toddler fork.",
+  steps:["You: halve and pit the avocado and warm the pita.","She: scoop the avocado into a bowl and smash it with a fork, with a squeeze of lemon.","She: spread it on the pita strips with a wooden spreader."]},
+ {id:"chef-yogurt-layers",n:"Little chef: layer a yogurt and berry cup",meal:"snack",t:5,tags:["Vegetarian","Little chef"],ing:{yogurt:3,berries:2,oats:.1},st:["cinnamon"],
+  kid:"Thaw and mash the berries first so there are no whole ones, and use soft oats or skip them.",
+  steps:["You: thaw the berries and mash them a little.","She: spoon yogurt, then berries, then a sprinkle of oats into a clear cup, and repeat.","She: shake on a little cinnamon."]},
+ {id:"chef-hummus-stacks",n:"Little chef: spread hummus on cucumber rounds",meal:"snack",t:5,tags:["Plant-based","Vegetarian","Little chef"],ing:{cucumber:2,hummus:1.5},st:[],
+  kid:"Peel the cucumber and cut thin rounds so they are easy to bite.",
+  steps:["You: peel the cucumber and slice it into thin rounds.","She: spread hummus on each round with a wooden spreader and stack them."]},
+ {id:"chef-pita-pizzas",n:"Little chef: mini pita pizzas with spinach",meal:"snack",t:15,tags:["Vegetarian","Little chef"],ing:{pita:.5,marinara:1.5,cheese:.75,spinach:.5},st:["dried oregano"],
+  kid:"Let them cool before she eats, and cut into small strips. Chop the spinach fine.",
+  steps:["She: spoon sauce onto the pita and spread it with the back of the spoon.","She: sprinkle the cheese and chopped spinach on top.","You: bake at 400°F for 8 minutes until the cheese melts."]},
+ {id:"chef-tear-salad",n:"Little chef: tear-and-toss salad",meal:"snack",t:5,tags:["Plant-based","Vegetarian","Little chef"],ing:{romaine:.4,cucumber:1.5,tomato:2,lemon:.1},st:["extra virgin olive oil"],
+  kid:"Raw lettuce is hard for her to chew, so the tearing is her job and the soft cucumber and quartered tomatoes are her plate.",
+  steps:["She: wash the lettuce leaves in the colander and tear them into a bowl.","You: quarter the tomatoes and peel and slice the cucumber.","She: add them and toss with a little olive oil and lemon."]},
+ {id:"chef-banana-coins",n:"Little chef: banana coins with a peanut butter dip",meal:"snack",t:5,tags:["Vegetarian","Little chef"],ing:{banana:.75,pb:.2,yogurt:1},st:[],
+  kid:"A wooden or crinkle cutter slices banana safely. Stir the peanut butter into yogurt so it is thin, never by the spoonful.",
+  steps:["She: peel the banana and slice it into coins with her cutter.","You: stir the peanut butter into the yogurt until thin.","She: dip the coins."]},
+ {id:"chef-asparagus-snap",n:"Little chef: snap-and-roast asparagus fries",meal:"snack",t:15,tags:["Plant-based","Vegetarian","Little chef"],ing:{asparagus:.2},st:["extra virgin olive oil","garlic powder"],
+  kid:"Roast until very soft and give her the tender tips first. Snapping the ends is a satisfying job for little hands.",
+  steps:["She: snap the woody end off each spear where it breaks naturally.","She: toss the spears with a little oil and garlic powder in a bowl.","You: roast at 425°F for 8 to 10 minutes until tender."]},
+/* asparagus */
+ {id:"asparagus-egg-breakfast",n:"Roasted asparagus with scrambled eggs and toast",meal:"breakfast",t:15,tags:["Vegetarian"],ing:{eggs:1.5,asparagus:.2,pita:.5},st:["extra virgin olive oil","black pepper"],
+  kid:"Cook her egg through and give her the soft asparagus tips cut small.",
+  steps:["Roast the asparagus with oil at 425°F for 8 minutes.","Scramble the eggs softly.","Serve with warm pita and pepper for the adults."]},
+ {id:"asparagus-soup",n:"Creamy asparagus and potato soup with lemon",meal:"lunch",t:30,tags:["Vegetarian","Freezes well","One pot"],ing:{asparagus:.35,potato:.2,onion:.2,yogurt:.5,lemon:.1},st:["extra virgin olive oil","garlic","black pepper"],
+  kid:"Made with water and no salt, it blends smooth for her.",
+  steps:["Soften the onion and garlic in a little oil.","Add the diced potato and water to cover and simmer 10 minutes.","Add the chopped asparagus and simmer 5 minutes more.","Blend with the yogurt and lemon until smooth. Freeze single portions."]},
+ {id:"shrimp-asparagus-stirfry",n:"Shrimp and asparagus stir-fry with ginger and brown rice",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Chinese"],ing:{shrimp:.3,asparagus:.3,pepper:.3,rice:.33},st:["low-sodium soy sauce","fresh ginger","garlic","sesame oil"],
+  kid:"Chop her shrimp small, cook the asparagus until soft, and take her portion out before the soy sauce.",
+  steps:["Start the rice. Thaw the shrimp in cold water for 15 minutes.","Stir-fry the asparagus and pepper with ginger and garlic for 4 minutes.","Add the shrimp and cook 3 minutes until pink.","Take out her portion, then season the rest with soy sauce and sesame oil."]},
+ {id:"chicken-asparagus-pasta",n:"Lemon chicken pasta with asparagus and peas",meal:"dinner",t:20,tags:["Italian"],ing:{pasta:2.5,rotis:.12,asparagus:.3,mixveg:1.5,lemon:.25,cheese:.5},st:["garlic","extra virgin olive oil","black pepper"],
+  kid:"Cut her pasta short and the asparagus small and soft, and give her skinless rotisserie breast meat shredded fine.",
+  steps:["Boil the pasta, adding the cut asparagus and frozen vegetables for the last 3 minutes.","Warm garlic in olive oil and add shredded rotisserie chicken, skin off.","Toss everything with lemon juice, cheese and a splash of pasta water, with pepper for the adults."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1198,6 +1241,9 @@ const AFX={
  "lemon-herb-chicken":[["Toss potato chunks","Toss potato chunks with oil, garlic, oregano and lemon juice and air fry at 400°F for 15 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs at 380°F for 18 to 20 minutes, to 165°F."],["Add the asparagus","Air fry the asparagus for 5 to 6 minutes, then add the potatoes back to warm through."]],
  "salmon-asparagus":[["Roast at 425°F","Air fry the salmon and asparagus at 400°F for 8 to 10 minutes."]],
  "finger-food-plate":[["Roast the sweet potato","Air fry the sweet potato at 400°F for 12 minutes, then the chicken and broccoli at 380°F for 12 to 14 minutes, until the chicken reaches 165°F."]],
+ "chef-pita-pizzas":[["You: bake at 400°F","You: air fry at 350°F for 5 to 6 minutes until the cheese melts."]],
+ "chef-asparagus-snap":[["You: roast at 425°F","You: air fry at 400°F for 6 to 8 minutes until tender."]],
+ "asparagus-egg-breakfast":[["Roast the asparagus","Air fry the asparagus with a little oil at 400°F for 6 minutes."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1315,7 +1361,7 @@ const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<M
 const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
 const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
 const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",rotis:true,prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",rotis:true,stock:{},chef:true,prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),snacks:Array(7).fill(null),desserts:Array(7).fill(null),sips:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -1326,7 +1372,8 @@ function normalize(d){
   s.kidPortion=own(KID_PORTIONS,d.kidPortion)&&Number.isInteger(d.kidPortion)?d.kidPortion:25;
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,m==="p"?3:2);
-  s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air"; s.rotis=d.rotis!==false;
+  s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air"; s.rotis=d.rotis!==false; s.chef=d.chef!==false;
+  s.stock={}; if(d.stock&&typeof d.stock==="object") for(const k of Object.keys(d.stock)) if(own(I,k)&&d.stock[k]===true) s.stock[k]=true;
   s.life={}; if(d.life&&typeof d.life==="object") for(const k of Object.keys(d.life)){if(own(I,k)&&I[k].life!=null){const v=int(d.life[k],1,60,I[k].life); if(v!==I[k].life) s.life[k]=v;}}
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
   s.tune={}; if(d.tune&&typeof d.tune==="object") for(const t of TUNE){if(!t.k) continue; const v=d.tune[t.k];
@@ -1402,7 +1449,9 @@ function storeFor(k,need){
 }
 function plan(){
   const {T,st}=totals(), lines=[], missing=[];
-  for(const k of Object.keys(T)){const s=storeFor(k,T[k]); if(!s){missing.push(k);continue;} const p=packsAt(k,T[k],s); lines.push({k,s,p,tot:p*I[k][s].q,need:T[k]});}
+  for(const k of Object.keys(T)){const s=storeFor(k,T[k]); if(!s){missing.push(k);continue;} const p=packsAt(k,T[k],s); lines.push({k,s,p,tot:p*I[k][s].q,need:T[k],stock:!!S.stock[k]});}
+  /* kept stocked: one pack even when no planned recipe needs it */
+  for(const k of Object.keys(S.stock||{})){if(k in T) continue; const s=storeFor(k,0); if(!s){missing.push(k);continue;} lines.push({k,s,p:1,tot:I[k][s].q,need:0,stock:true});}
   return {T,st,lines,missing};
 }
 function avail(r){
@@ -1473,6 +1522,7 @@ function pickMeals(m,n,chosen,bonus){
       }
       if(seen[r.id]) s-=tw("repeat")*REPEAT_COST[m]*seen[r.id];
       for(const k in r.ing){const ww=wasteW(k); if(ww){const had=T[k]||0; s-=1.2*tw("waste")*ww*(leftPacks(k,had+r.ing[k]*P())-leftPacks(k,had));}}
+      if(m==="s"&&S.chef&&r.tags.includes("Little chef")) s+=1.2;
       if(bonus) s+=bonus(r,i);
       return [s,r];}).sort((p,q)=>q[0]-p[0]);
     const r=sc[0][1]; out.push(r); seen[r.id]=(seen[r.id]||0)+1; chosen.push(r);
@@ -1683,7 +1733,7 @@ function glyph(ing){
 const legend=()=>`<div class="legend" aria-label="Plate colors">${Object.keys(ROLE_LBL).map(k=>`<span><i style="background:var(--r-${k})"></i>${ROLE_LBL[k]}</span>`).join("")}</div>`;
 
 function renderStatus(){
-  const {T}=totals(); const ids=Object.keys(T);
+  const ids=plan().lines.map(l=>l.k);
   const left=ids.filter(k=>!S.checked[k]).length;
   const sy=$("#sync"); if(sy) sy.textContent=syncMsg+".";
   const gl=$("#grab"); if(gl) gl.textContent=`${left} of ${ids.length} items to grab.`;
@@ -1800,6 +1850,15 @@ function viewProfile(){
       <div class="field">Chicken<div class="choices three" role="group" aria-label="Chicken" style="grid-template-columns:repeat(2,1fr)">${[[true,"Rotisserie when it works"],[false,"Raw"]].map(([v,l])=>`<button class="choice" id="rotis-${v?"on":"off"}" data-act="rotis" data-v="${v}" aria-pressed="${S.rotis===v}"><b>${l}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">Bowls, salads, wraps, soups and stir-fries use shredded Costco rotisserie chicken instead of raw. Recipes stay on raw chicken when you shop only at Trader Joe's.</span></div>
     </div>
     <div class="card stack">
+      <h3>Play kitchen and keep-stocked items</h3>
+      <div class="field">Little chef snacks<div class="choices three" role="group" aria-label="Little chef snacks" style="grid-template-columns:repeat(2,1fr)">${[[true,"Favor them"],[false,"No preference"]].map(([v,l])=>`<button class="choice" id="chef-${v?"on":"off"}" data-act="chef" data-v="${v}" aria-pressed="${S.chef===v}"><b>${l}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">When you plan snacks, the planner leans toward ones she can help make at her play kitchen.</span></div>
+      <div class="field">Always on the shopping list
+        <div class="row">${Object.keys(S.stock).map(k=>`<span class="chip plain">${nm(k)} <button class="x" id="unstock-${k}" data-act="unstock" data-id="${k}" aria-label="Remove ${nm(k)}">×</button></span>`).join("")||`<span class="meta" style="font-weight:400">Nothing yet.</span>`}</div>
+        <select id="stock-add" data-act="stock"><option value="">Add an item…</option>${Object.keys(I).filter(k=>!S.stock[k]).sort((a,b)=>nm(a).localeCompare(nm(b))).map(k=>`<option value="${k}">${nm(k)}</option>`).join("")}</select>
+        <span class="meta" style="font-weight:400">One pack of each goes on the list every week, even if no planned recipe uses it. Good for her play kitchen recipes and the snack shelf.</span>
+        <button class="btn ghost" id="stock-basics" data-act="stock-basics" style="width:max-content">Add play kitchen basics</button></div>
+    </div>
+    <div class="card stack">
       <h3>How often a recipe can repeat</h3>
       <p class="meta" style="margin:0">The most times one recipe can show up in a week. More repeats means less cooking and less waste.</p>
       ${repControls()}
@@ -1880,9 +1939,9 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["dozen","Daily Dozen"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["chef","Little chef"],["dozen","Daily Dozen"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="chef"&&r.tags.includes("Little chef"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
   const inCuisine=r=>cuisine==="all"||r.tags.includes(cuisine);
   const shown=R.filter(r=>avail(r)&&match(r)&&inCuisine(r)).sort((a,b)=>RORDER[a.id]-RORDER[b.id]), hidden=R.filter(r=>!avail(r)&&match(r)&&inCuisine(r)).length;
   const cards=shown.map(r=>{
@@ -1936,12 +1995,12 @@ function itemRow(l,planned){
     <div class="placard" aria-hidden="true"><b>${l.p}</b><span>${unit}</span></div>
     <div class="info"><h3><label for="chk-${k}">${sd.n}</label></h3><div class="meta">${sd.loose?"Sold individually":`Buy ${l.p} × ${sd.pack}`}</div>
       <div class="use" role="img" aria-label="${pct}% of what you buy is used this week"><i style="width:${pct}%"></i></div>
-      <div class="nums">This week uses <b>${fq(l.need,it.u)}</b>, ${pct}% of what you buy.${pct<95&&!/^0\b/.test(fq(over,it.u,1))?` About ${fq(over,it.u,1)} left over.`:""}</div>
-      ${pct<95?`<div class="meta">${sd.left||it.left}</div>`:""}${ideas}${swap}${storeInfo(k)}</div></div>`;
+      ${l.need?`<div class="nums">This week uses <b>${fq(l.need,it.u)}</b>, ${pct}% of what you buy.${pct<95&&!/^0\b/.test(fq(over,it.u,1))?` About ${fq(over,it.u,1)} left over.`:""}${l.stock?" Also on your keep-stocked list.":""}</div>`:`<div class="nums">On your keep-stocked list.</div>`}
+      ${pct<95&&l.need?`<div class="meta">${sd.left||it.left}</div>`:""}${ideas}${swap}${storeInfo(k)}</div></div>`;
 }
 function viewShop(){
   const {T,st,lines,missing}=plan();
-  if(!Object.keys(T).length) return `<section class="stack"><h2>Shopping list</h2><p class="lead">Your week is empty. Add a few recipes and the list builds itself.</p><a class="btn primary" href="#recipes" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Browse recipes</a></section>`;
+  if(!lines.length&&!missing.length) return `<section class="stack"><h2>Shopping list</h2><p class="lead">Your week is empty. Add a few recipes and the list builds itself.</p><a class="btn primary" href="#recipes" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Browse recipes</a></section>`;
   const planned=new Set(slots().map(s=>s.x.r));
   const stores=S.store==="both"?["c","t"]:[S.store];
   let html="";
@@ -1980,7 +2039,7 @@ function listText(){
     for(const cat of CATS){
       const rows=mine.filter(l=>I[l.k].cat===cat).sort((a,b)=>I[a.k][s].n.localeCompare(I[b.k][s].n)), left=[];
       rows.forEach(l=>{const sd=I[l.k][s]; if(S.checked[l.k]) got.push(sd.n);
-        else left.push(`- ${sd.n}: ${sd.loose?`${Math.ceil(l.need-1e-6)} loose`:`${l.p} x ${sd.pack}`} (this week uses ${fq(l.need,I[l.k].u)})`);});
+        else left.push(`- ${sd.n}: ${sd.loose?`${Math.max(1,Math.ceil(l.need-1e-6))} loose`:`${l.p} x ${sd.pack}`} (${l.need?`this week uses ${fq(l.need,I[l.k].u)}`:"kept stocked"})`);});
       if(left.length) out.push(cat,...left);
     }
   }
@@ -2092,6 +2151,10 @@ function act(el,ev){
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
   else if(a==="cook"){S.cook=el.dataset.v;}
   else if(a==="rotis"){S.rotis=el.dataset.v==="true";}
+  else if(a==="chef"){S.chef=el.dataset.v==="true";}
+  else if(a==="stock"){if(ev.type!=="change"||!el.value) return; S.stock[el.value]=true;}
+  else if(a==="unstock"){delete S.stock[el.dataset.id];}
+  else if(a==="stock-basics"){for(const k of ["banana","blueberry","yogurt","avocado","cucumber","hummus","pita","cheese","oats"]) S.stock[k]=true; toast("Play kitchen basics added");}
   else if(a==="kidp"){S.kidPortion=+el.dataset.v;}
   else if(a==="rep"){S.rep[m]=+el.dataset.v;}
   else if(a==="prep"){S.prepDays^=1<<(+el.dataset.w);}
@@ -2101,7 +2164,7 @@ function act(el,ev){
   else if(a==="tune-reset"){S.tune={}; toast("Planner settings back to defaults");}
   else if(a==="import-yes"){if(!incoming) return; for(const f of SHARE_FIELDS) S[f]=incoming.data[f]; S.setup=true; S.checked={}; incoming=null; dropWeekQuery(); toast("Shared week loaded");}
   else return;
-  const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(k.startsWith("st:")?!st.includes(k.slice(3)):!(k in T)) delete S.checked[k];
+  const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(k.startsWith("st:")?!st.includes(k.slice(3)):!(k in T)&&!S.stock[k]) delete S.checked[k];
   persist(); render();
 }
 document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el){act(el,e); return;}
