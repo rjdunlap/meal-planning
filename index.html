@@ -90,6 +90,11 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .choice{text-align:left;border:1.5px solid var(--line);background:transparent;border-radius:12px;padding:10px 12px;min-height:44px;cursor:pointer;display:flex;flex-direction:column;gap:2px;color:var(--ink);font-size:14.5px}
 .choice span{font-size:13px;color:var(--muted);font-weight:400}
 .choice[aria-pressed="true"]{border-color:var(--brand);background:var(--soft);box-shadow:inset 0 0 0 1px var(--brand)}
+.tune-g{margin:8px 0 0;font:600 13px/1.2 var(--body);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.tune{display:flex;flex-direction:column;gap:4px;padding:6px 0;border-top:1px solid var(--line)}
+.tune label{display:flex;justify-content:space-between;gap:10px;font-weight:600;font-size:14.5px}
+.tune output{font-variant-numeric:tabular-nums;color:var(--brand);white-space:nowrap}
+.tune input[type=range]{width:100%;min-height:44px;accent-color:var(--brand);margin:0}
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .day-t{min-height:44px;border:1.5px solid var(--line);background:transparent;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);padding:0}
 .day-t[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
@@ -643,7 +648,37 @@ const defM=r=>r.meal==="breakfast"?"b":r.meal==="lunch"?"l":"d";
 /* Family profile. kidPortion is the share of an adult portion in percent, repeats is
    "none", "lunch" or "any", and prepDays is a bitmask of weekdays (bit 0 Sunday, 62 = Monday to Friday). */
 const KID_PORTIONS={25:"A quarter",33:"A third",50:"A half"}, REPEATS=["none","lunch","any"];
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,repeats:"any",prepDays:62,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
+/* Planner tuning. Each slider's default is the value the planner was built with; S.tune keeps
+   only the ones someone changed. Weights are points in a recipe's score, where the random
+   "surprise" adds up to 1.2. */
+const TUNE=[
+ {g:"What a week favors"},
+ {k:"waste",label:"Use up fresh food",min:0,max:3,step:.1,def:1,u:"x",help:"How hard the planner works to finish the packs you buy."},
+ {k:"protein",label:"Spread proteins across the week",min:0,max:2.5,step:.1,def:.9,help:"Points off each time a protein is already planned."},
+ {k:"fish",label:"Include fish",min:0,max:3,step:.1,def:1.2,help:"Points for the first fish meal. At Off, a week can have no fish."},
+ {k:"plant",label:"Include a plant-based meal",min:0,max:2,step:.1,def:.9,help:"Points for the first bean, lentil or tofu meal."},
+ {k:"prep",label:"Breakfast shares prep with lunch",min:0,max:1.5,step:.05,def:.5,help:"Points per ingredient a prep-day breakfast shares with that day's lunch."},
+ {k:"repeat",label:"Cost of repeating a recipe",min:0,max:3,step:.1,def:1,u:"x",help:"Only when repeats are allowed above. Higher means fewer repeats."},
+ {k:"dinnerLunch",label:"Avoid a dinner again as lunch",min:0,max:2,step:.1,def:.4,help:"Points off a lunch that is already one of the week's dinners."},
+ {k:"realLunch",label:"Prefer lunch recipes for lunch",min:0,max:2,step:.1,def:.8,help:"Points for a lunch recipe over a dinner that works as lunch."},
+ {k:"quickLunch",label:"Prefer lunches ready in 20 minutes",min:0,max:1.5,step:.1,def:.4,help:"Points for a quick lunch."},
+ {k:"longDinner",label:"Longest easy dinner",min:20,max:90,step:5,def:45,u:"min",help:"Dinners that take longer than this lose points."},
+ {g:"How the planner searches"},
+ {k:"random",label:"Surprise",min:0,max:3,step:.1,def:1.2,help:"Random points per recipe. Higher gives more variety, lower sticks to the best fit."},
+ {k:"tries",label:"Weeks tried per shuffle",min:1,max:80,step:1,def:30,u:"",help:"More tries find better weeks but take a little longer."},
+ {k:"band",label:"How close to the best week",min:0,max:2,step:.1,def:.6,help:"Picks at random among weeks scoring this close to the best. 0 always takes the best."},
+ {g:"What counts as waste"},
+ {k:"spoil",label:"Counts as fresh if it keeps up to",min:3,max:30,step:1,def:14,u:"days",help:"Food that keeps longer is not counted as waste."},
+ {k:"frozen",label:"Leftovers you can freeze count as",min:0,max:100,step:5,def:35,u:"%",help:"Share of waste counted for food that freezes well."},
+ {g:"Shopping list"},
+ {k:"storeSwitch",label:"Buy at Trader Joe's when it wastes less by",min:0,max:100,step:5,def:15,u:"%",help:"In Both stores mode, for fresh food. Measured against what the week needs."},
+ {k:"ideas",label:"Suggest recipes for items used under",min:0,max:100,step:5,def:60,u:"%",help:"Shows ideas to use up a fresh item the week barely uses."},
+ {k:"extra",label:"Flag extra packs over",min:0,max:100,step:5,def:25,u:"%",help:"On the week page, mentions meat and fish left over beyond this share of a pack."}
+];
+const TUNEX=Object.fromEntries(TUNE.filter(t=>t.k).map(t=>[t.k,t]));
+const tw=k=>own(S.tune||{},k)?S.tune[k]:TUNEX[k].def;
+const tuneFmt=(t,v)=>t.u==="x"?(v?(+v.toFixed(2))+"×":"Off"):t.u==="%"||t.u==="min"||t.u==="days"?`${v}${t.u==="%"?"%":" "+t.u}`:t.u===""?String(v):(v?String(+v.toFixed(2)):"Off");
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,repeats:"any",prepDays:62,tune:{},shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -653,6 +688,9 @@ function normalize(d){
   s.nb=int(d.nb,0,7,7); s.nl=int(d.nl,0,7,5); s.nd=int(d.nd,0,7,5);
   s.kidPortion=own(KID_PORTIONS,d.kidPortion)&&Number.isInteger(d.kidPortion)?d.kidPortion:25;
   s.repeats=REPEATS.includes(d.repeats)?d.repeats:"any"; s.prepDays=int(d.prepDays,0,127,62);
+  s.tune={}; if(d.tune&&typeof d.tune==="object") for(const t of TUNE){if(!t.k) continue; const v=d.tune[t.k];
+    if(typeof v!=="number"||!isFinite(v)) continue;
+    const c=+(Math.round((Math.min(t.max,Math.max(t.min,v))-t.min)/t.step)*t.step+t.min).toFixed(4); if(c!==t.def) s.tune[t.k]=c;}
   s.store=d.store==="c"||d.store==="t"||d.store==="both"?d.store:"both";
   s.src={}; if(d.src&&typeof d.src==="object") for(const k of Object.keys(d.src)){const v=d.src[k]; if(own(I,k)&&(v==="c"||v==="t")&&I[k][v]) s.src[k]=v;}
   for(const m of MK){const a=d[MEALS[m].arr];
@@ -713,9 +751,9 @@ function storeFor(k,need){
   if(m==="c"||m==="t") return it[m]?m:null;
   if(!it.t) return it.c?"c":null; if(!it.c) return "t";
   if(S.src[k]) return S.src[k];
-  if(it.life!=null&&it.life<=14&&need>0){
+  if(it.life!=null&&it.life<=tw("spoil")&&need>0){
     const w=s=>(packsAt(k,need,s)*it[s].q-need)/need;
-    if(w("t")<w("c")-.15) return "t";
+    if(w("t")<w("c")-tw("storeSwitch")/100) return "t";
   }
   return "c";
 }
@@ -764,7 +802,7 @@ const protGroup=r=>{const k=Object.keys(r.ing);
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
 /* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
    packs; freezable items count about a third, since the rest can go in the freezer. */
-const wasteW=k=>{const it=I[k]; return it.life==null||it.life>14?0:it.fz?.35:1;};
+const wasteW=k=>{const it=I[k]; return it.life==null||it.life>tw("spoil")?0:it.fz?tw("frozen")/100:1;};
 function leftPacks(k,need){if(need<=0) return 0; const s=storeFor(k,need); if(!s) return 0; const q=I[k][s].q; return Math.max(0,packsAt(k,need,s)*q-need)/q;}
 function wasteOf(T){let w=0; for(const k in T){const ww=wasteW(k); if(ww) w+=ww*leftPacks(k,T[k]);} return w;}
 function needOf(rs){const T={}; for(const r of rs) for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*P(); return T;}
@@ -780,16 +818,16 @@ function pickMeals(m,n,chosen,bonus){
     if(!cand.length) break;
     const T=needOf(chosen);
     const sc=cand.map(r=>{
-      let s=Math.random()*1.2; const g=protGroup(r);
+      let s=Math.random()*tw("random"); const g=protGroup(r);
       if(m!=="b"){
-        if(!seen[r.id]) s-=chosen.filter(x=>protGroup(x)===g&&x.meal!=="breakfast").length*(g==="other"?.3:.9);
-        if(g==="fish"&&!chosen.some(x=>protGroup(x)==="fish")) s+=1.2;
-        if(g==="plant"&&n>=4&&!chosen.some(x=>protGroup(x)==="plant")) s+=.9;
-        if(!seen[r.id]&&chosen.some(x=>x.id===r.id)) s-=.4;
-        if(m==="l"){ if(r.meal==="lunch") s+=.8; if(r.t<=20) s+=.4; } else if(r.t>45) s-=.8;
+        if(!seen[r.id]) s-=chosen.filter(x=>protGroup(x)===g&&x.meal!=="breakfast").length*(g==="other"?tw("protein")/3:tw("protein"));
+        if(g==="fish"&&!chosen.some(x=>protGroup(x)==="fish")) s+=tw("fish");
+        if(g==="plant"&&n>=4&&!chosen.some(x=>protGroup(x)==="plant")) s+=tw("plant");
+        if(!seen[r.id]&&chosen.some(x=>x.id===r.id)) s-=tw("dinnerLunch");
+        if(m==="l"){ if(r.meal==="lunch") s+=tw("realLunch"); if(r.t<=20) s+=tw("quickLunch"); } else if(r.t>tw("longDinner")) s-=.8;
       }
-      if(seen[r.id]) s-=REPEAT_COST[m]*seen[r.id];
-      for(const k in r.ing){const ww=wasteW(k); if(ww){const had=T[k]||0; s-=1.2*ww*(leftPacks(k,had+r.ing[k]*P())-leftPacks(k,had));}}
+      if(seen[r.id]) s-=tw("repeat")*REPEAT_COST[m]*seen[r.id];
+      for(const k in r.ing){const ww=wasteW(k); if(ww){const had=T[k]||0; s-=1.2*tw("waste")*ww*(leftPacks(k,had+r.ing[k]*P())-leftPacks(k,had));}}
       if(bonus) s+=bonus(r,i);
       return [s,r];}).sort((p,q)=>q[0]-p[0]);
     const r=sc[0][1]; out.push(r); seen[r.id]=(seen[r.id]||0)+1; chosen.push(r);
@@ -817,7 +855,7 @@ function genOnce(){
   const chosen=[];
   const set=(m,a)=>{arr(m).fill(null); a.forEach((r,i)=>arr(m)[i]={r:r.id,double:false});};
   set("d",pickMeals("d",S.nd,chosen)); set("l",pickMeals("l",S.nl,chosen)); orderByFreshness();
-  set("b",pickMeals("b",S.nb,chosen,(r,i)=>Math.min(1.5,.5*prepShared(i,r).length))); pairBreakfasts();
+  set("b",pickMeals("b",S.nb,chosen,(r,i)=>Math.min(3*tw("prep"),tw("prep")*prepShared(i,r).length))); pairBreakfasts();
 }
 /* Lower is better: fresh food left over, the same protein too often, no fish dinner,
    and weekday breakfasts that share no prep with lunch. */
@@ -827,14 +865,14 @@ function weekScore(){
   const cap=Math.max(2,Math.ceil(main.length/3)), over=Object.values(g).reduce((a,n)=>a+Math.max(0,n-cap),0);
   const noFish=S.nd&&!sl.some(s=>s.m==="d"&&protGroup(RX[s.x.r])==="fish")?1:0;
   let pairs=0; sl.forEach(s=>{if(s.m==="b") pairs+=Math.min(2,prepShared(s.i,RX[s.x.r]).length);});
-  return wasteOf(totals().T)+.8*over+3*noFish-.35*pairs;
+  return tw("waste")*wasteOf(totals().T)+.8*over+2.5*tw("fish")*noFish-.7*tw("prep")*pairs;
 }
 function genWeek(){
   if(!S.nb&&!S.nl&&!S.nd){toast("Set at least one meal to plan first."); return false;}
   /* Keep a random one of the near-best tries, so shuffling still brings new recipes. */
   const tries=[];
-  for(let t=0;t<30;t++){genOnce(); tries.push([weekScore(),MK.map(m=>arr(m).map(x=>x&&{...x}))]);}
-  const lo=Math.min(...tries.map(x=>x[0])), good=tries.filter(x=>x[0]<=lo+.6), pick=good[Math.floor(Math.random()*good.length)][1];
+  for(let t=0;t<tw("tries");t++){genOnce(); tries.push([weekScore(),MK.map(m=>arr(m).map(x=>x&&{...x}))]);}
+  const lo=Math.min(...tries.map(x=>x[0])), good=tries.filter(x=>x[0]<=lo+tw("band")), pick=good[Math.floor(Math.random()*good.length)][1];
   MK.forEach((m,j)=>pick[j].forEach((x,i)=>arr(m)[i]=x));
   return true;
 }
@@ -980,6 +1018,12 @@ function viewProfile(){
       <p class="meta" style="margin:0">On these days you make lunch alongside breakfast, so the planner picks breakfasts that share ingredients with that day's lunch.</p>
       <div class="days" role="group" aria-label="Prep days">${DAYS_MON.map(w=>`<button class="day-t" id="prep-${w}" data-act="prep" data-w="${w}" aria-pressed="${!!(S.prepDays>>w&1)}" aria-label="${DAYL[w]}">${DAYS[w]}</button>`).join("")}</div>
     </div>
+    <div class="card stack">
+      <h3>Fine-tune the planner</h3>
+      <p class="meta" style="margin:0">Every slider starts at the value the planner was built with. Changes apply the next time you generate or shuffle a week.</p>
+      ${TUNE.map(t=>t.g?`<h4 class="tune-g">${t.g}</h4>`:`<div class="tune"><label for="tn-${t.k}"><span>${t.label}</span><output id="tno-${t.k}" for="tn-${t.k}">${tuneFmt(t,tw(t.k))}</output></label><input type="range" id="tn-${t.k}" data-act="tune" data-k="${t.k}" min="${t.min}" max="${t.max}" step="${t.step}" value="${tw(t.k)}"><span class="meta">${t.help} Default: ${tuneFmt(t,t.def)}.</span></div>`).join("")}
+      <button class="btn ghost" id="tune-reset" data-act="tune-reset" style="width:max-content" ${Object.keys(S.tune).length?"":"disabled"}>Reset all to defaults</button>
+    </div>
     <a class="btn primary" href="#week" id="profile-done" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Back to your week</a>
   </section>`;
 }
@@ -992,7 +1036,7 @@ function viewWeek(){
     slots().forEach(({m,i,x})=>{if(RX[x.r].ing[k]&&i>it.life){lateQ+=RX[x.r].ing[k]*P()*(x.double?2:1); lateDays.push(dayName(i,true));}});
     if(lateQ) prep.push(`Freeze ${fq(lateQ,it.u)} of ${it.s} for ${list([...new Set(lateDays)])}. Move it to the fridge the night before.`);
     const over=packsAt(k,T[k],s)*I[k][s].q-T[k];
-    if(over/I[k][s].q>.25) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} is more than this week needs. ${I[k][s].left||it.left}`);
+    if(over/I[k][s].q>tw("extra")/100) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} is more than this week needs. ${I[k][s].left||it.left}`);
   }
   const maxN=Math.max(S.nb,S.nl,S.nd); let days="";
   for(let i=0;i<maxN;i++){
@@ -1066,7 +1110,7 @@ function applySearch(){
 function itemRow(l,planned){
   const k=l.k, it=I[k], sd=it[l.s], pct=Math.min(100,Math.round(l.need/l.tot*100)), over=l.tot-l.need;
   let ideas="";
-  if(it.life!=null&&it.life<=14&&pct<60){const more=R.filter(r=>r.ing[k]&&!planned.has(r.id)&&avail(r)).slice(0,2);
+  if(it.life!=null&&it.life<=tw("spoil")&&pct<tw("ideas")){const more=R.filter(r=>r.ing[k]&&!planned.has(r.id)&&avail(r)).slice(0,2);
     if(more.length) ideas=`<div class="row"><span class="meta">Use more of it:</span>${more.map(r=>`<button class="btn small ghost" id="idea-${k}-${r.id}" data-act="add" data-id="${r.id}">+ ${r.n}</button>`).join("")}</div>`;}
   const other=l.s==="c"?"t":"c";
   const swap=S.store==="both"&&it.c&&it.t?`<div class="row"><button class="btn small ghost" id="swap-${k}" data-act="swap" data-id="${k}">Buy at ${STORE_LBL[other]} instead</button></div>`:"";
@@ -1204,6 +1248,8 @@ function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on")
 function act(el,ev){
   const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
+  if(a==="tune"){if(ev.type!=="change") return; const t=TUNEX[el.dataset.k], v=+el.value; if(v===t.def) delete S.tune[t.k]; else S.tune[t.k]=v;
+    const rb=$("#tune-reset"); if(rb) rb.disabled=!Object.keys(S.tune).length; persist(); return;}
   if(a==="share"){
     const text=listText();
     navigator.share({title:"Shopping list",text}).catch(e=>{if(!e||e.name!=="AbortError") copyText(text);});
@@ -1233,6 +1279,7 @@ function act(el,ev){
   else if(a==="prep"){S.prepDays^=1<<(+el.dataset.w);}
   else if(a==="check"){if(ev.type!=="change") return; if(el.checked) S.checked[el.dataset.id]=true; else delete S.checked[el.dataset.id];}
   else if(a==="uncheck"){S.checked={};}
+  else if(a==="tune-reset"){S.tune={}; toast("Planner settings back to defaults");}
   else if(a==="import-yes"){if(!incoming) return; for(const f of SHARE_FIELDS) S[f]=incoming.data[f]; S.checked={}; incoming=null; dropWeekQuery(); toast("Shared week loaded");}
   else return;
   const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(k.startsWith("st:")?!st.includes(k.slice(3)):!(k in T)) delete S.checked[k];
@@ -1240,7 +1287,8 @@ function act(el,ev){
 }
 document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el) act(el,e);});
 document.addEventListener("change",e=>{const el=e.target.closest("select[data-act],input[data-act]"); if(el) act(el,e);});
-document.addEventListener("input",e=>{if(e.target.id==="rq"){rsearch=e.target.value; applySearch();}});
+document.addEventListener("input",e=>{if(e.target.id==="rq"){rsearch=e.target.value; applySearch();}
+  if(e.target.dataset&&e.target.dataset.act==="tune"){const t=TUNEX[e.target.dataset.k], o=$("#tno-"+t.k); if(o) o.textContent=tuneFmt(t,+e.target.value);}});
 document.addEventListener("toggle",e=>{const el=e.target; if(el.dataset&&el.dataset.rid){if(el.open) openSet.add(el.dataset.rid); else openSet.delete(el.dataset.rid);}},true);
 window.addEventListener("hashchange",()=>{render(); window.scrollTo(0,0);});
 render();
