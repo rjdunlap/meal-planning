@@ -1077,6 +1077,20 @@ R.push(
   steps:["Brown the chicken pieces in a little oil.","Add the onion, pepper and garlic, then the rice, tomatoes, bay leaves, paprika and broth.","Cover and simmer until the rice is tender and a little soupy and the chicken reaches 165°F.","Finish with parsley."]}
 );
 for(const id of ["shawarma-bowl","shawarma-wraps","mezze-board","zeit-zaatar"]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes("Lebanese")) r.tags.push("Lebanese");}
+/* ---------- rotisserie chicken with garlic sauce ----------
+   Shredded rotisserie chicken warmed in toum, the Lebanese garlic sauce, store-bought or made
+   lighter at home with Greek yogurt in place of most of the oil. */
+R.push(
+ {id:"toum-chicken-plate",n:"Garlic rotisserie chicken (djej with toum) with rice, cucumber and tomato",meal:"dinner",t:20,tags:["No-cook protein","Lebanese"],ing:{rotis:.15,lemon:.3,rice:.33,cucumber:2,tomato:2},st:["toum (garlic sauce)","garlic","fresh parsley"],
+  kid:"Rotisserie chicken is salty, so give her breast meat without skin, shredded finely, and warm hers before the raw garlic goes in. Quarter the tomatoes and peel her cucumber.",
+  steps:["Use store-bought toum, like Trader Joe's Garlic Spread-Dip, or make a lighter one: blend 3 or 4 garlic cloves with lemon juice, then a few spoons of Greek yogurt and a spoon of olive oil.","Shred the chicken, skin off, and warm it in a pan with a splash of water. Take out her portion.","Stir in a few spoons of toum and warm through for a minute.","Serve over rice with cucumber, tomatoes, parsley and more toum at the table."]},
+ {id:"toum-chicken-wraps",n:"Garlic chicken wraps with toum, pickles and greens",meal:"lunch",t:10,tags:["No-cook protein","Lebanese"],ing:{rotis:.12,pita:.75,lemon:.2,cucumber:2,romaine:.4},st:["toum (garlic sauce)","pickled turnips or pickles, optional"],
+  kid:"Give her plain shredded breast meat without skin on soft pita, with peeled cucumber strips. Keep the raw garlic sauce and pickles for the adults.",
+  steps:["Warm the shredded chicken, skin off, with a spoon of toum and a squeeze of lemon.","Fill warm pita with chicken, romaine, cucumber and pickles and roll."]},
+ {id:"toum-chicken-potatoes",n:"Garlic chicken with toum and crispy potatoes (batata harra style)",meal:"dinner",t:35,tags:["Lebanese"],ing:{rotis:.15,potato:.4,lemon:.3,spinach:1.5},st:["toum (garlic sauce)","garlic","extra virgin olive oil","ground coriander","red pepper flakes","fresh cilantro or parsley"],
+  kid:"Take out her potatoes before the pepper flakes and mash them, and give her skinless breast meat shredded fine, warmed before the raw garlic sauce.",
+  steps:["Toss cubed potatoes with oil and coriander and roast at 425°F for 25 minutes. Set hers aside, then toss the rest with pepper flakes, garlic and cilantro.","Warm the shredded chicken with the spinach until wilted, then stir in some toum.","Serve the chicken over the potatoes with lemon."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1116,6 +1130,7 @@ const AFX={
  "miso-salmon-bowl":[["Set her piece of salmon aside","Set her piece of salmon aside plain, brush the rest with the miso, and air fry all of it at 400°F for 8 to 10 minutes."]],
  "vietnamese-chicken-bowl":[["Roast at 425°F","Air fry at 380°F for 16 to 18 minutes, to 165°F."]],
  "tandoori-chicken":[["Roast at 450°F","Air fry at 400°F for 12 to 14 minutes, to 165°F."]],
+ "toum-chicken-potatoes":[["Toss cubed potatoes","Toss cubed potatoes with oil and coriander and air fry at 400°F for 18 to 20 minutes. Set hers aside, then toss the rest with pepper flakes, garlic and cilantro."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1222,6 +1237,8 @@ function normalize(d){
 }
 let S=starter();
 try{const raw=localStorage.getItem(KEY); if(raw) S=normalize(JSON.parse(raw));}catch(e){}
+/* The recipe list is shuffled once each time the app opens, so different recipes lead. */
+const RORDER=Object.fromEntries(R.map(r=>[r.id,Math.random()]));
 let filter="all", cuisine="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
 const arr=m=>S[MEALS[m].arr], cnt=m=>S[MEALS[m].cnt];
 function slots(){const o=[]; for(const m of MK) arr(m).slice(0,cnt(m)).forEach((x,i)=>{if(x) o.push({m,i,x});}); return o;}
@@ -1321,7 +1338,7 @@ function orderByFreshness(){
 const protGroup=r=>{const k=Object.keys(r.ing);
   if(["salmon","cansalmon","tuna","cod","sockeye","salmonburger","trout","sardines","mahi"].some(x=>k.includes(x))) return "fish";
   if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")||k.includes("turkeyburger")) return "turkey";
-  if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")) return "chicken"; if(k.includes("prosciutto")) return "other"; if(k.includes("carneasada")) return "beef"; if(k.includes("eggs")) return "egg";
+  if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")||k.includes("rotis")) return "chicken"; if(k.includes("prosciutto")) return "other"; if(k.includes("carneasada")) return "beef"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
 /* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
    packs; freezable items count about a third, since the rest can go in the freezer. */
@@ -1414,6 +1431,10 @@ const THEMES=[
  {k:"world",name:"Around the world",desc:"A week from one country's kitchen, or a different country each night."}
 ];
 const PRESETS=[
+ {id:"rotisserie",theme:"everyday",name:"Rotisserie chicken week",desc:"Two Costco rotisserie chickens, shredded on shopping day, for garlic chicken with toum, burrito bowls, soup and wraps.",
+  b:["overnight-oats","egg-fruit-breakfast","walnut-berry-yogurt-bowl","overnight-oats","egg-fruit-breakfast"],
+  l:["toum-chicken-wraps","black-bean-corn-salad","tomato-chickpea-soup","egg-quinoa-bowl","toum-chicken-wraps"],
+  d:["toum-chicken-plate","burrito-bowls","salmon-quinoa","chicken-soup","toum-chicken-potatoes"]},
  {id:"mexican",theme:"world",name:"Mexican week",desc:"Tinga tacos twice, enchiladas, a shrimp bowl and black bean soup, with huevos rancheros to start the day.",
   b:["huevos-rancheros","breakfast-bean-tacos","quinoa-egg-bowl","huevos-rancheros","breakfast-bean-tacos"],
   l:["black-bean-soup","black-bean-corn-salad","tempeh-taco-bowl","bean-egg-burritos","black-bean-soup"],
@@ -1725,7 +1746,7 @@ const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["di
 function viewRecipes(){
   const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
   const inCuisine=r=>cuisine==="all"||r.tags.includes(cuisine);
-  const shown=R.filter(r=>avail(r)&&match(r)&&inCuisine(r)), hidden=R.filter(r=>!avail(r)&&match(r)&&inCuisine(r)).length;
+  const shown=R.filter(r=>avail(r)&&match(r)&&inCuisine(r)).sort((a,b)=>RORDER[a.id]-RORDER[b.id]), hidden=R.filter(r=>!avail(r)&&match(r)&&inCuisine(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
     if(ml.m<=2) fresh=chip("freeze",`Cook within 2 days of shopping, or freeze the ${I[ml.who].s}`);
