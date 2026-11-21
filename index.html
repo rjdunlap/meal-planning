@@ -94,7 +94,7 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .keep .stepper button{width:38px;height:36px}
 .keep .stepper output{font-size:18px}
 .disc{display:flex;flex-direction:column;gap:10px;border-top:5px solid var(--brand)}
-.disc.t-season{border-top-color:var(--lemon)} .disc.t-health{border-top-color:var(--r-fruit)} .disc.t-family{border-top-color:var(--r-legume)}
+.disc.t-season{border-top-color:var(--lemon)} .disc.t-health{border-top-color:var(--r-fruit)} .disc.t-family{border-top-color:var(--r-legume)} .disc.t-world{border-top-color:var(--r-protein)}
 .disc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .disc-theme{font-size:22px}
 .plates{display:flex;gap:4px;flex-wrap:wrap}
@@ -972,6 +972,92 @@ R.push(
   kid:"Wild blueberries are small and soft, but mash them into hers, and grind the walnuts fine or leave them out.",
   steps:["Simmer the oats in the soy milk for 5 minutes.","Stir in the frozen wild blueberries until they turn the oats purple.","Top with flax, walnuts and cinnamon."]}
 );
+/* ---------- world kitchens ---------- */
+Object.assign(I,{
+ corntort:{s:"corn tortillas",u:"tortilla",cat:"Pantry",role:"grain",life:21,fz:1,keep:"About 3 weeks in the fridge. 3 months frozen.",left:"Freeze the rest in a bag and warm them from frozen in a dry pan.",c:{n:"Corn tortillas, 4.5 inch",pack:"60 tortillas, 34 oz",q:60},t:{n:"Corn tortillas",pack:"12 tortillas, 11 oz",q:12}},
+ kimchi:{s:"kimchi",u:"oz",cat:"Dairy & eggs",role:"veg",life:60,keep:"Months in the fridge; it keeps fermenting and gets more sour.",left:"It keeps for weeks. Chop it into eggs, rice or soup.",c:null,t:{n:"Napa cabbage kimchi",pack:"jar, about 10.6 oz",q:10.6}}
+});
+R.push(
+/* Mexican */
+ {id:"chicken-tinga-tacos",n:"Chicken tinga tacos with avocado and lime",meal:"dinner",t:35,tags:["Lean protein","Freezes well","Mexican"],ing:{chx:.35,dicedtom:.33,onion:.25,corntort:2,avocado:.4,romaine:.4},st:["chipotle in adobo","garlic","dried oregano","lime or lemon","fresh cilantro"],
+  kid:"Simmer the chicken in tomato and onion, take her portion out, then add the chipotle. Shred her chicken finely and serve it on a soft torn tortilla with mashed avocado.",
+  steps:["Simmer the chicken thighs with the tomatoes, sliced onion, garlic and oregano, covered, for 20 minutes.","Shred the chicken in the sauce. Take out her portion, then stir chopped chipotle into the rest.","Warm the tortillas in a dry pan.","Fill with chicken, shredded romaine, avocado, cilantro and lime."]},
+ {id:"huevos-rancheros",n:"Huevos rancheros with black beans and tomato salsa",meal:"breakfast",t:15,tags:["Vegetarian","Mexican"],ing:{eggs:1.5,corntort:1.5,beans:.25,tomato:2,avocado:.25},st:["cumin","lime or lemon","fresh cilantro","hot sauce, optional"],
+  kid:"Cook her egg through and serve it with mashed beans and avocado on a soft torn tortilla. Quarter the tomatoes and keep the hot sauce for the adults.",
+  steps:["Warm the rinsed beans with cumin and mash them roughly.","Chop the tomatoes with cilantro and lime for a quick salsa.","Fry the eggs and warm the tortillas.","Top each tortilla with beans, an egg, salsa and avocado."]},
+ {id:"enchilada-bake",n:"Black bean and sweet potato enchilada bake",meal:"dinner",t:45,tags:["Vegetarian","Freezes well","Mexican"],ing:{beans:.4,sweetpot:.4,corntort:2,dicedtom:.5,cheese:1,spinach:1.5},st:["cumin","chili powder","garlic","dried oregano"],
+  kid:"Blend the sauce with cumin and oregano, take out some for her, then add the chili powder. Mash her filling and cut the soft tortilla into small pieces.",
+  steps:["Microwave the diced sweet potato until soft, about 6 minutes, and mash with the beans, spinach and cumin.","Blend the tomatoes with garlic and oregano. Set some aside for her, then add chili powder to the rest.","Layer tortillas, filling and sauce in a dish and top with cheese.","Bake at 375°F for 25 minutes. It freezes well."]},
+ {id:"black-bean-soup",n:"Mexican black bean soup with lime and avocado",meal:"lunch",t:25,tags:["Plant-based","Vegetarian","Freezes well","One pot","Mexican"],ing:{beans:.5,dicedtom:.25,onion:.25,pepper:.3,avocado:.25,corntort:.5},st:["cumin","garlic","dried oregano","lime or lemon"],
+  kid:"Made with water and rinsed beans, it is low in salt. Blend hers smooth and top with mashed avocado. Give her soft tortilla strips rather than crisp ones.",
+  steps:["Soften the onion, pepper and garlic in a splash of water.","Add the rinsed beans, tomatoes, cumin, oregano and water to cover and simmer 15 minutes.","Blend half the soup and stir it back in.","Serve with avocado, lime and tortilla strips toasted in a dry pan."]},
+ {id:"guacamole-snack",n:"Guacamole with cucumber, pepper and tortilla chips you toast",meal:"snack",t:10,tags:["Plant-based","Vegetarian","Mexican"],ing:{avocado:.5,tomato:1.5,cucumber:2,pepper:.25,corntort:1},st:["lime or lemon","fresh cilantro"],
+  kid:"Mash her avocado smooth with a little lime and serve it with soft tortilla pieces and peeled cucumber strips. No salt needed.",
+  steps:["Mash the avocado with lime juice, chopped tomato and cilantro.","Cut the tortillas into wedges and toast in a dry pan until crisp.","Serve with cucumber and pepper sticks."]},
+/* Japanese */
+ {id:"miso-salmon-bowl",n:"Miso-glazed salmon with rice and cucumber salad",meal:"dinner",t:25,tags:["Omega-3","Bowl or salad","Japanese"],ing:{salmon:.35,rice:.33,cucumber:3,edamame:1.5,lemon:.15},st:["white miso","rice vinegar","fresh ginger","sesame seeds"],
+  kid:"Miso is salty, so bake her piece of salmon plain. Flake it, check for bones, and serve with rice, squashed edamame and peeled cucumber.",
+  steps:["Start the rice. Stir the miso with grated ginger and a splash of water.","Set her piece of salmon aside plain, brush the rest with the miso, and bake all of it at 425°F for 10 to 12 minutes.","Slice the cucumber thin and toss with rice vinegar.","Serve the salmon over rice with the cucumber, edamame and sesame seeds."]},
+ {id:"tuna-onigiri",n:"Tuna and cucumber rice balls (onigiri-style)",meal:"snack",t:15,tags:["Omega-3","Make ahead","Japanese"],ing:{rice:.25,tuna:1.5,cucumber:1,yogurt:.5},st:["rice vinegar","sesame seeds","nori, optional"],
+  kid:"Albacore is higher in mercury, so keep hers to a small amount once a week. Press her rice into small flat cakes rather than balls, and skip the nori, which is hard to chew.",
+  steps:["Season warm cooked rice with a little rice vinegar.","Mix the tuna with yogurt and finely diced cucumber.","With wet hands, shape the rice around a spoon of filling.","Wrap in nori if you like. They keep a day in the fridge."]},
+/* Korean */
+ {id:"bibimbap-bowl",n:"Bibimbap-style bowls with turkey, spinach, carrot and egg",meal:"dinner",t:30,tags:["Bowl or salad","Lean protein","Korean"],ing:{turkey:.25,rice:.33,spinach:2,carrot:.2,cucumber:2,eggs:1},st:["gochujang","low-sodium soy sauce","sesame oil","garlic","sesame seeds"],
+  kid:"Brown the turkey with garlic only and take her portion out before the soy sauce. Serve the rice, soft spinach, cooked carrot and a cooked-through egg in separate piles. Keep the gochujang for the adults.",
+  steps:["Start the rice. Brown the turkey with garlic, then take out her portion and add a splash of soy sauce to the rest.","Wilt the spinach and soften the grated carrot.","Fry the eggs.","Build bowls with rice, turkey, vegetables, sliced cucumber and an egg. Add gochujang and sesame oil at the table."]},
+ {id:"kimchi-fried-rice",n:"Kimchi fried rice with egg and edamame",meal:"dinner",t:20,tags:["Vegetarian","Korean"],ing:{rice:.4,kimchi:2,eggs:1.5,edamame:1.5,spinach:1},st:["sesame oil","garlic","low-sodium soy sauce"],
+  kid:"Kimchi is salty and spicy, so fry her portion of rice with egg, edamame and spinach before the kimchi goes in. Squash the edamame and cook the egg through.",
+  steps:["Fry the garlic, cold cooked rice, edamame and spinach for 4 minutes.","Take out her portion with some scrambled egg.","Add the chopped kimchi and its juice to the rest and fry 3 minutes.","Top with fried eggs and a few drops of sesame oil."]},
+/* Thai */
+ {id:"thai-green-curry",n:"Thai green curry with chicken and vegetables",meal:"dinner",t:30,tags:["Lean protein","One pot","Thai"],ing:{cb:.3,coconut:.33,stirfry:5,rice:.4,lemon:.15},st:["green curry paste","fresh ginger","garlic","fish sauce, optional","fresh basil or cilantro"],
+  kid:"Simmer the chicken and vegetables in coconut milk, take her portion out, then stir in the curry paste and fish sauce. Chop her chicken small and serve with plenty of rice.",
+  steps:["Start the rice. Soften the ginger and garlic, then add the coconut milk and sliced chicken and simmer 8 minutes.","Add the frozen vegetables and cook 5 minutes.","Take out her portion, then stir curry paste and a little fish sauce into the rest.","Finish with lime and herbs."]},
+ {id:"turkey-larb-cups",n:"Thai-style turkey larb lettuce cups with rice",meal:"dinner",t:20,tags:["Lean protein","Thai"],ing:{turkey:.3,romaine:.5,cucumber:2,carrot:.15,rice:.33,lemon:.25},st:["fish sauce","fresh mint and cilantro","red pepper flakes","garlic"],
+  kid:"Take her turkey out before the fish sauce and pepper flakes. Crumble it fine and serve with rice and soft cooked carrot instead of raw lettuce.",
+  steps:["Start the rice. Brown the turkey with garlic.","Take out her portion, then season the rest with lime juice, a little fish sauce, pepper flakes and herbs.","Spoon into romaine leaves with cucumber, grated carrot and rice."]},
+/* Chinese */
+ {id:"ginger-steamed-cod",n:"Ginger and scallion steamed cod with broccoli and rice",meal:"dinner",t:25,tags:["Lean protein","Freezer meal","Chinese"],ing:{cod:.35,broccoli:4,rice:.33,lemon:.1},st:["fresh ginger","scallions","low-sodium soy sauce","sesame oil"],
+  kid:"Steamed cod flakes soft. Check for bones, steam her broccoli until it squashes, and spoon the soy sauce only over the adult plates.",
+  steps:["Start the rice. Lay the thawed cod on a plate with ginger slices and scallions.","Steam over simmering water for 8 to 10 minutes, with the broccoli alongside.","Drizzle the adult portions with a little soy sauce and sesame oil."]},
+ {id:"mapo-tofu-mushroom",n:"Mapo-style tofu with mushrooms and spinach",meal:"dinner",t:25,tags:["Vegetarian","Chinese"],ing:{tofu:.4,mushroom:3,spinach:2,rice:.33},st:["chili bean paste or chili garlic sauce","low-sodium soy sauce","fresh ginger","garlic","Sichuan pepper, optional"],
+  kid:"Cook the tofu, mushrooms and spinach with ginger and garlic, take her portion out, then add the chili paste and soy sauce. Cut her tofu small and the mushrooms fine.",
+  steps:["Start the rice. Cook the chopped mushrooms with ginger and garlic for 6 minutes.","Add cubed tofu and a splash of water and simmer 4 minutes, then stir in the spinach.","Take out her portion, then stir in the chili paste and soy sauce.","Serve over rice."]},
+/* Vietnamese */
+ {id:"vietnamese-chicken-bowl",n:"Vietnamese-style lemongrass chicken rice bowls with quick pickles",meal:"dinner",t:30,tags:["Bowl or salad","Lean protein","Vietnamese"],ing:{chx:.35,rice:.33,carrot:.2,cucumber:2,romaine:.4,lemon:.2},st:["lemongrass paste","fish sauce","garlic","rice vinegar","fresh mint and cilantro"],
+  kid:"Rub her piece of chicken with garlic and lemongrass only, before the fish sauce. Shred it finely, and give her soft cooked carrot rather than the pickles.",
+  steps:["Rub the chicken with lemongrass and garlic. Set her piece aside, then add a little fish sauce to the rest.","Roast at 425°F for 20 minutes, to 165°F.","Toss shredded carrot and cucumber with rice vinegar for quick pickles.","Build bowls with rice, romaine, chicken, pickles and herbs."]},
+/* Indian */
+ {id:"chana-masala",n:"Chana masala with spinach and brown rice",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Indian"],ing:{chickpea:.5,dicedtom:.4,onion:.3,spinach:2,rice:.33},st:["garam masala","ground cumin","ground turmeric","fresh ginger","garlic","chili powder"],
+  kid:"Mild spices like cumin and garam masala are fine for her. Take her portion out before the chili powder, squash the chickpeas and serve with rice.",
+  steps:["Start the rice. Soften the onion, ginger and garlic in a splash of water.","Stir in the spices except chili, then the tomatoes and rinsed chickpeas, and simmer 15 minutes.","Stir in the spinach. Take out her portion, then add chili powder."]},
+ {id:"tandoori-chicken",n:"Tandoori-style yogurt chicken with cucumber raita and rice",meal:"dinner",t:30,tags:["Lean protein","Indian"],ing:{cb:.35,yogurt:2.5,cucumber:2,lemon:.25,rice:.33},st:["garam masala","smoked paprika","ground cumin","garlic","fresh ginger"],
+  kid:"The yogurt keeps the chicken tender. Shred hers finely and serve with rice and raita; the spices here are mild.",
+  steps:["Mix half the yogurt with lemon, garam masala, paprika, cumin, garlic and ginger and coat the chicken. Leave 30 minutes or overnight.","Roast at 450°F for 15 to 18 minutes, to 165°F.","Stir grated cucumber into the rest of the yogurt for raita.","Serve with rice."]},
+ {id:"lentil-dal",n:"Coconut lentil dal with spinach",meal:"dinner",t:25,tags:["Vegetarian","Freezes well","One pot","Indian"],ing:{lentil:.5,coconut:.25,dicedtom:.25,onion:.25,spinach:2,rice:.33},st:["ground turmeric","ground cumin","garam masala","fresh ginger","garlic"],
+  kid:"Dal is soft and mild, which suits her. Mash the lentils a little and serve over rice.",
+  steps:["Start the rice. Soften the onion, ginger and garlic in a splash of water.","Stir in the spices, then the tomatoes, lentils and coconut milk, and simmer 10 minutes.","Stir in the spinach until wilted."]},
+/* Italian */
+ {id:"minestrone",n:"Minestrone with chickpeas, pasta and greens",meal:"lunch",t:35,tags:["Plant-based","Vegetarian","Freezes well","One pot","Italian"],ing:{chickpea:.3,pasta:1,carrot:.2,onion:.25,dicedtom:.33,spinach:1.5,mixveg:2},st:["garlic","dried oregano","dried thyme","extra virgin olive oil"],
+  kid:"Made with water, it is low in salt. Cook her pasta and vegetables soft, squash the chickpeas and serve hers mostly drained.",
+  steps:["Soften the onion, carrot and garlic in a little olive oil.","Add the tomatoes, herbs, chickpeas and water to cover and simmer 10 minutes.","Add the pasta and frozen vegetables and cook until tender, then stir in the spinach."]},
+ {id:"chicken-cacciatore",n:"Chicken cacciatore with peppers, mushrooms and tomatoes",meal:"dinner",t:40,tags:["One pot","Freezes well","Italian"],ing:{chx:.4,pepper:.5,mushroom:2,dicedtom:.5,onion:.25,quinoa:.25},st:["garlic","dried oregano","dried rosemary","extra virgin olive oil"],
+  kid:"Shred her chicken finely into the sauce and cook the peppers until very soft. Serve with quinoa. Salt only the adult plates.",
+  steps:["Cook the quinoa. Brown the chicken in a little oil and set aside.","Soften the onion, peppers, mushrooms and garlic.","Add the tomatoes, herbs and chicken, cover and simmer 25 minutes, to 165°F."]},
+/* Moroccan */
+ {id:"chickpea-tagine",n:"Moroccan chickpea and sweet potato tagine",meal:"dinner",t:40,tags:["Plant-based","Vegetarian","Freezes well","One pot","Moroccan"],ing:{chickpea:.5,sweetpot:.4,carrot:.2,dicedtom:.33,onion:.25,quinoa:.25,lemon:.15},st:["ground cumin","cinnamon","ground ginger","ground turmeric","fresh cilantro"],
+  kid:"The warm spices are mild. Mash her sweet potato and carrot with the squashed chickpeas and serve with quinoa.",
+  steps:["Cook the quinoa. Soften the onion in a splash of water, then stir in the spices.","Add the sweet potato, carrot, tomatoes, chickpeas and water to cover and simmer 25 minutes.","Finish with lemon and cilantro."]}
+);
+/* cuisine tags for recipes written earlier */
+{const T={Mexican:["burrito-bowls","chicken-fajita-bowls","turkey-taco-bowls","cod-tacos","chicken-tortilla-soup","carne-asada-bowls","bean-egg-burritos","sweetpot-bean-quesadillas","breakfast-bean-tacos","tempeh-taco-bowl","black-bean-corn-salad","shrimp-avocado-bowl","sockeye-mango-tacos","mahi-bean-bowl","sweet-potato-bean-bowl"],
+  Chinese:["shrimp-stirfry","tofu-fried-rice","chicken-fried-rice","egg-cauli-rice","tofu-mushroom-stirfry","tempeh-broccoli-stirfry","cauli-chicken-bowl"],
+  Japanese:["tuna-rice-bowl","edamame-rice-bowl","sesame-tofu-bowl","trout-rice-bowl","salmon-burger-bowl"],
+  Thai:["peanut-tofu-bowl","shrimp-coconut-curry","peanut-tofu-noodles"],
+  Indian:["chickpea-curry"],
+  Italian:["pesto-pasta","turkey-meatballs","pesto-salmon","mushroom-bolognese","veggie-frittata","tomato-bread-tapas"],
+  Greek:["greek-chicken","tzatziki-chicken-bowl","chickpea-feta-salad","med-chickpea-salad","feta-olive-bites","mezze-plate"]};
+ for(const c in T) for(const id of T[c]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes(c)) r.tags.push(c);}}
+const CUISINES=["Chinese","Greek","Indian","Italian","Japanese","Korean","Lebanese","Mexican","Moroccan","Portuguese","Thai","Vietnamese"];
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1008,6 +1094,9 @@ const AFX={
  "samkeh-harra":[["Lay the fish","Season the fish with coriander and air fry it with the halved tomatoes and sliced peppers at 380°F for 10 to 12 minutes."]],
  "black-bean-brownies":[["Bake at 350°F","Bake in a small pan that fits the air fryer at 320°F for 18 to 20 minutes. Cool fully before cutting, then freeze extras."]],
  "banana-walnut-cake":[["Bake in a lined pan","Bake in a small pan that fits the air fryer at 320°F for 20 to 22 minutes."]],
+ "miso-salmon-bowl":[["Set her piece of salmon aside","Set her piece of salmon aside plain, brush the rest with the miso, and air fry all of it at 400°F for 8 to 10 minutes."]],
+ "vietnamese-chicken-bowl":[["Roast at 425°F","Air fry at 380°F for 16 to 18 minutes, to 165°F."]],
+ "tandoori-chicken":[["Roast at 450°F","Air fry at 400°F for 12 to 14 minutes, to 165°F."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1113,7 +1202,7 @@ function normalize(d){
 }
 let S=starter();
 try{const raw=localStorage.getItem(KEY); if(raw) S=normalize(JSON.parse(raw));}catch(e){}
-let filter="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
+let filter="all", cuisine="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
 const arr=m=>S[MEALS[m].arr], cnt=m=>S[MEALS[m].cnt];
 function slots(){const o=[]; for(const m of MK) arr(m).slice(0,cnt(m)).forEach((x,i)=>{if(x) o.push({m,i,x});}); return o;}
 function persist(){
@@ -1297,9 +1386,22 @@ const THEMES=[
  {k:"season",name:"Seasons and holidays",desc:"Weeks for the time of year."},
  {k:"everyday",name:"Everyday weeks",desc:"Quick, make-ahead and store-friendly plans."},
  {k:"health",name:"Healthy focus",desc:"Fish, plants and the Daily Dozen."},
- {k:"family",name:"Family kitchens",desc:"Dishes from the Lebanese and Portuguese sides of the family."}
+ {k:"family",name:"Family kitchens",desc:"Dishes from the Lebanese and Portuguese sides of the family."},
+ {k:"world",name:"Around the world",desc:"A week from one country's kitchen, or a different country each night."}
 ];
 const PRESETS=[
+ {id:"mexican",theme:"world",name:"Mexican week",desc:"Tinga tacos, enchiladas, fajitas and black bean soup, with huevos rancheros to start the day.",
+  b:["huevos-rancheros","breakfast-bean-tacos","overnight-oats","huevos-rancheros","breakfast-bean-tacos"],
+  l:["black-bean-soup","black-bean-corn-salad","tempeh-taco-bowl","bean-egg-burritos","black-bean-soup"],
+  d:["chicken-tinga-tacos","enchilada-bake","chicken-fajita-bowls","cod-tacos","chicken-tortilla-soup"]},
+ {id:"asian",theme:"world",name:"Asian kitchens",desc:"Miso salmon, bibimbap, green curry, mapo tofu and lemongrass chicken.",
+  b:["edamame-rice-bowl","egg-cups","overnight-oats","edamame-rice-bowl","green-smoothie"],
+  l:["tuna-rice-bowl","sesame-tofu-bowl","peanut-tofu-bowl","trout-rice-bowl","egg-quinoa-bowl"],
+  d:["miso-salmon-bowl","bibimbap-bowl","thai-green-curry","mapo-tofu-mushroom","vietnamese-chicken-bowl"]},
+ {id:"worldtour",theme:"world",name:"World tour",desc:"A different country each night: India, Italy, Mexico, Japan, Morocco, Thailand and Greece.",
+  b:["overnight-oats","huevos-rancheros","savory-oats","edamame-rice-bowl","zaatar-eggs"],
+  l:["minestrone","black-bean-soup","chickpea-feta-salad","tuna-rice-bowl","fattoush"],
+  d:["chana-masala","chicken-cacciatore","chicken-tinga-tacos","miso-salmon-bowl","chickpea-tagine","thai-green-curry","greek-chicken"]},
  {id:"cozy",theme:"season",months:[11,12,1,2],name:"Cozy soups and stews",desc:"Chili, curry and chowder for cold nights, with warm drinks.",
   b:["savory-oats","apple-baked-oats","overnight-oats","savory-oats","banana-pancakes"],
   l:["caldo-verde","sopa-de-legumes","turmeric-bean-soup","corn-chowder","tomato-chickpea-soup"],
@@ -1566,10 +1668,11 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["lebanese","Lebanese"],["portuguese","Portuguese"],["dozen","Daily Dozen"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["dozen","Daily Dozen"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="lebanese"&&r.tags.includes("Lebanese"))||(filter==="portuguese"&&r.tags.includes("Portuguese"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
-  const shown=R.filter(r=>avail(r)&&match(r)), hidden=R.filter(r=>!avail(r)&&match(r)).length;
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
+  const inCuisine=r=>cuisine==="all"||r.tags.includes(cuisine);
+  const shown=R.filter(r=>avail(r)&&match(r)&&inCuisine(r)), hidden=R.filter(r=>!avail(r)&&match(r)&&inCuisine(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
     if(ml.m<=2) fresh=chip("freeze",`Cook within 2 days of shopping, or freeze the ${I[ml.who].s}`);
@@ -1589,9 +1692,10 @@ function viewRecipes(){
   return `<section class="stack">
     <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" at "+STORE_LBL[S.store]}. Home-cooked ones have no added sugar and little added salt; store-seasoned shortcuts have some of both.</p></div>
     <input class="search" id="rq" type="search" placeholder="Search recipes or ingredients" aria-label="Search recipes" value="${rsearch.replace(/"/g,"&quot;")}" autocomplete="off">
+    <label class="field" for="cuisine" style="max-width:240px">Cuisine<select id="cuisine" data-act="cuisine"><option value="all">Any cuisine</option>${CUISINES.map(c=>`<option value="${c}" ${cuisine===c?"selected":""}>${c} (${R.filter(r=>r.tags.includes(c)&&avail(r)).length})</option>`).join("")}</select></label>
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
-    ${hidden?`<p class="meta">${hidden} more recipe${hidden>1?"s":""} use items ${STORE_LBL[S.store]} does not carry. Choose Both under <a href="#profile">Family</a> to see them.</p>`:""}
+    ${hidden?`<p class="meta">${hidden} more recipe${hidden>1?"s use":" uses"} items ${STORE_LBL[S.store]} does not carry. Choose Both under <a href="#profile">Family</a> to see them.</p>`:""}
     <p class="meta" id="rnone" hidden>No recipes match your search.</p>
     ${cards||`<p class="meta">No recipes match this filter.</p>`}
   </section>`;
@@ -1740,6 +1844,7 @@ function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on")
 function act(el,ev){
   const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
+  if(a==="cuisine"){if(ev.type!=="change") return; cuisine=el.value; render(); return;}
   if(a==="open"){const k=el.dataset.key; if(openWeek.has(k)) openWeek.delete(k); else openWeek.add(k); render(); return;}
   if(a==="tune"){if(ev.type!=="change") return; const t=TUNEX[el.dataset.k], v=fromSlider(t,+el.value); if(v===t.def) delete S.tune[t.k]; else S.tune[t.k]=v;
     const rb=$("#tune-reset"); if(rb) rb.disabled=!Object.keys(S.tune).length; persist(); return;}
