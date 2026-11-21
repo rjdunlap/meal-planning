@@ -655,27 +655,27 @@ const OLD_REPEATS={none:{b:1,l:1,d:1},lunch:{b:1,l:2,d:1},any:{b:2,l:2,d:2}};
    "surprise" adds up to 1.2. */
 const TUNE=[
  {g:"What a week favors"},
- {k:"waste",lv:1,def:1,label:"Use up fresh food",help:"How hard the planner works to finish the fresh packs you buy. Higher means fewer different ingredients and more repeats."},
- {k:"protein",lv:1,def:.9,label:"Mix up the proteins",help:"How much it avoids the same protein, like chicken, several times in a week."},
- {k:"fish",lv:1,def:1.2,label:"Include fish",help:"How much it wants a fish meal in the week. At Off, a week can have no fish."},
- {k:"plant",lv:1,def:.9,label:"Include a plant-based meal",help:"How much it wants a bean, lentil or tofu meal in the week."},
- {k:"prep",lv:1,def:.5,label:"Breakfast shares prep with lunch",help:"How much a prep-day breakfast should use the same ingredients as that day's lunch."},
- {k:"repeat",lv:1,def:1,label:"Avoid repeats",help:"How much it avoids repeating a recipe, within the limits above. Off repeats whenever that saves food."},
- {k:"dinnerLunch",lv:1,def:.4,label:"Avoid a dinner again as lunch",help:"How much it avoids planning one of the week's dinners as a lunch too."},
- {k:"realLunch",lv:1,def:.8,label:"Prefer lunch recipes for lunch",help:"How much it picks lunch recipes over dinners that also work as lunch."},
- {k:"quickLunch",lv:1,def:.4,label:"Prefer quick lunches",help:"How much it favors lunches ready in 20 minutes or less."},
- {k:"longDinner",label:"Longest easy dinner",min:20,max:90,step:5,def:45,u:"min",help:"Dinners that take longer than this are picked less often."},
+ {k:"waste",lv:1,def:1,label:"Use up fresh food",help:"Higher means fewer different ingredients and more repeats."},
+ {k:"protein",lv:1,def:.9,label:"Mix up the proteins",help:"Avoids the same protein, like chicken, several times a week."},
+ {k:"fish",lv:1,def:1.2,label:"Include fish",help:"At Off, a week can have no fish."},
+ {k:"plant",lv:1,def:.9,label:"Include a plant-based meal",help:"A bean, lentil or tofu meal."},
+ {k:"prep",lv:1,def:.5,label:"Breakfast shares prep with lunch",help:"On prep days."},
+ {k:"repeat",lv:1,def:1,label:"Avoid repeats",help:"Within the limits above. At Off, it repeats whenever that saves food."},
+ {k:"dinnerLunch",lv:1,def:.4,label:"Avoid a dinner again as lunch",help:"Leftover dinner as lunch counts as a repeat."},
+ {k:"realLunch",lv:1,def:.8,label:"Prefer lunch recipes for lunch",help:"Over dinners that also work as lunch."},
+ {k:"quickLunch",lv:1,def:.4,label:"Prefer quick lunches",help:"Ready in 20 minutes or less."},
+ {k:"longDinner",label:"Longest easy dinner",min:20,max:90,step:5,def:45,u:"min",help:"Longer dinners are picked less often."},
  {g:"How the planner searches"},
- {k:"random",lv:1,def:1.2,label:"Surprise",help:"Higher gives more variety from one shuffle to the next. Lower sticks to the best fit."},
- {k:"band",lv:1,def:.6,label:"Pick from good weeks, not only the best",help:"Higher gives more variety between shuffles. Off always takes the single best week it found."},
- {k:"tries",label:"Weeks tried per shuffle",min:1,max:80,step:1,def:30,u:"weeks",help:"More tries find better weeks but take a moment longer."},
+ {k:"random",lv:1,def:1.2,label:"Surprise",help:"Higher gives more variety. Lower sticks to the best fit."},
+ {k:"band",lv:1,def:.6,label:"Pick from good weeks, not only the best",help:"Off always takes the best week found."},
+ {k:"tries",label:"Weeks tried per shuffle",min:1,max:80,step:1,def:30,u:"weeks",help:"More tries find better weeks but take longer."},
  {g:"What counts as waste"},
- {k:"spoil",label:"Counts as fresh if it keeps up to",min:3,max:30,step:1,def:14,u:"days",help:"Food that keeps longer is not counted as waste."},
- {k:"frozen",label:"Leftovers you can freeze count as",min:0,max:100,step:5,def:35,u:"%",help:"How much of a freezable leftover counts as waste. 0% means freezing it is as good as eating it."},
+ {k:"spoil",label:"Counts as fresh if it keeps up to",min:3,max:30,step:1,def:14,u:"days",help:"Longer-keeping food is not counted as waste."},
+ {k:"frozen",label:"Leftovers you can freeze count as",min:0,max:100,step:5,def:35,u:"%",help:"At 0%, freezing a leftover counts as using it."},
  {g:"Shopping list"},
- {k:"storeSwitch",label:"Buy at Trader Joe's when it wastes less by",min:0,max:100,step:5,def:15,u:"%",help:"In Both stores mode, for fresh food, as a share of what the week needs."},
- {k:"ideas",label:"Suggest recipes for items used under",min:0,max:100,step:5,def:60,u:"%",help:"Shows ideas to use up a fresh item the week barely uses."},
- {k:"extra",label:"Flag extra packs over",min:0,max:100,step:5,def:25,u:"%",help:"On the week page, mentions meat and fish left over beyond this share of a pack."}
+ {k:"storeSwitch",label:"Buy at Trader Joe's when it wastes less by",min:0,max:100,step:5,def:15,u:"%",help:"For fresh food, in Both stores mode."},
+ {k:"ideas",label:"Suggest recipes for items used under",min:0,max:100,step:5,def:60,u:"%",help:"Shows recipes that use up a fresh item."},
+ {k:"extra",label:"Flag extra packs over",min:0,max:100,step:5,def:25,u:"%",help:"Leftover meat and fish, on the week page."}
 ];
 /* Weighting sliders (lv) move on a word scale; Medium is the built-in value. */
 const LEVELS=["Off","Very low","Low","Medium","High","Very high"], LV_MULT=[0,.33,.67,1,1.5,2.25];
@@ -784,10 +784,9 @@ function storeTag(r){
 const dayName=(i,long)=>(long?["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]:DAYS)[(S.shopDay+i)%7];
 function minLife(r){let m=99,who=null; for(const k in r.ing){const l=I[k].life; if(l!=null&&l<m){m=l;who=k;}} return {m,who};}
 function dayCheck(r,d){
-  const thaw=[],late=[]; let perishable=false;
-  for(const k in r.ing){const it=I[k]; if(it.life==null) continue; if(it.life<=7) perishable=true;
-    if(d>it.life){(it.fz?thaw:late).push(k);}}
-  return {thaw,late,perishable};
+  const thaw=[],late=[];
+  for(const k in r.ing){const it=I[k]; if(it.life!=null&&d>it.life) (it.fz?thaw:late).push(k);}
+  return {thaw,late};
 }
 function inPlan(id){const out=[]; slots().forEach(s=>{if(s.x.r===id) out.push(s);}); return out;}
 function addRecipe(id,m){
@@ -977,7 +976,6 @@ function mealRow(m,i,x){
   if(j>=0) chips+=chip("plain",batch&&i-j<=2?`Make extra on ${dayName(j,true)} for today`:`Also on ${dayName(j,true)}`);
   const shared=m==="b"?prepShared(i,r):[];
   if(shared.length) chips+=chip("plain",`Prep with today's lunch: ${list(shared.map(k=>I[k].s))}`);
-  if(!miss.length&&!c.late.length&&!c.thaw.length) chips+=c.perishable?chip("fresh","Fresh ingredients are still good"):chip("plain","Pantry and freezer meal. Any day works");
   const last=cnt(m)-1;
   return `<div class="day ${cls}">${lab}<div class="body">
     <h3>${r.n}</h3><div class="row">${chip("plain",r.t+" min")}${chips}</div>
@@ -999,18 +997,8 @@ function familyText(){
   return `${ad}${kd}. Shopping on ${DAYL[S.shopDay]}.`;
 }
 function genText(){
-  let t="The generator varies the protein, includes fish, and tries many weeks and keeps the one that leaves the least fresh food over.";
-  const pd=prepDaysText(), when=pd==="Monday to Friday"?"From Monday to Friday":pd==="Every day"?"Every day":"On "+pd;
-  if(S.prepDays) t+=` ${when}, breakfast shares ingredients with that day's lunch, so you can make both in one go.`;
-  t+=" "+repText();
-  return t;
-}
-const TIMES={1:"once",2:"up to 2 times",3:"up to 3 times"};
-function repText(){
-  if(MK.every(m=>S.rep[m]===1)) return "Every meal in the week is a different recipe.";
-  const by={}; MK.forEach(m=>(by[S.rep[m]]=by[S.rep[m]]||[]).push(MEALS[m].pl.toLowerCase()));
-  const parts=Object.keys(by).sort((a,b)=>b-a).map(n=>`${list(by[n])} ${n==1?"are all different":`can repeat ${TIMES[n]}`}`);
-  return parts.join("; ").replace(/^./,c=>c.toUpperCase())+". Repeats land on neighboring days, so you can cook once and eat again.";
+  const pd=prepDaysText(), when=pd==="Monday to Friday"?"Monday to Friday":pd==="Every day"?"every day":"on "+pd;
+  return "Mixes the proteins, includes fish and keeps leftover fresh food low."+(S.prepDays?` Breakfast shares ingredients with lunch ${when}.`:"");
 }
 function repControls(){
   return MK.map(m=>`<div class="field">${MEALS[m].pl}<div class="choices three" role="group" aria-label="${MEALS[m].pl}: most times one recipe can appear">${[1,2,3].map(n=>`<button class="choice" id="rep-${m}-${n}" data-act="rep" data-m="${m}" data-v="${n}" aria-pressed="${S.rep[m]===n}"><b>${n===1?"Once":n+" times"}</b></button>`).join("")}</div></div>`).join("");
@@ -1018,12 +1006,12 @@ function repControls(){
 function viewProfile(){
   const opt=(act,v,cur,label,desc)=>`<button class="choice" id="${act}-${v}" data-act="${act}" data-v="${v}" aria-pressed="${cur===v}"><b>${label}</b>${desc?`<span>${desc}</span>`:""}</button>`;
   return `<section class="stack">
-    <div><h2>Family and settings</h2><p class="lead">Saved on this device with your week. The store choice stays at the top of every page.</p></div>
+    <div><h2>Family and settings</h2></div>
     ${S.setup?"":`<a class="btn" href="#week" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Back to the welcome</a>`}
     <div class="card stack">
       <h3>Family</h3>
       <div class="settings">${stepper("ad","Adults",S.adults,"hh",'data-k="adults"')}${stepper("kd","Little ones",S.kids,"hh",'data-k="kids"')}</div>
-      ${S.kids?`<div class="field">How much a little one eats, as a share of an adult portion<div class="choices three">${[25,33,50].map(v=>opt("kidp",v,S.kidPortion,KID_PORTIONS[v])).join("")}</div><span class="meta" style="font-weight:400">A quarter suits about age 1. Raise it as she grows. Amounts and packs on the shopping list follow it.</span></div>`:""}
+      ${S.kids?`<div class="field">Little one's portion<div class="choices three">${[25,33,50].map(v=>opt("kidp",v,S.kidPortion,KID_PORTIONS[v])).join("")}</div><span class="meta" style="font-weight:400">Of an adult portion. A quarter suits about age 1.</span></div>`:""}
     </div>
     <div class="card stack">
       <h3>Shopping</h3>
@@ -1031,18 +1019,18 @@ function viewProfile(){
     </div>
     <div class="card stack">
       <h3>How often a recipe can repeat</h3>
-      <p class="meta" style="margin:0">The most times the same recipe can show up in one week. More repeats means fewer recipes to cook and less leftover fresh food. Once means every day is different.</p>
+      <p class="meta" style="margin:0">The most times one recipe can show up in a week. More repeats means less cooking and less waste.</p>
       ${repControls()}
     </div>
     <div class="card stack">
       <h3>Breakfast and lunch prep days</h3>
-      <p class="meta" style="margin:0">On these days you make lunch alongside breakfast, so the planner picks breakfasts that share ingredients with that day's lunch.</p>
+      <p class="meta" style="margin:0">Days you make lunch with breakfast. Breakfast then shares ingredients with that lunch.</p>
       <div class="days" role="group" aria-label="Prep days">${DAYS_MON.map(w=>`<button class="day-t" id="prep-${w}" data-act="prep" data-w="${w}" aria-pressed="${!!(S.prepDays>>w&1)}" aria-label="${DAYL[w]}">${DAYS[w]}</button>`).join("")}</div>
     </div>
     <div class="card stack">
       <h3>Fine-tune the planner</h3>
-      <p class="meta" style="margin:0">Every slider starts at its default, which is Medium for the ones on a Low to High scale. Changes apply the next time you generate or shuffle a week.</p>
-      ${TUNE.map(t=>t.g?`<h4 class="tune-g">${t.g}</h4>`:`<div class="tune"><label for="tn-${t.k}"><span>${t.label}</span><output id="tno-${t.k}" for="tn-${t.k}">${tuneFmt(t,tw(t.k))}</output></label><input type="range" id="tn-${t.k}" data-act="tune" data-k="${t.k}" min="${t.lv?0:t.min}" max="${t.lv?5:t.max}" step="${t.lv?1:t.step}" value="${sliderVal(t)}" aria-valuetext="${tuneFmt(t,tw(t.k))}"><span class="meta">${t.help} Default: ${tuneFmt(t,t.def)}.</span></div>`).join("")}
+      <p class="meta" style="margin:0">Medium is the default. Changes apply the next time you generate a week.</p>
+      ${TUNE.map(t=>t.g?`<h4 class="tune-g">${t.g}</h4>`:`<div class="tune"><label for="tn-${t.k}"><span>${t.label}</span><output id="tno-${t.k}" for="tn-${t.k}">${tuneFmt(t,tw(t.k))}</output></label><input type="range" id="tn-${t.k}" data-act="tune" data-k="${t.k}" min="${t.lv?0:t.min}" max="${t.lv?5:t.max}" step="${t.lv?1:t.step}" value="${sliderVal(t)}" aria-valuetext="${tuneFmt(t,tw(t.k))}"><span class="meta">${t.help}${t.lv?"":` Default: ${tuneFmt(t,t.def)}.`}</span></div>`).join("")}
       <button class="btn ghost" id="tune-reset" data-act="tune-reset" style="width:max-content" ${Object.keys(S.tune).length?"":"disabled"}>Reset all to defaults</button>
     </div>
     <a class="btn primary" href="#week" id="profile-done" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Back to your week</a>
@@ -1051,7 +1039,7 @@ function viewProfile(){
 function viewWelcome(){
   const st=[["c","Costco"],["t","Trader Joe's"],["both","Both"]];
   return `<section class="stack welcome">
-    <div><h2>Welcome</h2><p class="lead">Three quick questions, then the planner fills a week of breakfasts, lunches and dinners and builds the shopping list. You can change any of this later under Family.</p></div>
+    <div><h2>Welcome</h2><p class="lead">Three quick questions, then the planner fills your week and builds the shopping list. You can change these later under Family.</p></div>
     <div class="card stack"><h3><span class="stepn">1</span>Who is eating?</h3>
       <div class="settings">${stepper("ad","Adults",S.adults,"hh",'data-k="adults"')}${stepper("kd","Little ones",S.kids,"hh",'data-k="kids"')}</div>
       ${S.kids?`<div class="field">A little one eats about<div class="choices three">${[25,33,50].map(v=>`<button class="choice" id="kidp-${v}" data-act="kidp" data-v="${v}" aria-pressed="${S.kidPortion===v}"><b>${KID_PORTIONS[v]}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">of an adult portion. A quarter suits about age 1.</span></div>`:""}
@@ -1061,7 +1049,7 @@ function viewWelcome(){
       <label class="field" for="shopday">Shopping day<select id="shopday" data-act="shopday">${DAYL.map((d,i)=>`<option value="${i}" ${i===S.shopDay?"selected":""}>${d}</option>`).join("")}</select></label>
     </div>
     <div class="card stack"><h3><span class="stepn">3</span>Which mornings do you make lunch with breakfast?</h3>
-      <p class="meta" style="margin:0">On these days breakfast and lunch share ingredients, so you chop and cook once.</p>
+      <p class="meta" style="margin:0">Those days, breakfast and lunch share ingredients, so you chop and cook once.</p>
       <div class="days" role="group" aria-label="Prep days">${DAYS_MON.map(w=>`<button class="day-t" id="prep-${w}" data-act="prep" data-w="${w}" aria-pressed="${!!(S.prepDays>>w&1)}" aria-label="${DAYL[w]}">${DAYS[w]}</button>`).join("")}</div>
     </div>
     <div class="row"><button class="btn primary" id="setup-go" data-act="setup" data-gen="1">Plan my first week</button><button class="btn ghost" id="setup-skip" data-act="setup">I will pick meals myself</button></div>
@@ -1076,7 +1064,7 @@ function viewWeek(){
     slots().forEach(({m,i,x})=>{if(RX[x.r].ing[k]&&i>it.life){lateQ+=RX[x.r].ing[k]*P()*(x.double?2:1); lateDays.push(dayName(i,true));}});
     if(lateQ) prep.push(`Freeze ${fq(lateQ,it.u)} of ${it.s} for ${list([...new Set(lateDays)])}. Move it to the fridge the night before.`);
     const over=packsAt(k,T[k],s)*I[k][s].q-T[k];
-    if(over/I[k][s].q>tw("extra")/100) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} is more than this week needs. ${I[k][s].left||it.left}`);
+    if(over/I[k][s].q>tw("extra")/100) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the ":""}${it.s} left over. ${I[k][s].left||it.left}`);
   }
   const maxN=Math.max(S.nb,S.nl,S.nd); let days="";
   for(let i=0;i<maxN;i++){
@@ -1084,7 +1072,7 @@ function viewWeek(){
     days+=`<section class="dayg" aria-label="${dayName(i,true)}"><h3 class="dayh">${dayName(i,true)}${i===0?`<small>SHOP DAY</small>`:""}</h3>${rows}</section>`;
   }
   return `<section class="stack">
-    <div><h2>Your week</h2><p class="lead">Choose how many breakfasts, lunches and dinners you want, then let the planner fill the week or pick your own. Day one is the day you shop. Amounts are sized for your family.</p></div>
+    <div><h2>Your week</h2><p class="lead">Set how many meals you want, then generate a week or pick your own. Day one is shopping day.</p></div>
     ${incoming?`<div class="card incoming" role="region" aria-label="Shared week"><h3>A week was shared with you</h3><p class="meta" style="margin:0">${incoming.meals} meal${incoming.meals===1?"":"s"}, shopping on ${DAYL[incoming.data.shopDay]}, sized for ${incoming.data.adults} adult${incoming.data.adults>1?"s":""}${incoming.data.kids?` and ${incoming.data.kids} little one${incoming.data.kids>1?"s":""}`:""}.${incoming.dropped?` ${incoming.dropped} meal${incoming.dropped>1?"s are":" is"} not in this version of the planner and will be left empty.`:""} Loading it replaces your current week and clears your shopping ticks.</p><div class="row"><button class="btn primary" id="import-yes" data-act="import-yes">Replace my week</button><button class="btn ghost" id="import-no" data-act="import-no">Keep mine</button></div></div>`:""}
     <div class="card famline"><span>${familyText()}</span><a class="btn small ghost" id="edit-profile" href="#profile">Edit</a></div>
     <div class="card gen">
@@ -1100,7 +1088,7 @@ function viewWeek(){
     ${maxN?days:`<p class="meta">Raise a meal count above to start planning.</p>`}
     <div class="card stack">
       <h3>Share with your family</h3>
-      ${any?`<p class="meta" style="margin:0">Sends the day-by-day plan with a link. Opening the link loads this week, with its recipes and shopping list, on the other phone.</p><div class="row">${navigator.share?`<button class="btn primary" id="share-week" data-act="share-week">Share this week</button>`:""}<button class="btn ${navigator.share?"ghost":"primary"}" id="copy-week" data-act="copy-week">Copy week as text</button></div>`:""}
+      ${any?`<p class="meta" style="margin:0">Sends the plan with a link that opens this week on another phone.</p><div class="row">${navigator.share?`<button class="btn primary" id="share-week" data-act="share-week">Share this week</button>`:""}<button class="btn ${navigator.share?"ghost":"primary"}" id="copy-week" data-act="copy-week">Copy week as text</button></div>`:""}
       <textarea class="copybox" id="copybox" readonly hidden aria-label="Week as text"></textarea>
       <details><summary>Load a week someone shared</summary><div class="stack" style="margin-top:8px"><label class="field" for="import-code">Paste the link or code<input class="search" id="import-code" type="text" autocomplete="off" spellcheck="false" placeholder="https://...?week=..."></label><button class="btn" id="import-paste" data-act="import-paste" style="width:max-content">Load week</button></div></details>
     </div>
@@ -1131,7 +1119,7 @@ function viewRecipes(){
       <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
     </article>`;}).join("");
   return `<section class="stack">
-    <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" you can shop for at "+STORE_LBL[S.store]}. Each plate shows what is in the recipe by color. Low added salt and no added sugar, so one pot feeds the whole family.</p></div>
+    <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" at "+STORE_LBL[S.store]}, all low in added salt with no added sugar.</p></div>
     <input class="search" id="rq" type="search" placeholder="Search recipes or ingredients" aria-label="Search recipes" value="${rsearch.replace(/"/g,"&quot;")}" autocomplete="off">
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
@@ -1185,7 +1173,7 @@ function viewShop(){
   }
   const pantry=st.map(x=>{const key="st:"+x; return `<li><label><input type="checkbox" id="chk-${key.replace(/[^a-z]/g,"-")}" data-act="check" data-id="${key}" ${S.checked[key]?"checked":""}>${x}</label></li>`;}).join("");
   return `<section class="stack">
-    <div><h2>Shopping list</h2><p class="lead">Amounts are added up across your week and rounded up to whole packs.${S.store==="both"?" Each item goes to whichever store wastes less, and you can switch any of them.":""} The bar shows how much of each pack this week eats.</p></div>
+    <div><h2>Shopping list</h2><p class="lead">Rounded up to whole packs${S.store==="both"?", each at the store that wastes less":""}. The bar shows how much of each pack the week uses.</p></div>
     ${html}
     ${st.length?`<div class="cat">Check at home</div><div class="card"><ul class="pantry">${pantry}</ul></div>`:""}
     <div class="row">${navigator.share?`<button class="btn primary" id="share" data-act="share">Share list</button>`:""}<button class="btn ${navigator.share?"ghost":"primary"}" id="copy" data-act="copy">Copy list as text</button><button class="btn ghost" id="uncheck" data-act="uncheck">Clear all ticks</button></div>
@@ -1268,7 +1256,7 @@ function viewShelf(){
   const rows=ids.map(k=>{const it=I[k]; const n=it.life==null?(it.cat==="Frozen"?String(it.fzm||12):"∞"):it.life; const lab=it.life==null?(it.cat==="Frozen"?"months frozen":"pantry"):"days";
     const packs=stores.filter(s=>it[s]).map(s=>`<div class="meta">${stores.length>1?`<b>${STORE_LBL[s]}:</b> `:""}${it[s].pack}</div>`).join("");
     return `<div class="shelf"><div class="n">${n}<small>${lab}</small></div><div class="stack" style="gap:3px"><h3>${nm(k)}</h3>${packs}<div>${it.keep}</div><div class="meta">${it.left}</div></div></div>`;}).join("");
-  return `<section class="stack"><div><h2>Shelf life</h2><p class="lead">Shortest-lived first. The number is how many days after shopping the planner trusts each item before it tells you to cook it or freeze it.</p></div><div>${rows}</div></section>`;
+  return `<section class="stack"><div><h2>Shelf life</h2><p class="lead">Shortest-lived first, with how long each item keeps after shopping.</p></div><div>${rows}</div></section>`;
 }
 
 /* ---------- render + events ---------- */
@@ -1311,7 +1299,7 @@ function act(el,ev){
   else if(a==="remove"){arr(m)[d]=null;}
   else if(a==="double"){arr("d")[d].double=!arr("d")[d].double;}
   else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>=cnt(m)) return; const A=arr(m); [A[d],A[j]]=[A[j],A[d]];}
-  else if(a==="order"){orderByFreshness(); pairBreakfasts(); toast("Reordered. Fresh meat and fish come first, and breakfasts line up with lunches.");}
+  else if(a==="order"){orderByFreshness(); pairBreakfasts(); toast("Reordered so fresh meat and fish come first");}
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
   else if(a==="kidp"){S.kidPortion=+el.dataset.v;}
