@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Costco Week Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a warehouse aisle. Concrete floor, white sign placards with heavy
+   condensed numerals for pack counts, one kale-green accent, cold blue for freezer. */
+:root{
+  --bg:#e9ece7; --surface:#fbfbf8; --ink:#141d19; --muted:#56615b; --line:#cbd1ca;
+  --accent:#1c6a45; --accent-ink:#ffffff; --tint:#dcebe1;
+  --warn:#b3261e; --warn-tint:#f8e1de; --freeze:#1b5d88; --freeze-tint:#dcebf5; --fresh:#2f6f1d; --fresh-tint:#e1eed9;
+  --sign-bg:#ffffff; --sign-ink:#111111;
+  --display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#111613; --surface:#1a211d; --ink:#e7ece8; --muted:#9aa79f; --line:#323c36;
+    --accent:#6ccb97; --accent-ink:#0b1a12; --tint:#1f3329;
+    --warn:#ff8f85; --warn-tint:#3b1f1c; --freeze:#82c5ee; --freeze-tint:#1a2f3d; --fresh:#9cd67c; --fresh-tint:#22321b;
+    --sign-bg:#f1f1ec; --sign-ink:#111111;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111613; --surface:#1a211d; --ink:#e7ece8; --muted:#9aa79f; --line:#323c36;
+  --accent:#6ccb97; --accent-ink:#0b1a12; --tint:#1f3329;
+  --warn:#ff8f85; --warn-tint:#3b1f1c; --freeze:#82c5ee; --freeze-tint:#1a2f3d; --fresh:#9cd67c; --fresh-tint:#22321b;
+  --sign-bg:#f1f1ec; --sign-ink:#111111;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--body)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 64px}
+header.top{padding:22px 0 10px;display:flex;flex-direction:column;gap:6px}
+h1{font:700 clamp(40px,11vw,64px)/.9 var(--display);letter-spacing:-.01em;text-transform:uppercase;margin:0;text-wrap:balance}
+h1 span{color:var(--accent)}
+.sub{color:var(--muted);margin:0;max-width:60ch}
+.status{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.status b{color:var(--ink);font-weight:600}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:3px solid var(--ink);margin:8px 0 18px}
+nav.tabs a{font:600 19px/1 var(--display);text-transform:uppercase;letter-spacing:.03em;text-decoration:none;color:var(--muted);padding:13px 4px 11px;text-align:center;white-space:nowrap;border:3px solid transparent;border-bottom:0}
+nav.tabs a[aria-current="page"]{color:var(--sign-ink);background:var(--sign-bg);border-color:var(--ink)}
+h2{font:700 30px/1 var(--display);text-transform:uppercase;margin:0 0 4px;text-wrap:balance}
+h3{font:600 17px/1.25 var(--body);margin:0}
+.lead{color:var(--muted);margin:0 0 14px;max-width:65ch}
+.stack{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:2px solid var(--ink);background:transparent;border-radius:3px;padding:7px 12px;font-weight:600;font-size:14px;cursor:pointer;min-height:40px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.small{min-height:34px;padding:4px 9px;font-size:13px}
+.btn.ghost{border-color:var(--line)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+select{background:var(--surface);border:2px solid var(--ink);border-radius:3px;padding:7px 8px;min-height:40px;max-width:100%}
+.chip{display:inline-flex;align-items:center;font-size:12.5px;font-weight:600;padding:3px 8px;border-radius:2px;background:var(--tint);color:var(--ink);line-height:1.3}
+.chip.fresh{background:var(--fresh-tint);color:var(--fresh)}
+.chip.freeze{background:var(--freeze-tint);color:var(--freeze)}
+.chip.warn{background:var(--warn-tint);color:var(--warn)}
+.chip.plain{background:transparent;border:1px solid var(--line);color:var(--muted);font-weight:500}
+.meta{font-size:13px;color:var(--muted)}
+/* settings */
+.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+.stepper{display:inline-flex;align-items:center;border:2px solid var(--ink);border-radius:3px;width:max-content}
+.stepper button{border:0;background:transparent;width:40px;height:38px;font-size:20px;cursor:pointer}
+.stepper output{min-width:34px;text-align:center;font:700 22px/1 var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
+/* week */
+.day{display:grid;grid-template-columns:64px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--line);border-radius:4px;padding:12px}
+.day.s-fresh{border-left-color:var(--fresh)} .day.s-freeze{border-left-color:var(--freeze)} .day.s-warn{border-left-color:var(--warn)}
+.dow{font:700 28px/1 var(--display);text-transform:uppercase}
+.dow small{display:block;font:600 11px/1.3 var(--body);color:var(--accent);letter-spacing:.04em;margin-top:4px}
+.day .body{display:flex;flex-direction:column;gap:8px;min-width:0}
+.prep{border:3px solid var(--ink);background:var(--sign-bg);color:var(--sign-ink);border-radius:2px;padding:12px 14px}
+.prep h3{font:700 22px/1 var(--display);text-transform:uppercase;margin-bottom:6px}
+.prep ul{margin:0;padding-left:18px} .prep li{margin:3px 0}
+/* recipes */
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.filters .btn{white-space:nowrap}
+.recipe .head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.recipe .time{font:700 26px/1 var(--display);white-space:nowrap;font-variant-numeric:tabular-nums}
+.recipe .time small{font:500 12px var(--body);color:var(--muted)}
+details{border-top:1px solid var(--line);padding-top:8px}
+summary{cursor:pointer;font-weight:600;font-size:14px}
+.ing{list-style:none;margin:8px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:2px 16px;font-size:14px}
+.ing li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--line);padding:3px 0}
+.ing b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+ol.steps{margin:8px 0 0;padding-left:20px;font-size:14.5px;max-width:65ch} ol.steps li{margin:4px 0}
+.kid{font-size:14px;border-left:4px solid var(--accent);padding:2px 0 2px 10px;max-width:65ch}
+.kid b{font-weight:600}
+/* shopping */
+.cat{font:700 22px/1 var(--display);text-transform:uppercase;margin:14px 0 2px;display:flex;justify-content:space-between;align-items:baseline}
+.cat span{font:500 13px var(--body);color:var(--muted);text-transform:none}
+.item{display:grid;grid-template-columns:auto 62px 1fr;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:12px}
+.item input[type=checkbox]{width:24px;height:24px;margin:4px 0 0;accent-color:var(--accent)}
+.item.done{opacity:.55} .item.done h3{text-decoration:line-through}
+.placard{background:var(--sign-bg);color:var(--sign-ink);border:3px solid var(--sign-ink);text-align:center;padding:4px 2px 5px;border-radius:2px}
+.placard b{display:block;font:700 38px/.95 var(--display);font-variant-numeric:tabular-nums}
+.placard span{display:block;font:600 11px/1 var(--body);text-transform:uppercase;letter-spacing:.06em}
+.use{height:8px;background:var(--line);border-radius:1px;overflow:hidden;margin:6px 0 4px}
+.use i{display:block;height:100%;background:var(--accent)}
+.item .info{display:flex;flex-direction:column;gap:3px;min-width:0}
+.item .nums{font-size:13.5px;font-variant-numeric:tabular-nums}
+.pantry{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 14px}
+.pantry label{display:flex;gap:8px;align-items:center;font-size:14.5px}
+.pantry input{width:20px;height:20px;accent-color:var(--accent)}
+/* storage */
+.shelf{display:grid;grid-template-columns:74px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:12px}
+.shelf .n{font:700 34px/.9 var(--display);font-variant-numeric:tabular-nums}
+.shelf .n small{display:block;font:600 11px/1.2 var(--body);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-top:3px}
+.foot{font-size:13px;color:var(--muted);margin-top:28px;max-width:70ch}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:3px;font-weight:600;font-size:14px;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+@media (max-width:420px){ nav.tabs a{font-size:16px} .day{grid-template-columns:52px 1fr} .dow{font-size:24px} }
+@media (prefers-reduced-motion:reduce){ #toast{transition:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Costco <span>week</span> planner</h1>
+    <p class="sub">Pick healthy dinners, see how many warehouse packs they need, and know what to cook first and what to freeze.</p>
+    <div class="status" id="status" aria-live="polite"></div>
+  </header>
+  <nav class="tabs" aria-label="Sections">
+    <a href="#week" data-tab="week">Week</a>
+    <a href="#recipes" data-tab="recipes">Recipes</a>
+    <a href="#shopping-list" data-tab="shopping-list">Shop</a>
+    <a href="#shelf-life" data-tab="shelf-life">Shelf life</a>
+  </nav>
+  <main id="app"></main>
+  <p class="foot">Pack sizes are typical for US warehouses and change by location and season, so check the label. Storage times follow USDA guidance counted from the day you shop; trust the package date and your nose first. Toddler notes are general feeding-safety tips, and your pediatrician knows your child. This page is not affiliated with Costco.</p>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+"use strict";
+/* ---------- data ---------- */
+const CATS=["Produce","Meat & fish","Dairy & eggs","Frozen","Pantry"];
+const I={
+ cb:{n:"Chicken breasts, boneless skinless",s:"chicken breast",pack:"6 sealed pouches, about 6.5 lb",q:6.5,u:"lb",cat:"Meat & fish",life:2,fz:1,keep:"1 to 2 days in the fridge. 9 months frozen.",left:"The pouches are sealed separately, so freeze them as they are. One pouch is about one dinner for you."},
+ cansalmon:{n:"Wild Alaskan pink salmon, canned",s:"canned salmon",pack:"6 cans, 6 oz",q:6,u:"can",cat:"Pantry",life:null,keep:"Years unopened. 3 to 4 days once opened.",left:"Unopened cans keep for years. A good backup when the fresh fish is gone."},
+ edamame:{n:"Shelled edamame, frozen",s:"edamame",pack:"about 3 lb",q:48,u:"oz",cat:"Frozen",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. A handful thaws in a minute under warm water."},
+ walnut:{n:"Walnut halves",s:"walnuts",pack:"3 lb bag",q:48,u:"oz",cat:"Pantry",life:null,keep:"About 6 months in the pantry, a year in the fridge or freezer.",left:"Keep the bag in the freezer so the oils do not go stale."},
+ cucumber:{n:"Mini cucumbers",s:"cucumbers",pack:"about 2 lb bag",q:32,u:"oz",cat:"Produce",life:7,keep:"About a week in the crisper, kept dry.",left:"Slice extras for snacks with hummus."},
+ hummus:{n:"Organic hummus",s:"hummus",pack:"20 single cups, 2.5 oz each",q:50,u:"oz",cat:"Dairy & eggs",life:21,keep:"Sealed cups until the package date. 5 to 7 days once opened.",left:"Single cups stay sealed until you need them."},
+ chx:{n:"Chicken thighs, boneless skinless",s:"chicken thighs",pack:"6 sealed pouches, about 9 lb",q:9,u:"lb",cat:"Meat & fish",life:2,fz:1,keep:"1 to 2 days in the fridge. 9 months frozen.",left:"The pouches are sealed separately, so freeze them as they are. One pouch is about one dinner for you."},
+ salmon:{n:"Fresh Atlantic salmon fillet",s:"salmon",pack:"1 tray, about 3 lb",q:3,u:"lb",cat:"Meat & fish",life:2,fz:1,keep:"1 to 2 days in the fridge. 3 months frozen.",left:"Cut into dinner-size portions, wrap tightly and freeze on shopping day."},
+ turkey:{n:"Ground turkey",s:"ground turkey",pack:"4 sealed packs, about 6.8 lb",q:6.8,u:"lb",cat:"Meat & fish",life:2,fz:1,keep:"1 to 2 days in the fridge. 4 months frozen.",left:"Each 1.7 lb pack freezes sealed. Thaw one overnight in the fridge."},
+ rotis:{n:"Rotisserie chicken",s:"rotisserie chicken",pack:"1 cooked chicken, about 3 lb",q:1,u:"chicken",cat:"Meat & fish",life:4,fz:1,keep:"3 to 4 days in the fridge. 4 months frozen once shredded.",left:"Shred it while warm and freeze what you will not eat in 4 days in 2-cup bags. Simmer the carcass for stock."},
+ shrimp:{n:"Raw shrimp, peeled, frozen",s:"shrimp",pack:"2 lb bag",q:2,u:"lb",cat:"Frozen",life:null,keep:"Up to 12 months frozen. Thaw in cold water in 15 minutes.",left:"Reseal the bag. Take out only what you need."},
+ eggs:{n:"Eggs",s:"eggs",pack:"2 dozen",q:24,u:"egg",cat:"Dairy & eggs",life:28,keep:"3 to 5 weeks in the fridge.",left:"They keep for weeks. Hard-boil a few for snacks."},
+ tofu:{n:"Organic firm tofu",s:"tofu",pack:"4 blocks",q:4,u:"block",cat:"Dairy & eggs",life:21,keep:"Sealed until the package date. 3 to 5 days once opened, in fresh water.",left:"Sealed blocks last weeks. Tofu also freezes, and turns chewier."},
+ yogurt:{n:"Plain Greek yogurt",s:"yogurt",pack:"48 oz tub",q:48,u:"oz",cat:"Dairy & eggs",life:14,keep:"Sealed until the package date. 1 to 2 weeks once opened.",left:"Breakfasts and snacks use it up. Swap it in for sour cream."},
+ cheese:{n:"Shredded cheese blend",s:"shredded cheese",pack:"2 bags, 2.5 lb each",q:80,u:"oz",cat:"Dairy & eggs",life:21,keep:"3 to 4 weeks once opened. 6 months frozen.",left:"Freeze the second bag unopened. Shredded cheese cooks straight from frozen."},
+ spinach:{n:"Organic baby spinach",s:"spinach",pack:"1 lb tub",q:16,u:"oz",cat:"Produce",life:6,fz:1,keep:"5 to 7 days in the fridge.",left:"Freeze handfuls in a bag for smoothies, soups and sauces before it wilts."},
+ broccoli:{n:"Broccoli florets",s:"broccoli",pack:"3 lb bag",q:48,u:"oz",cat:"Produce",life:5,keep:"About 5 days in the fridge.",left:"Steam extra as toddler finger food. Blanch 2 minutes, then freeze the rest."},
+ sweetpot:{n:"Sweet potatoes",s:"sweet potatoes",pack:"about 6.5 lb bag",q:6.5,u:"lb",cat:"Produce",life:21,keep:"2 to 3 weeks in a cool, dark cupboard. Not the fridge.",left:"They keep for weeks. Bake several at once and mash some for the baby."},
+ pepper:{n:"Bell peppers",s:"bell peppers",pack:"6 count",q:6,u:"pepper",cat:"Produce",life:8,keep:"1 to 2 weeks in the crisper.",left:"Slice and freeze raw for chili, eggs and stir-fries."},
+ avocado:{n:"Avocados",s:"avocados",pack:"bag of 6",q:6,u:"avocado",cat:"Produce",life:5,keep:"Ripen on the counter 2 to 4 days, then 3 more in the fridge.",left:"Move ripe ones to the fridge to pause them. Mash and freeze with lemon juice."},
+ tomato:{n:"Grape tomatoes",s:"grape tomatoes",pack:"2 lb clamshell",q:32,u:"oz",cat:"Produce",life:7,keep:"About a week on the counter or in the fridge.",left:"Roast a tray of the extras with olive oil for pasta."},
+ carrot:{n:"Organic carrots",s:"carrots",pack:"5 lb bag",q:5,u:"lb",cat:"Produce",life:21,keep:"3 to 4 weeks in the fridge.",left:"They keep for weeks. Steam soft sticks for the baby."},
+ lemon:{n:"Lemons",s:"lemons",pack:"5 lb bag, about 15",q:15,u:"lemon",cat:"Produce",life:21,keep:"3 to 4 weeks in the fridge.",left:"Juice extras into an ice cube tray."},
+ onion:{n:"Yellow onions",s:"onions",pack:"10 lb bag, about 20",q:20,u:"onion",cat:"Produce",life:30,keep:"1 to 2 months in a cool, dark, airy spot.",left:"A bag lasts a month or more. Skip it if you still have some."},
+ banana:{n:"Bananas",s:"bananas",pack:"3 lb bunch, about 8",q:8,u:"banana",cat:"Produce",life:5,keep:"About 5 days on the counter.",left:"Peel and freeze spotty ones for smoothies and pancakes."},
+ blueberry:{n:"Blueberries",s:"blueberries",pack:"18 oz clamshell",q:18,u:"oz",cat:"Produce",life:7,keep:"5 to 10 days in the fridge, unwashed.",left:"Freeze extras on a tray, then bag them."},
+ stirfry:{n:"Stir-fry vegetable blend, frozen",s:"stir-fry vegetables",pack:"5.5 lb bag",q:88,u:"oz",cat:"Frozen",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. It cooks from frozen."},
+ mixveg:{n:"Organic mixed vegetables, frozen",s:"mixed vegetables",pack:"5 lb bag",q:80,u:"oz",cat:"Frozen",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. Soft peas and carrots make an easy toddler side."},
+ berries:{n:"Berry blend, frozen",s:"frozen berries",pack:"4 lb bag",q:64,u:"oz",cat:"Frozen",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag."},
+ quinoa:{n:"Organic quinoa",s:"quinoa",pack:"4.5 lb bag, about 11 cups",q:11,u:"cup",cat:"Pantry",life:null,keep:"2 years or more, sealed and dry.",left:"One bag covers months of dinners."},
+ rice:{n:"Brown rice",s:"rice",pack:"12 lb bag, about 27 cups",q:27,u:"cup",cat:"Pantry",life:null,keep:"About 6 months in the pantry, a year in the fridge or freezer.",left:"Keep brown rice airtight. Its oils go stale faster than white rice."},
+ pasta:{n:"Organic pasta",s:"pasta",pack:"6 bags, about 1.1 lb each",q:106,u:"oz",cat:"Pantry",life:null,keep:"2 years, dry.",left:"Unopened bags keep for years."},
+ beans:{n:"Organic black beans",s:"black beans",pack:"8 cans, 15 oz",q:8,u:"can",cat:"Pantry",life:null,keep:"2 to 5 years unopened. 3 to 4 days once opened.",left:"Unopened cans keep for years."},
+ chickpea:{n:"Organic chickpeas",s:"chickpeas",pack:"8 cans, 15.5 oz",q:8,u:"can",cat:"Pantry",life:null,keep:"2 to 5 years unopened. 3 to 4 days once opened.",left:"Unopened cans keep for years."},
+ dicedtom:{n:"Organic diced tomatoes",s:"diced tomatoes",pack:"8 cans, 14.5 oz",q:8,u:"can",cat:"Pantry",life:null,keep:"About 18 months unopened.",left:"Unopened cans keep well over a year."},
+ stock:{n:"Organic chicken stock",s:"chicken stock",pack:"6 cartons, 1 quart each",q:24,u:"cup",cat:"Pantry",life:null,keep:"A year unopened. 7 to 10 days once opened.",left:"Freeze what is left in an opened carton in an ice cube tray."},
+ marinara:{n:"Marinara sauce",s:"marinara",pack:"2 jars, 28 oz each",q:56,u:"oz",cat:"Pantry",life:null,keep:"A year unopened. About 10 days once opened.",left:"Freeze the rest of an opened jar flat in a bag."},
+ oats:{n:"Old-fashioned rolled oats",s:"oats",pack:"10 lb box, about 50 cups",q:50,u:"cup",cat:"Pantry",life:null,keep:"1 to 2 years, sealed and dry.",left:"One box covers months of breakfasts."},
+ pb:{n:"Natural peanut butter",s:"peanut butter",pack:"2 jars, 28 oz each",q:56,u:"oz",cat:"Pantry",life:null,keep:"Several months opened, longer in the fridge.",left:"Stir well and store the open jar in the fridge."},
+ coconut:{n:"Organic coconut milk",s:"coconut milk",pack:"6 cans, 13.5 oz",q:6,u:"can",cat:"Pantry",life:null,keep:"2 years unopened. 4 to 5 days once opened.",left:"Freeze what is left in an opened can for the next curry."},
+ pesto:{n:"Basil pesto",s:"pesto",pack:"22 oz jar",q:22,u:"oz",cat:"Dairy & eggs",life:14,fz:1,keep:"Sealed until the package date. About 2 weeks once opened.",left:"Freeze spoonfuls in an ice cube tray. One cube sauces a toddler bowl."}
+};
+const R=[
+ {id:"salmon-power-bowl",n:"Salmon power bowl with quinoa, edamame and avocado",meal:"dinner",t:25,tags:["Bowl or salad","Omega-3"],ing:{salmon:.35,quinoa:.33,edamame:2.5,avocado:.5,cucumber:3,lemon:.25},st:["extra virgin olive oil","fresh ginger","low-sodium soy sauce"],
+  kid:"Serve hers as separate piles: flaked salmon, quinoa, avocado spears and edamame squashed flat. Peel her cucumber and cut it into thin strips.",
+  steps:["Cook the quinoa. Roast the salmon at 425°F for 10 to 12 minutes.","Thaw the edamame under warm water. Slice the cucumber and avocado.","Whisk grated ginger, lemon juice and olive oil. Take out her portion, then add soy sauce to the rest.","Build the bowls over quinoa and spoon the dressing on top."]},
+ {id:"turmeric-chicken-bowl",n:"Turmeric ginger chicken bowl with sweet potato and broccoli",meal:"dinner",t:35,tags:["Bowl or salad","Lean protein"],ing:{cb:.35,sweetpot:.4,broccoli:5,rice:.33,yogurt:2,lemon:.25},st:["extra virgin olive oil","ground turmeric","black pepper","fresh ginger","garlic"],
+  kid:"Turmeric and ginger are fine for her in cooking amounts. Shred the chicken finely, since breast is drier than thigh, and stir it into the yogurt sauce.",
+  steps:["Start the rice. Roast sweet potato cubes at 425°F for 15 minutes.","Toss sliced chicken with oil, turmeric, pepper, ginger and garlic.","Add the chicken and broccoli to the tray and roast 12 to 15 minutes, to 165°F.","Thin the yogurt with lemon juice and spoon it over the bowls."]},
+ {id:"med-chickpea-salad",n:"Mediterranean chickpea and quinoa salad",meal:"dinner",t:20,tags:["Bowl or salad","Plant-based","Vegetarian","Make ahead"],ing:{chickpea:.5,quinoa:.25,cucumber:4,tomato:4,pepper:.5,spinach:1.5,lemon:.5},st:["extra virgin olive oil","dried oregano","garlic"],
+  kid:"Squash her chickpeas flat, quarter the tomatoes lengthwise and chop the spinach very finely. Raw leaves are hard to chew at this age.",
+  steps:["Cook the quinoa and spread it on a plate to cool.","Dice the cucumber and pepper and quarter the tomatoes.","Whisk olive oil, lemon juice, oregano and garlic.","Toss everything with the rinsed chickpeas and chopped spinach. It keeps 3 days in the fridge."]},
+ {id:"salmon-spinach-salad",n:"No-cook salmon, chickpea and avocado spinach salad",meal:"dinner",t:10,tags:["Bowl or salad","Omega-3","Pantry protein"],ing:{cansalmon:.75,chickpea:.25,spinach:2.5,cucumber:3,avocado:.5,lemon:.5},st:["extra virgin olive oil","Dijon mustard"],
+  kid:"Canned salmon is packed with salt, so give her a small flaked portion mixed into mashed avocado. Chop her spinach finely.",
+  steps:["Whisk olive oil, lemon juice and a little mustard in the salad bowl.","Add the spinach, sliced cucumber and rinsed chickpeas and toss.","Top with flaked salmon and avocado."]},
+ {id:"sweet-potato-bean-bowl",n:"Sweet potato and black bean power bowl",meal:"dinner",t:35,tags:["Bowl or salad","Plant-based","Vegetarian"],ing:{sweetpot:.6,beans:.5,quinoa:.25,avocado:.5,spinach:1.5,pepper:.5},st:["extra virgin olive oil","cumin","smoked paprika","lime or lemon"],
+  kid:"Roasted sweet potato, flattened beans and avocado are all easy finger foods. Wilt her spinach into the warm quinoa.",
+  steps:["Roast sweet potato cubes and pepper strips with oil, cumin and paprika at 425°F for 25 minutes.","Cook the quinoa and warm the rinsed beans.","Mash the avocado with lime juice.","Build the bowls over spinach and quinoa and top with the avocado."]},
+ {id:"sesame-tofu-bowl",n:"Sesame tofu and edamame brown rice bowl",meal:"dinner",t:25,tags:["Bowl or salad","Plant-based","Vegetarian","Freezer meal"],ing:{tofu:.4,edamame:3,rice:.33,stirfry:5,cucumber:2},st:["low-sodium soy sauce","sesame oil","fresh ginger","garlic"],
+  kid:"Tofu and edamame are both soy. If soy is new, offer a little early in the day first. Squash each edamame bean and take her portion out before the soy sauce.",
+  steps:["Start the rice. Press the tofu dry and cut it into cubes.","Brown the tofu in a little oil for 8 minutes, then set it aside.","Stir-fry the frozen vegetables and edamame with ginger and garlic for 5 minutes.","Take out her portion, then season the rest with soy sauce and sesame oil. Top with sliced cucumber."]},
+ {id:"chicken-berry-salad",n:"Chicken, blueberry and walnut spinach salad",meal:"dinner",t:20,tags:["Bowl or salad","Lean protein"],ing:{cb:.3,spinach:3,blueberry:2.5,walnut:.75,avocado:.5,lemon:.25},st:["extra virgin olive oil","Dijon mustard"],
+  kid:"No walnut pieces for her. Whole and chopped nuts are a choking risk until about age 4, so crush hers to a fine meal or leave them out. Flatten the blueberries.",
+  steps:["Sear the chicken 6 minutes a side until it reaches 165°F. Rest it, then slice.","Toast the walnuts in a dry pan for 3 minutes.","Whisk olive oil, lemon juice and mustard.","Toss the spinach with the dressing and top with chicken, blueberries, avocado and walnuts."]},
+ {id:"hummus-chicken-bowl",n:"Hummus bowl with chicken, cucumber and tomatoes",meal:"dinner",t:25,tags:["Bowl or salad","Lean protein"],ing:{cb:.3,hummus:2.5,quinoa:.33,cucumber:3,tomato:3,lemon:.25},st:["extra virgin olive oil","dried oregano","garlic"],
+  kid:"Hummus contains sesame, a common allergen, so start with a small taste if it is new. It makes shredded chicken easier for her to manage.",
+  steps:["Cook the quinoa. Rub the chicken with oil, oregano and garlic.","Sear the chicken 6 minutes a side until it reaches 165°F, then slice.","Dice the cucumber and quarter the tomatoes.","Spread hummus in each bowl, add quinoa, chicken and vegetables, and finish with lemon and olive oil."]},
+ {id:"shrimp-avocado-bowl",n:"Garlic shrimp, black bean and avocado quinoa bowl",meal:"dinner",t:20,tags:["Bowl or salad","Lean protein","Freezer meal"],ing:{shrimp:.3,beans:.33,quinoa:.33,avocado:.5,tomato:3,pepper:.5},st:["extra virgin olive oil","garlic","cumin","lime or lemon"],
+  kid:"Shellfish is a common allergen, so offer a little early in the day if it is new. Chop her shrimp small and flatten the beans.",
+  steps:["Cook the quinoa. Thaw the shrimp in cold water for 15 minutes and pat dry.","Cook the shrimp with garlic and cumin in oil for 3 minutes until pink.","Warm the rinsed beans. Dice the pepper, tomatoes and avocado.","Build the bowls and squeeze lime over the top."]},
+ {id:"salmon-quinoa",n:"Salmon with quinoa and garlicky spinach",meal:"dinner",t:25,tags:["Omega-3"],ing:{salmon:.4,quinoa:.33,spinach:3,lemon:.25},st:["olive oil","garlic"],
+  kid:"Flake her salmon with your fingers and feel for pin bones. Chop the spinach and stir it into the quinoa so it holds together.",
+  steps:["Simmer the quinoa in twice its volume of water for 15 minutes, then rest it covered.","Roast the salmon at 425°F for 10 to 12 minutes with olive oil and lemon slices.","Wilt the spinach with garlic in a little oil for 2 minutes.","Set her portion aside, then salt the rest and squeeze over more lemon."]},
+ {id:"salmon-traybake",n:"Salmon and sweet potato tray bake with peas and carrots",meal:"dinner",t:35,tags:["Omega-3"],ing:{salmon:.4,sweetpot:.5,mixveg:4,lemon:.25},st:["olive oil","smoked paprika"],
+  kid:"Roasted sweet potato cubes squash easily between gums. Flake the salmon and check for bones.",
+  steps:["Roast 3/4-inch sweet potato cubes with oil and paprika at 425°F for 20 minutes.","Push them aside, add the salmon, and roast 10 to 12 minutes more.","Steam or microwave the frozen vegetables.","Finish with lemon. Salt the adult plates at the table."]},
+ {id:"sheetpan-chicken",n:"Sheet-pan chicken thighs, sweet potato and broccoli",meal:"dinner",t:40,tags:["One pan"],ing:{chx:.4,sweetpot:.5,broccoli:5,lemon:.25},st:["olive oil","garlic","smoked paprika"],
+  kid:"Shred her chicken finely. Thigh meat stays moist, which makes it easier to chew than breast.",
+  steps:["Toss sweet potato cubes with oil and roast at 425°F for 15 minutes.","Add the chicken thighs, rubbed with paprika and garlic, and roast 10 minutes.","Add the broccoli and roast 12 minutes more, until the chicken reaches 165°F.","Pull her portion, then salt and add lemon for the adults."]},
+ {id:"greek-chicken",n:"Greek chicken bowls with lemon yogurt sauce",meal:"dinner",t:30,tags:[],ing:{chx:.4,quinoa:.33,tomato:3,pepper:.5,yogurt:2,lemon:.25},st:["olive oil","garlic","dried oregano"],
+  kid:"Quarter grape tomatoes lengthwise. Round foods that size are a choking risk when whole. Yogurt sauce doubles as her dip.",
+  steps:["Cook the quinoa. Rub the chicken with oil, oregano, garlic and lemon zest.","Sear the chicken 6 minutes a side until it reaches 165°F, then slice.","Chop the peppers and quarter the tomatoes.","Stir lemon juice and garlic into the yogurt and spoon it over the bowls."]},
+ {id:"burrito-bowls",n:"Rotisserie chicken burrito bowls",meal:"dinner",t:20,tags:["No-cook protein"],ing:{rotis:.15,rice:.4,beans:.33,avocado:.5,tomato:3,cheese:1},st:["cumin","lime or lemon"],
+  kid:"Rotisserie chicken is salty, so give her the inner breast meat without skin. Mash the beans lightly and serve avocado in spears.",
+  steps:["Cook the rice. This is the only real cooking.","Warm the rinsed beans with cumin.","Shred the chicken, quarter the tomatoes, slice the avocado.","Build bowls and top with cheese."]},
+ {id:"chicken-soup",n:"Rotisserie chicken and vegetable soup",meal:"dinner",t:30,tags:["Freezes well","One pot"],ing:{rotis:.12,stock:1.5,carrot:.25,mixveg:4,pasta:1.5,onion:.25},st:["olive oil","garlic","dried thyme"],
+  kid:"Boxed stock is seasoned. Thin her bowl with a splash of water and serve the soft vegetables and pasta mostly drained.",
+  steps:["Soften the onion, carrots and garlic in oil for 6 minutes.","Add the stock and thyme and simmer 10 minutes.","Add the pasta and frozen vegetables and cook until the pasta is soft.","Stir in the shredded chicken to warm through."]},
+ {id:"pesto-pasta",n:"Pesto pasta with chicken, tomatoes and broccoli",meal:"dinner",t:20,tags:["No-cook protein"],ing:{rotis:.12,pasta:3,pesto:1.5,tomato:3,broccoli:4},st:[],
+  kid:"Pesto has tree nuts and cheese. If either is new for her, offer a small taste early in the day first. Cook her broccoli until it squashes easily.",
+  steps:["Boil the pasta. Add the broccoli to the pot for the last 4 minutes.","Halve the tomatoes, or quarter them for her.","Drain, saving a little pasta water.","Toss everything with the pesto, shredded chicken and a splash of the water."]},
+ {id:"turkey-chili",n:"Turkey and black bean chili",meal:"dinner",t:45,tags:["Freezes well","One pot"],ing:{turkey:.3,beans:.5,dicedtom:.5,pepper:.5,onion:.25,stock:.5},st:["olive oil","garlic","cumin","chili powder"],
+  kid:"Season with cumin first, scoop out her portion, then add the chili powder. Mash her beans with a fork.",
+  steps:["Brown the turkey with the onion, pepper and garlic.","Add cumin, the tomatoes, rinsed beans and stock.","Simmer 25 minutes. Take out her portion, then stir in chili powder.","Serve with yogurt and cheese if you have them."]},
+ {id:"turkey-meatballs",n:"Turkey and spinach meatballs with marinara",meal:"dinner",t:35,tags:["Freezes well"],ing:{turkey:.3,eggs:.25,oats:.1,spinach:1.5,marinara:5,pasta:2.5},st:["garlic","dried oregano"],
+  kid:"Quarter her meatballs. They are soft enough to pick up, and the spinach is already inside.",
+  steps:["Mix the turkey with egg, oats, finely chopped spinach, garlic and oregano.","Roll into small balls and bake at 400°F for 15 to 18 minutes, to 165°F.","Boil the pasta and warm the marinara.","Toss together. Freeze extra baked meatballs for a later week."]},
+ {id:"shrimp-stirfry",n:"Shrimp and vegetable stir-fry with rice",meal:"dinner",t:20,tags:["Freezer meal"],ing:{shrimp:.33,stirfry:6,rice:.4},st:["low-sodium soy sauce","garlic","fresh ginger","sesame oil"],
+  kid:"Shellfish is a common allergen, so if it is new, offer a little early in the day first. Chop her shrimp small and take her portion out before the soy sauce.",
+  steps:["Start the rice. Thaw the shrimp in cold water for 15 minutes and pat dry.","Stir-fry the frozen vegetables over high heat for 5 minutes.","Add the shrimp, garlic and ginger and cook 3 minutes until pink.","Take out her portion, then add soy sauce and sesame oil."]},
+ {id:"chickpea-curry",n:"Chickpea, spinach and coconut curry",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot"],ing:{chickpea:.5,coconut:.33,dicedtom:.33,spinach:2,onion:.25,rice:.4},st:["olive oil","garlic","fresh ginger","mild curry powder"],
+  kid:"Mild curry powder is fine for most 1-year-olds. Squash each chickpea flat, since whole ones are a choking risk.",
+  steps:["Start the rice. Soften the onion, garlic and ginger in oil.","Stir in the curry powder, then the tomatoes and coconut milk.","Add the rinsed chickpeas and simmer 15 minutes.","Stir in the spinach until it wilts."]},
+ {id:"tofu-fried-rice",n:"Tofu and vegetable fried rice",meal:"dinner",t:25,tags:["Vegetarian","Freezer meal"],ing:{tofu:.4,eggs:1,stirfry:5,rice:.4},st:["low-sodium soy sauce","garlic","sesame oil"],
+  kid:"Soft tofu cubes and scrambled egg are good finger food. Take her portion out before the soy sauce.",
+  steps:["Cook the rice ahead if you can. Cold rice fries better.","Brown the cubed tofu in oil, then set it aside.","Stir-fry the frozen vegetables, push them aside and scramble the eggs.","Add the rice and tofu, fry 3 minutes, then season the adult portions."]},
+ {id:"stuffed-sweet-potato",n:"Stuffed sweet potatoes with black beans and avocado",meal:"dinner",t:20,tags:["Vegetarian"],ing:{sweetpot:.75,beans:.5,yogurt:2,avocado:.5,cheese:1},st:["cumin","lime or lemon"],
+  kid:"Scoop her sweet potato out of the skin and mash it with a few flattened beans and a spoon of yogurt.",
+  steps:["Prick the sweet potatoes and microwave 8 to 10 minutes, turning once, or bake at 400°F for 50 minutes.","Warm the rinsed beans with cumin.","Split the potatoes and fill with beans and cheese.","Top with yogurt and avocado."]},
+ {id:"veggie-frittata",n:"Spinach, pepper and sweet potato frittata",meal:"dinner",t:25,tags:["Vegetarian"],ing:{eggs:2.5,spinach:2,pepper:.5,sweetpot:.25,cheese:1},st:["olive oil"],
+  kid:"Cut her slice into strips she can hold. Make sure the egg is set all the way through.",
+  steps:["Soften small sweet potato cubes and the pepper in an oven-safe pan for 8 minutes.","Wilt in the spinach.","Pour over the beaten eggs and cheese and cook 3 minutes on the stove.","Finish at 375°F for 10 minutes until set."]},
+ {id:"overnight-oats",n:"Overnight oats with berries and yogurt",meal:"breakfast",t:5,tags:["Vegetarian","Make ahead"],ing:{oats:.5,yogurt:3,berries:3,pb:.5},st:["milk","cinnamon"],
+  kid:"Stir peanut butter in until smooth. Never give it to her by the spoonful. Mash any whole berries.",
+  steps:["Stir the oats with equal parts milk, the yogurt and peanut butter.","Top with frozen berries, which thaw overnight.","Chill overnight. It keeps 3 days, so make several jars at once."]},
+ {id:"banana-pancakes",n:"Banana and oat blender pancakes",meal:"breakfast",t:15,tags:["Vegetarian","Freezes well"],ing:{banana:1,eggs:1,oats:.4,blueberry:2},st:["cinnamon","butter or oil for the pan"],
+  kid:"These have no added sugar and are easy to hold. Squash the blueberries flat before they go in.",
+  steps:["Blend the bananas, eggs, oats and cinnamon until smooth.","Cook small pancakes over medium-low heat, 2 minutes a side.","Press a few flattened blueberries into each before flipping.","Freeze extras flat and reheat in the toaster."]},
+ {id:"egg-cups",n:"Egg, spinach and cheese muffin cups",meal:"breakfast",t:25,tags:["Vegetarian","Freezes well","Make ahead"],ing:{eggs:2,spinach:1,cheese:.75,pepper:.25},st:["olive oil for the tin"],
+  kid:"Cut hers into quarters. They reheat in 30 seconds on a busy morning.",
+  steps:["Beat the eggs with finely chopped spinach, diced pepper and cheese.","Pour into an oiled muffin tin, two-thirds full.","Bake at 375°F for 18 to 20 minutes until set.","Refrigerate up to 4 days or freeze up to 2 months."]},
+ {id:"walnut-berry-yogurt-bowl",n:"Berry, walnut and oat yogurt bowl",meal:"breakfast",t:5,tags:["Bowl or salad","Vegetarian"],ing:{yogurt:5,berries:3,walnut:.5,oats:.15},st:["cinnamon"],
+  kid:"Crush her walnuts to a fine meal or leave them out, and mash the berries into the yogurt.",
+  steps:["Thaw the berries overnight in the fridge or for a minute in the microwave.","Spoon the yogurt into bowls and top with berries, oats, chopped walnuts and cinnamon."]},
+ {id:"green-smoothie",n:"Yogurt, berry and spinach smoothie",meal:"breakfast",t:5,tags:["Vegetarian"],ing:{yogurt:4,berries:4,banana:.5,spinach:1},st:["milk"],
+  kid:"Serve hers in an open cup or straw cup. This is a good home for spinach that is about to turn.",
+  steps:["Blend everything with a splash of milk until smooth.","Add more milk to thin it for her cup."]}
+];
+const RX=Object.fromEntries(R.map(r=>[r.id,r]));
+const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], DAYL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const TABS=["week","recipes","shopping-list","shelf-life"];
+const KEY="costco-week-planner-v1";
+
+/* ---------- state ---------- */
+function starter(){return {v:1,adults:2,kids:1,shopDay:6,
+  dinners:[{r:"salmon-quinoa",double:false},{r:"sheetpan-chicken",double:false},{r:"burrito-bowls",double:false},{r:"turkey-chili",double:true},{r:"chickpea-curry",double:false},null,null],
+  breakfasts:{"overnight-oats":3,"egg-cups":2},checked:{},edited:false};}
+function normalize(d){
+  const s=starter(); if(!d||typeof d!=="object") return s;
+  const int=(x,lo,hi,def)=>Number.isInteger(x)&&x>=lo&&x<=hi?x:def;
+  s.adults=int(d.adults,1,8,2); s.kids=int(d.kids,0,6,1); s.shopDay=int(d.shopDay,0,6,6);
+  if(Array.isArray(d.dinners)) s.dinners=Array.from({length:7},(_,i)=>{const x=d.dinners[i];return x&&RX[x.r]&&RX[x.r].meal==="dinner"?{r:x.r,double:!!x.double}:null;});
+  s.breakfasts={}; if(d.breakfasts&&typeof d.breakfasts==="object") for(const r of R) if(r.meal==="breakfast"){const c=int(d.breakfasts[r.id],1,7,0); if(c) s.breakfasts[r.id]=c;}
+  s.checked={}; if(d.checked&&typeof d.checked==="object") for(const k of Object.keys(d.checked).sort()) if(d.checked[k]===true&&k.length<60) s.checked[k]=true;
+  s.edited=!!d.edited; return s;
+}
+let S=starter();
+try{const raw=localStorage.getItem(KEY); if(raw) S=normalize(JSON.parse(raw));}catch(e){}
+let filter="all", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
+
+function persist(){
+  S.edited=true;
+  try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+  if(ref&&canWrite){
+    dirty=true; clearTimeout(timer);
+    timer=setTimeout(()=>{const body=JSON.parse(JSON.stringify(S));
+      chain=chain.then(()=>ref.set(body)).then(()=>{dirty=false;setSync("Saved. Opens the same on your other devices");})
+        .catch(e=>{dirty=false; if(e&&e.code==="invalid_argument") canWrite=false; setSync("Saved on this device only");});},700);
+  }
+}
+function setSync(m){syncMsg=m; renderStatus();}
+(async()=>{
+  try{
+    if(!window.claude||typeof window.claude.use!=="function") return;
+    const db=await window.claude.use("db"); if(!db) return;
+    ref=db.doc("planner/week");
+    ref.onSnapshot(snap=>{
+      if(snap.metadata&&snap.metadata.hasPendingWrites) return;
+      if(dirty) return;
+      if(snap.exists){const n=normalize(snap.data()); if(JSON.stringify(n)!==JSON.stringify(S)){S=n; try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} render();}}
+      setSync("Synced. Opens the same on your other devices");
+    },()=>{ref=null; setSync("Saved on this device only");});
+  }catch(e){}
+})();
+
+/* ---------- maths ---------- */
+const P=()=>S.adults+S.kids*.25;
+function frac(x){const w=Math.floor(x+1e-9), f=x-w; const g=f>.6?"¾":f>.4?"½":f>.2?"¼":""; return (w||!g?w:"")+g;}
+function fq(q,u,down){
+  if(u==="lb") return q<1?Math.max(1,Math.round(q*16))+" oz":(Math.round(q*10)/10)+" lb";
+  if(u==="oz") return q>=32?(Math.round(q/16*10)/10)+" lb":Math.max(1,Math.round(q))+" oz";
+  if(u==="cup"){const r=Math.max(.25,Math.round(q*4)/4); return frac(r)+(r>1?" cups":" cup");}
+  const r=down?Math.floor(q*2+1e-6)/2:Math.max(.5,Math.ceil(q*2-1e-6)/2); return frac(r)+" "+(r>1?u+"s":u);
+}
+function totals(){
+  const T={}, st=new Set();
+  const add=(r,m)=>{for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*m; r.st.forEach(x=>st.add(x));};
+  S.dinners.forEach(x=>{if(x) add(RX[x.r],P()*(x.double?2:1));});
+  for(const id in S.breakfasts) add(RX[id],P()*S.breakfasts[id]);
+  return {T,st:[...st].sort()};
+}
+const packs=(id,need)=>Math.max(1,Math.ceil(need/I[id].q-.02));
+const dayName=(i,long)=>(long?DAYL:DAYS)[(S.shopDay+i)%7];
+function minLife(r){let m=99,who=null; for(const k in r.ing){const l=I[k].life; if(l!=null&&l<m){m=l;who=k;}} return {m,who};}
+function dayCheck(r,d){ // d = days after shopping
+  const thaw=[],late=[]; let perishable=false;
+  for(const k in r.ing){const it=I[k]; if(it.life==null) continue; if(it.life<=7) perishable=true;
+    if(d>it.life){(it.fz?thaw:late).push(k);}}
+  return {thaw,late,perishable};
+}
+function inPlan(id){const out=[]; S.dinners.forEach((x,i)=>{if(x&&x.r===id) out.push(i);}); return out;}
+function addRecipe(id){
+  const r=RX[id];
+  if(r.meal==="breakfast"){S.breakfasts[id]=Math.min(7,(S.breakfasts[id]||0)+(S.breakfasts[id]?1:2)); toast(r.n+": "+S.breakfasts[id]+" mornings"); return true;}
+  const i=S.dinners.indexOf(null); if(i<0){toast("All 7 dinners are filled. Remove one first."); return false;}
+  S.dinners[i]={r:id,double:false}; toast("Added to "+dayName(i,true)); return true;
+}
+function orderByFreshness(){
+  const slots=[], recs=[];
+  S.dinners.forEach((x,i)=>{if(x){slots.push(i);recs.push(x);}});
+  recs.sort((a,b)=>minLife(RX[a.r]).m-minLife(RX[b.r]).m);
+  slots.forEach((s,j)=>S.dinners[s]=recs[j]);
+}
+
+/* ---------- views ---------- */
+const $=s=>document.querySelector(s);
+const chip=(c,t)=>`<span class="chip ${c}">${t}</span>`;
+function list(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];}
+
+function renderStatus(){
+  const {T}=totals(); const ids=Object.keys(T);
+  const nd=S.dinners.filter(Boolean).length, nb=Object.values(S.breakfasts).reduce((a,b)=>a+b,0);
+  const left=ids.filter(k=>!S.checked[k]).length;
+  $("#status").innerHTML=`<span><b>${nd}</b> dinners, <b>${nb}</b> breakfasts</span><span><b>${left}</b> of ${ids.length} items left to grab</span><span>${syncMsg}</span>`;
+}
+
+function viewWeek(){
+  const {T}=totals();
+  const dinnerOpts=R.filter(r=>r.meal==="dinner").map(r=>`<option value="${r.id}">${r.n} (${r.t} min)</option>`).join("");
+  // shop-day prep
+  const prep=[];
+  for(const k of Object.keys(T)){const it=I[k]; if(it.cat!=="Meat & fish"||it.life==null) continue;
+    let lateQ=0; const lateDays=[];
+    S.dinners.forEach((x,i)=>{if(x&&RX[x.r].ing[k]&&i>it.life){lateQ+=RX[x.r].ing[k]*P()*(x.double?2:1); lateDays.push(dayName(i,true));}});
+    if(lateQ) prep.push(`Freeze ${fq(lateQ,it.u)} of ${it.s} for ${list(lateDays)}. Move it to the fridge the night before.`);
+    const over=packs(k,T[k])*it.q-T[k];
+    if(over/it.q>.08) prep.push(`${it.u==="chicken"?"About half":fq(over,it.u)} of ${it.u==="chicken"?"the":""} ${it.s} is more than this week needs. ${it.left}`);
+  }
+  const days=S.dinners.map((x,i)=>{
+    const dn=`<div class="dow">${dayName(i)}${i===0?"<small>SHOP DAY</small>":""}</div>`;
+    if(!x) return `<div class="day">${dn}<div class="body"><label class="meta" for="pick-${i}">No dinner planned</label><select id="pick-${i}" data-act="pick" data-day="${i}"><option value="">Pick a dinner…</option>${dinnerOpts}</select></div></div>`;
+    const r=RX[x.r], c=dayCheck(r,i); let cls="s-fresh", chips="";
+    if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${I[k].life} days. Cook this earlier`)).join("");}
+    if(c.thaw.length){if(cls!=="s-warn") cls="s-freeze"; chips+=chip("freeze",`Freeze the ${list(c.thaw.map(k=>I[k].s))} on shop day, thaw the night before`);}
+    if(!c.late.length&&!c.thaw.length) chips+=c.perishable?chip("fresh","Fresh ingredients are still good"):chip("plain","Pantry and freezer meal. Any day works");
+    return `<div class="day ${cls}">${dn}<div class="body">
+      <h3>${r.n}</h3><div class="row">${chip("plain",r.t+" min")}${chips}</div>
+      <div class="row">
+        <button class="btn small ghost" id="up-${i}" data-act="move" data-day="${i}" data-dir="-1" ${i===0?"disabled":""} aria-label="Move ${r.n} a day earlier">↑ Earlier</button>
+        <button class="btn small ghost" id="down-${i}" data-act="move" data-day="${i}" data-dir="1" ${i===6?"disabled":""} aria-label="Move ${r.n} a day later">↓ Later</button>
+        <button class="btn small" id="dbl-${i}" data-act="double" data-day="${i}" aria-pressed="${x.double}">Cook double for leftovers</button>
+        <button class="btn small ghost" id="rm-${i}" data-act="remove" data-day="${i}" aria-label="Remove ${r.n}">Remove</button>
+      </div></div></div>`;
+  }).join("");
+  const bIds=Object.keys(S.breakfasts);
+  const bOpts=R.filter(r=>r.meal==="breakfast"&&!S.breakfasts[r.id]).map(r=>`<option value="${r.id}">${r.n}</option>`).join("");
+  const bRows=bIds.map(id=>`<div class="card row" style="justify-content:space-between"><div><h3>${RX[id].n}</h3><div class="meta">${RX[id].t} min. ${RX[id].tags.filter(t=>t!=="Vegetarian").join(", ")}</div></div>
+    <div class="row"><div class="stepper" role="group" aria-label="Mornings for ${RX[id].n}"><button id="bm-${id}" data-act="bcount" data-id="${id}" data-d="-1" aria-label="Fewer mornings">−</button><output>${S.breakfasts[id]}</output><button id="bp-${id}" data-act="bcount" data-id="${id}" data-d="1" aria-label="More mornings">+</button></div><span class="meta">mornings</span></div></div>`).join("");
+  return `<section class="stack">
+    <div><h2>Your week</h2><p class="lead">${S.edited?"":"This is a starter week so you can see how it works. Swap anything. "}Day one is the day you shop. Quantities are sized for your household, with each little one counted as a quarter portion.</p></div>
+    <div class="card settings">
+      <div class="field">Adults<div class="stepper" role="group" aria-label="Adults"><button id="ad-m" data-act="hh" data-k="adults" data-d="-1" aria-label="Fewer adults">−</button><output>${S.adults}</output><button id="ad-p" data-act="hh" data-k="adults" data-d="1" aria-label="More adults">+</button></div></div>
+      <div class="field">Little ones<div class="stepper" role="group" aria-label="Little ones"><button id="kd-m" data-act="hh" data-k="kids" data-d="-1" aria-label="Fewer little ones">−</button><output>${S.kids}</output><button id="kd-p" data-act="hh" data-k="kids" data-d="1" aria-label="More little ones">+</button></div></div>
+      <label class="field" for="shopday">Shopping day<select id="shopday" data-act="shopday">${DAYL.map((d,i)=>`<option value="${i}" ${i===S.shopDay?"selected":""}>${d}</option>`).join("")}</select></label>
+    </div>
+    ${prep.length?`<div class="prep"><h3>When you get home on ${dayName(0,true)}</h3><ul>${prep.map(p=>`<li>${p}</li>`).join("")}</ul></div>`:""}
+    <div class="row" style="justify-content:space-between"><h2>Dinners</h2><button class="btn primary" id="order" data-act="order">Put most perishable first</button></div>
+    ${days}
+    <div><h2>Breakfasts</h2><p class="lead">Batch recipes for the week. Set how many mornings each one should cover.</p></div>
+    ${bRows||`<p class="meta">No breakfasts planned.</p>`}
+    ${bOpts?`<div class="row"><label class="meta" for="pick-b">Add a breakfast</label><select id="pick-b" data-act="pickb"><option value="">Choose…</option>${bOpts}</select></div>`:""}
+  </section>`;
+}
+
+const FILTERS=[["all","All"],["dinner","Dinners"],["breakfast","Breakfasts"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"]];
+function viewRecipes(){
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"));
+  const cards=R.filter(match).map(r=>{
+    const ml=minLife(r); let fresh;
+    if(ml.m<=2) fresh=chip("freeze",`Cook within 2 days of shopping, or freeze the ${I[ml.who].s}`);
+    else if(ml.m<=6) fresh=chip("fresh",`Best within ${ml.m} days of shopping`);
+    else fresh=chip("plain","Any day of the week");
+    const where=r.meal==="dinner"?inPlan(r.id).map(i=>dayName(i)).join(", "):(S.breakfasts[r.id]?S.breakfasts[r.id]+" mornings":"");
+    const ings=Object.keys(r.ing).map(k=>`<li><span>${I[k].n}</span><b>${fq(r.ing[k]*P(),I[k].u)}</b></li>`).join("");
+    return `<article class="card recipe stack">
+      <div class="head"><h3>${r.n}</h3><div class="time">${r.t}<small> min</small></div></div>
+      <div class="row">${fresh}${r.tags.map(t=>chip("plain",t)).join("")}</div>
+      <p class="kid"><b>For your 1-year-old:</b> ${r.kid}</p>
+      <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}</summary>
+        <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
+        <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol></details>
+      <div class="row"><button class="btn primary" id="add-${r.id}" data-act="add" data-id="${r.id}">${r.meal==="dinner"?"Add to week":where?"Add a morning":"Add to breakfasts"}</button>${where?`<span class="meta">In your week: ${where}</span>`:""}</div>
+    </article>`;}).join("");
+  return `<section class="stack">
+    <div><h2>Recipes</h2><p class="lead">Each one is built on a protein, a vegetable and a whole grain or bean, from things the warehouse usually stocks. Low added salt and no added sugar, so one pot feeds all three of you.</p></div>
+    <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
+    <div class="card"><h3>Eating to lower inflammation</h3>
+      <p style="margin:6px 0 8px;font-size:14.5px;max-width:65ch">There is no single anti-inflammatory diet. The best-studied version is the Mediterranean pattern: mostly vegetables, fruit, beans, whole grains, nuts, fish and olive oil, with little red or processed meat and little added sugar. The whole week matters more than any one ingredient. The bowls and salads here follow that pattern.</p>
+      <h3>Build your own bowl</h3>
+      <ul class="steps" style="padding-left:18px;margin:6px 0 0;font-size:14.5px;max-width:65ch"><li><b>Base:</b> quinoa, brown rice, baby spinach or roasted sweet potato.</li><li><b>Protein:</b> salmon, chicken breast, shrimp, canned salmon, tofu, edamame, black beans or chickpeas.</li><li><b>Two vegetables, one raw and one cooked:</b> cucumber, tomatoes, peppers, broccoli, the frozen stir-fry blend.</li><li><b>Healthy fat:</b> avocado, walnuts, hummus or extra virgin olive oil.</li><li><b>Flavor:</b> lemon, ginger, garlic, turmeric with black pepper, or yogurt sauce.</li></ul></div>
+    <div class="card"><h3>Feeding a 1-year-old from the family pot</h3>
+      <ul class="steps" style="padding-left:18px;margin:6px 0 0;font-size:14.5px;max-width:65ch"><li>Take her portion out before you add salt, soy sauce or heat.</li><li>Quarter grapes and grape tomatoes lengthwise, flatten beans, chickpeas and blueberries, and shred meat finely.</li><li>For salads, chop raw leaves very finely or wilt them, and serve her bowl as separate soft piles.</li><li>No whole or chopped nuts. Stir nut butter into food so it is thin, never a spoonful.</li><li>Offer a new allergen such as shellfish, tree nuts or egg in a small amount early in the day, one at a time.</li></ul></div>
+    ${cards||`<p class="meta">No recipes match this filter.</p>`}
+  </section>`;
+}
+
+function viewShop(){
+  const {T,st}=totals(); const ids=Object.keys(T);
+  if(!ids.length) return `<section class="stack"><h2>Shopping list</h2><p class="lead">Your week is empty. Add a few recipes and the list builds itself.</p><a class="btn primary" href="#recipes" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Browse recipes</a></section>`;
+  const planned=new Set([...S.dinners.filter(Boolean).map(x=>x.r),...Object.keys(S.breakfasts)]);
+  let html="";
+  for(const cat of CATS){
+    const rows=ids.filter(k=>I[k].cat===cat).sort((a,b)=>I[a].n.localeCompare(I[b].n)); if(!rows.length) continue;
+    html+=`<div class="cat">${cat}<span>${rows.length} item${rows.length>1?"s":""}</span></div>`;
+    html+=rows.map(k=>{const it=I[k], need=T[k], p=packs(k,need), tot=p*it.q, pct=Math.min(100,Math.round(need/tot*100)), over=tot-need;
+      let ideas="";
+      if(it.life!=null&&it.life<=14&&pct<60){const more=R.filter(r=>r.ing[k]&&!planned.has(r.id)).slice(0,2);
+        if(more.length) ideas=`<div class="row"><span class="meta">Use more of it:</span>${more.map(r=>`<button class="btn small ghost" id="idea-${k}-${r.id}" data-act="add" data-id="${r.id}">+ ${r.n}</button>`).join("")}</div>`;}
+      return `<div class="item ${S.checked[k]?"done":""}"><input type="checkbox" id="chk-${k}" data-act="check" data-id="${k}" ${S.checked[k]?"checked":""} aria-label="${it.n} is in the cart">
+        <div class="placard" aria-hidden="true"><b>${p}</b><span>${p>1?"packs":"pack"}</span></div>
+        <div class="info"><h3><label for="chk-${k}">${it.n}</label></h3><div class="meta">Buy ${p} × ${it.pack}</div>
+          <div class="use" role="img" aria-label="${pct}% of what you buy is used this week"><i style="width:${pct}%"></i></div>
+          <div class="nums">This week uses <b>${fq(need,it.u)}</b>, ${pct}% of what you buy.${pct<95?` About ${fq(over,it.u,1)} left over.`:""}</div>
+          ${pct<95?`<div class="meta">${it.left}</div>`:""}${ideas}</div></div>`;}).join("");
+  }
+  const pantry=st.map(x=>{const key="st:"+x; return `<li><label><input type="checkbox" id="chk-${key.replace(/[^a-z]/g,"-")}" data-act="check" data-id="${key}" ${S.checked[key]?"checked":""}>${x}</label></li>`;}).join("");
+  return `<section class="stack">
+    <div><h2>Shopping list</h2><p class="lead">Amounts are added up across your week and rounded up to whole warehouse packs. The bar shows how much of each pack this week actually eats, so you can see what needs a freezer plan.</p></div>
+    ${html}
+    ${st.length?`<div class="cat">Check at home<span>small amounts</span></div><div class="card"><ul class="pantry">${pantry}</ul></div>`:""}
+    <div class="row"><button class="btn ghost" id="uncheck" data-act="uncheck">Clear all ticks</button><button class="btn ghost" id="copy" data-act="copy">Copy list as text</button></div>
+  </section>`;
+}
+
+function viewShelf(){
+  const ids=Object.keys(I).sort((a,b)=>(I[a].life??999)-(I[b].life??999)||I[a].n.localeCompare(I[b].n));
+  const rows=ids.map(k=>{const it=I[k]; const n=it.life==null?(it.cat==="Frozen"?"12":"∞"):it.life; const lab=it.life==null?(it.cat==="Frozen"?"months frozen":"pantry"):"days";
+    return `<div class="shelf"><div class="n">${n}<small>${lab}</small></div><div class="stack" style="gap:3px"><h3>${it.n}</h3><div class="meta">${it.pack}</div><div>${it.keep}</div><div class="meta">${it.left}</div></div></div>`;}).join("");
+  return `<section class="stack"><div><h2>Shelf life</h2><p class="lead">Shortest-lived first. The number is how many days after shopping the planner trusts each item before it tells you to cook it or freeze it.</p></div>${rows}</section>`;
+}
+
+/* ---------- render + events ---------- */
+function tab(){const h=location.hash.slice(1); return TABS.includes(h)?h:"week";}
+function render(){
+  const t=tab(), fid=document.activeElement&&document.activeElement.id;
+  document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.tab===t) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");});
+  $("#app").innerHTML=t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():t==="shelf-life"?viewShelf():viewWeek();
+  renderStatus();
+  if(fid){const el=document.getElementById(fid); if(el&&!el.disabled) el.focus({preventScroll:true});}
+}
+let toastT=null;
+function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("on"),2600);}
+
+function act(el,ev){
+  const a=el.dataset.act, d=+el.dataset.day;
+  if(a==="filter"){filter=el.dataset.f; render(); return;}
+  if(a==="copy"){
+    const {T,st}=totals(); const lines=[];
+    for(const cat of CATS){const rows=Object.keys(T).filter(k=>I[k].cat===cat); if(!rows.length) continue; lines.push(cat.toUpperCase());
+      rows.forEach(k=>lines.push(`- ${packs(k,T[k])} x ${I[k].n} (${I[k].pack}), need ${fq(T[k],I[k].u)}`)); lines.push("");}
+    if(st.length) lines.push("CHECK AT HOME: "+st.join(", "));
+    try{navigator.clipboard.writeText(lines.join("\n")).then(()=>toast("List copied"),()=>toast("Copying is blocked here. Select the list instead."));}catch(e){toast("Copying is blocked here. Select the list instead.");}
+    return;
+  }
+  if(a==="add"){if(!addRecipe(el.dataset.id)) return;}
+  else if(a==="pick"){if(ev.type!=="change"||!el.value) return; S.dinners[d]={r:el.value,double:false};}
+  else if(a==="pickb"){if(ev.type!=="change"||!el.value) return; S.breakfasts[el.value]=2;}
+  else if(a==="remove"){S.dinners[d]=null;}
+  else if(a==="double"){S.dinners[d].double=!S.dinners[d].double;}
+  else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>6) return; [S.dinners[d],S.dinners[j]]=[S.dinners[j],S.dinners[d]];}
+  else if(a==="order"){orderByFreshness(); toast("Reordered. Fresh meat and fish come first.");}
+  else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
+  else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
+  else if(a==="bcount"){const id=el.dataset.id, v=(S.breakfasts[id]||0)+(+el.dataset.d); if(v>7) return; if(v<1) delete S.breakfasts[id]; else S.breakfasts[id]=v;}
+  else if(a==="check"){if(ev.type!=="change") return; if(el.checked) S.checked[el.dataset.id]=true; else delete S.checked[el.dataset.id];}
+  else if(a==="uncheck"){S.checked={};}
+  else return;
+  // drop ticks for items no longer on the list
+  const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(!(k in T)&&!st.includes(k.slice(3))) delete S.checked[k];
+  persist(); render();
+}
+document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el) act(el,e);});
+document.addEventListener("change",e=>{const el=e.target.closest("select[data-act],input[data-act]"); if(el) act(el,e);});
+document.addEventListener("toggle",e=>{const el=e.target; if(el.dataset&&el.dataset.rid){if(el.open) openSet.add(el.dataset.rid); else openSet.delete(el.dataset.rid);}},true);
+window.addEventListener("hashchange",()=>{render(); window.scrollTo(0,0);});
+render();
+</script>
+</body>
+</html>
