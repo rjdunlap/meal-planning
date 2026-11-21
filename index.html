@@ -593,6 +593,30 @@ R.push(
   kid:"Tofu is soy, a common allergen, so offer it early in the day if it is new. Crumble hers soft, cook the pepper until very tender, and serve the avocado in spears. Add pepper and salt to the adult plates only.",
   steps:["Soften the diced pepper in oil for 4 minutes.","Crumble in the pressed tofu with turmeric and cook 5 minutes.","Wilt in the spinach.","Serve with avocado and a warm tortilla."]}
 );
+/* ---------- breakfasts that share prep with weekday lunches ---------- */
+R.push(
+ {id:"breakfast-bean-tacos",n:"Black bean, corn and egg breakfast tacos",meal:"breakfast",t:15,tags:["Vegetarian"],ing:{tortilla:1,eggs:1.5,beans:.25,corn:1.5,pepper:.25,avocado:.25},st:["extra virgin olive oil","cumin"],
+  kid:"Egg is a common allergen, so offer it early in the day if it is new. Rinse the beans to cut the salt, then mash hers with the corn and avocado. Cook the egg through and cut her tortilla into soft strips. Add cumin after her portion is out if it is new to her.",
+  steps:["Soften the diced pepper in oil for 3 minutes, then add the corn and rinsed beans. Make extra if today's lunch uses them.","Push them aside and scramble the eggs until set.","Warm the tortillas and fill them with the eggs, beans, corn and sliced avocado."]},
+ {id:"quinoa-egg-bowl",n:"Warm quinoa breakfast bowl with egg, avocado and tomatoes",meal:"breakfast",t:15,tags:["Bowl or salad","Vegetarian"],ing:{quinoa:.2,eggs:1,avocado:.4,tomato:2,spinach:1},st:["extra virgin olive oil","black pepper"],
+  kid:"Egg is a common allergen, so offer it early in the day if it is new. Cook her egg until the yolk is firm, quarter the tomatoes lengthwise and stir chopped spinach into her warm quinoa. Pepper and salt go on the adult bowls only.",
+  steps:["Cook a pot of quinoa, or use the batch made for this week's lunches.","Fry or soft-boil the eggs. Wilt the spinach into the warm quinoa.","Top with the egg, sliced avocado and quartered tomatoes."]},
+ {id:"chickpea-hash",n:"Chickpea, sweet potato and spinach breakfast hash",meal:"breakfast",t:20,tags:["Plant-based","Vegetarian"],ing:{chickpea:.3,sweetpot:.3,spinach:1.5,pepper:.25,avocado:.25},st:["extra virgin olive oil","cumin","ground turmeric"],
+  kid:"Crisp chickpeas are a choking risk, so take hers out while they are still soft and squash each one flat. Mash her sweet potato. There are no common allergens here, and salt goes on the adult plates only.",
+  steps:["Microwave small sweet potato cubes for 4 minutes to soften.","Brown them in oil with the rinsed chickpeas, diced pepper, cumin and turmeric for 8 minutes.","Stir in the spinach until wilted and serve with sliced avocado."]},
+ {id:"broccoli-egg-muffins",n:"Broccoli, pepper and cheese egg muffins",meal:"breakfast",t:25,tags:["Vegetarian","Freezes well","Make ahead"],ing:{eggs:2,broccoli:2,cheese:.75,pepper:.2},st:["olive oil for the tin","black pepper"],
+  kid:"Egg and cheese are common allergens, so offer them early in the day if they are new. Chop the broccoli very small so it bakes soft, and cut her muffin into strips. Grind pepper on the adult muffins after baking.",
+  steps:["Chop the broccoli small, saving florets for this week's lunches.","Beat the eggs with the broccoli, diced pepper and cheese.","Pour into an oiled muffin tin and bake at 375°F for 18 to 20 minutes until set.","Refrigerate up to 4 days or freeze up to 2 months."]},
+ {id:"menemen-eggs",n:"Tomato and pepper scrambled eggs with spinach and feta",meal:"breakfast",t:15,tags:["Vegetarian"],ing:{eggs:1.5,tomato:3,pepper:.4,spinach:1,feta:.3},st:["extra virgin olive oil","black pepper"],
+  kid:"Egg and feta are common allergens, so offer them early in the day if they are new. Feta is salty, so keep it off her plate or rinse a few crumbs. Cook the tomatoes soft and the eggs until set.",
+  steps:["Soften the diced pepper in oil for 4 minutes. Dice extra for today's lunch if it needs it.","Add the halved tomatoes and cook until they collapse, about 4 minutes.","Stir in the spinach, then the beaten eggs, and cook gently until set.","Take out her portion, then top the rest with feta and pepper."]},
+ {id:"edamame-rice-bowl",n:"Egg, edamame and cucumber breakfast rice bowl",meal:"breakfast",t:10,tags:["Bowl or salad","Vegetarian"],ing:{rice:.25,eggs:1,edamame:1.5,cucumber:2,avocado:.25},st:["low-sodium soy sauce","sesame oil"],
+  kid:"Egg, soy and sesame are common allergens, so introduce each early in the day on its own first. Squash the edamame, cook the egg through and peel her cucumber into thin strips. Take her bowl out before the soy sauce.",
+  steps:["Warm leftover or frozen brown rice and thaw the edamame under warm water.","Fry or scramble the eggs.","Top the rice with egg, edamame, sliced cucumber and avocado. Season the adult bowls with soy sauce and sesame oil."]},
+ {id:"tofu-bean-burrito",n:"Tofu and black bean breakfast burritos",meal:"breakfast",t:15,tags:["Plant-based","Vegetarian","Freezes well"],ing:{tortilla:1,tofu:.25,beans:.25,pepper:.25,spinach:1,avocado:.25},st:["extra virgin olive oil","cumin","ground turmeric"],
+  kid:"Tofu is soy, a common allergen, so offer it early in the day if it is new. Crumble her tofu soft, mash the beans and cook the pepper very tender. Serve hers unrolled in strips, and add salt to the adult burritos only.",
+  steps:["Soften the diced pepper in oil, then crumble in the pressed tofu with cumin and turmeric and cook 5 minutes.","Add the rinsed beans and spinach and cook until the spinach wilts.","Fill the tortillas with the scramble and avocado and roll. Wrap extras in foil and freeze."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 
 /* ---------- state ---------- */
@@ -709,7 +733,8 @@ function orderByFreshness(){
   for(const m of ["l","d"]){
     const a=arr(m), idx=[], recs=[];
     a.slice(0,cnt(m)).forEach((x,i)=>{if(x){idx.push(i);recs.push(x);}});
-    recs.sort((p,q)=>minLife(RX[p.r]).m-minLife(RX[q.r]).m);
+    const first={}; recs.forEach((x,j)=>{if(!(x.r in first)) first[x.r]=j;});
+    recs.sort((p,q)=>minLife(RX[p.r]).m-minLife(RX[q.r]).m||first[p.r]-first[q.r]);
     idx.forEach((s,j)=>a[s]=recs[j]);
   }
 }
@@ -724,36 +749,40 @@ const wasteW=k=>{const it=I[k]; return it.life==null||it.life>14?0:it.fz?.35:1;}
 function leftPacks(k,need){if(need<=0) return 0; const s=storeFor(k,need); if(!s) return 0; const q=I[k][s].q; return Math.max(0,packsAt(k,need,s)*q-need)/q;}
 function wasteOf(T){let w=0; for(const k in T){const ww=wasteW(k); if(ww) w+=ww*leftPacks(k,T[k]);} return w;}
 function needOf(rs){const T={}; for(const r of rs) for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*P(); return T;}
+/* A recipe can come back once more in the same meal type: cook once, eat twice. */
+const MAX_REPEAT=2, REPEAT_COST={b:.6,l:.7,d:.8};
 function pickMeals(m,n,chosen,bonus){
-  const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], used=new Set();
+  const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], seen={};
   for(let i=0;i<n;i++){
-    let cand=pool.filter(r=>!used.has(r.id)); if(!cand.length){used.clear(); cand=pool.slice();}
+    const cand=pool.filter(r=>(seen[r.id]||0)<MAX_REPEAT);
     if(!cand.length) break;
     const T=needOf(chosen);
     const sc=cand.map(r=>{
       let s=Math.random()*1.2; const g=protGroup(r);
       if(m!=="b"){
-        s-=chosen.filter(x=>protGroup(x)===g&&x.meal!=="breakfast").length*(g==="other"?.3:.9);
+        if(!seen[r.id]) s-=chosen.filter(x=>protGroup(x)===g&&x.meal!=="breakfast").length*(g==="other"?.3:.9);
         if(g==="fish"&&!chosen.some(x=>protGroup(x)==="fish")) s+=1.2;
         if(g==="plant"&&n>=4&&!chosen.some(x=>protGroup(x)==="plant")) s+=.9;
-        if(chosen.some(x=>x.id===r.id)) s-=1.5;
+        if(!seen[r.id]&&chosen.some(x=>x.id===r.id)) s-=.4;
         if(m==="l"){ if(r.meal==="lunch") s+=.8; if(r.t<=20) s+=.4; } else if(r.t>45) s-=.8;
-      } else if(chosen.some(x=>x.id===r.id)) s-=1;
+      }
+      if(seen[r.id]) s-=REPEAT_COST[m]*seen[r.id];
       for(const k in r.ing){const ww=wasteW(k); if(ww){const had=T[k]||0; s-=1.2*ww*(leftPacks(k,had+r.ing[k]*P())-leftPacks(k,had));}}
       if(bonus) s+=bonus(r,i);
       return [s,r];}).sort((p,q)=>q[0]-p[0]);
-    const r=sc[0][1]; out.push(r); used.add(r.id); chosen.push(r);
+    const r=sc[0][1]; out.push(r); seen[r.id]=(seen[r.id]||0)+1; chosen.push(r);
   }
   return out;
 }
 /* Weekday mornings (Monday to Friday) the day's lunch is made alongside breakfast,
    so breakfasts lean toward sharing ingredients with that day's lunch. Lemons, onions,
    stock and sauces have no role and do not count, and neither do dairy and fruit, which
-   need no prep. */
+   need no prep, nor do pantry nuts and seeds. */
 const isWeekday=i=>{const w=(S.shopDay+i)%7; return w>=1&&w<=5;};
 const lunchFor=i=>{const x=i<cnt("l")?arr("l")[i]:null; return x?RX[x.r]:null;};
 const PREP_ROLES=["protein","legume","veg","grain","fat"];
-const shareKeys=(a,b)=>Object.keys(a.ing).filter(k=>b.ing[k]&&PREP_ROLES.includes(I[k].role));
+const isPrep=k=>PREP_ROLES.includes(I[k].role)&&!(I[k].role==="fat"&&I[k].cat==="Pantry");
+const shareKeys=(a,b)=>Object.keys(a.ing).filter(k=>b.ing[k]&&isPrep(k));
 function prepShared(i,r){if(!isWeekday(i)) return []; const L=lunchFor(i); return L?shareKeys(r,L):[];}
 /* Rearranges the planned breakfasts (same recipes) so weekday ones line up with that day's lunch. */
 function pairBreakfasts(){
@@ -873,6 +902,9 @@ function mealRow(m,i,x){
   if(miss.length){cls="s-warn"; chips+=chip("warn",`Not at ${STORE_LBL[S.store]}: ${list(miss.map(k=>I[k].s))}`);}
   if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${I[k].life} days. Cook this earlier`)).join("");}
   if(c.thaw.length){if(cls!=="s-warn") cls="s-freeze"; chips+=chip("freeze",`Freeze the ${list(c.thaw.map(k=>I[k].s))} on shop day, thaw the night before`);}
+  const j=arr(m).slice(0,i).findIndex(y=>y&&y.r===x.r);
+  const batch=m!=="b"||r.tags.some(t=>t==="Make ahead"||t==="Freezes well");
+  if(j>=0) chips+=chip("plain",batch&&i-j<=2?`Make extra on ${dayName(j,true)} for today`:`Also on ${dayName(j,true)}`);
   const shared=m==="b"?prepShared(i,r):[];
   if(shared.length) chips+=chip("plain",`Prep with today's lunch: ${list(shared.map(k=>I[k].s))}`);
   if(!miss.length&&!c.late.length&&!c.thaw.length) chips+=c.perishable?chip("fresh","Fresh ingredients are still good"):chip("plain","Pantry and freezer meal. Any day works");
@@ -913,7 +945,7 @@ function viewWeek(){
       <h3>Meals to plan</h3>
       <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}</div>
       <div class="row"><button class="btn primary" id="gen" data-act="gen">${any?"Shuffle a new week":"Generate my week"}</button>${any?`<button class="btn ghost" id="clear" data-act="clear">Clear week</button>`:""}</div>
-      <p class="meta">The generator varies the protein, includes fish, and tries many weeks and keeps the one that leaves the least fresh food over. Monday to Friday, breakfast shares ingredients with that day's lunch, so you can make both in one go.</p>
+      <p class="meta">The generator varies the protein, includes fish, and tries many weeks and keeps the one that leaves the least fresh food over. Monday to Friday, breakfast shares ingredients with that day's lunch, so you can make both in one go. A recipe can come up twice, so you can cook once and eat twice.</p>
       <details><summary>Or start from a sample week</summary><div class="presets">${PRESETS.map(p=>`<button class="preset" id="pre-${p.id}" data-act="preset" data-id="${p.id}"><b>${p.name}</b><span>${p.desc}</span></button>`).join("")}</div></details>
     </div>
     ${any?"":`<div class="empty"><b>Your week is empty.</b> Press Generate, load a sample week, or pick meals one by one below.</div>`}
