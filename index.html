@@ -633,6 +633,43 @@ R.push(
   kid:"Tofu is soy, a common allergen, so offer it early in the day if it is new. Crumble her tofu soft, mash the beans and cook the pepper very tender. Serve hers unrolled in strips, and add salt to the adult burritos only.",
   steps:["Soften the diced pepper in oil, then crumble in the pressed tofu with cumin and turmeric and cook 5 minutes.","Add the rinsed beans and spinach and cook until the spinach wilts.","Fill the tortillas with the scramble and avocado and roll. Wrap extras in foil and freeze."]}
 );
+/* ---------- store shortcuts: marinated meats and frozen proteins ---------- */
+Object.assign(I,{
+ salmonburger:{s:"salmon burgers",u:"burger",cat:"Frozen",role:"protein",life:null,keep:"Up to 6 months frozen. Cook straight from frozen.",left:"Reseal the bag and take out only what you need.",c:{n:"Wild Alaska salmon burgers, frozen",pack:"12 burgers, 4 oz each",q:12},t:{n:"Salmon burgers, frozen",pack:"4 burgers, about 12.8 oz",q:4}},
+ turkeyburger:{s:"turkey burgers",u:"burger",cat:"Frozen",role:"protein",life:null,keep:"Up to 4 months frozen. Cook straight from frozen to 165°F.",left:"Keep the box closed in the freezer and take out only what you need.",c:{n:"Seasoned turkey burgers, frozen",pack:"10 burgers, 53 oz box",q:10},t:{n:"Turkey burgers, frozen",pack:"4 burgers, 16 oz box",q:4}},
+ sockeye:{s:"frozen sockeye salmon",u:"lb",cat:"Frozen",role:"protein",life:null,keep:"Up to 6 months frozen. Thaw overnight in the fridge, or in cold water in 30 minutes.",left:"The portions are sealed one by one, so take out only what you need.",c:{n:"Wild Alaskan sockeye salmon portions, frozen",pack:"3 lb bag, 5 to 7 oz portions",q:3},t:{n:"Wild sockeye salmon fillets, frozen",pack:"about 1 lb",q:1}},
+ chxmar:{s:"marinated chicken thighs",u:"lb",cat:"Meat & fish",role:"protein",life:2,fz:1,keep:"1 to 2 days in the fridge, or until the package date. 3 months frozen.",left:"Freeze the rest in the marinade on shopping day. Thaw it in the fridge the night before.",c:null,t:{n:"Marinated chicken thighs (shawarma or pollo asado)",pack:"about 1.5 lb",q:1.5}},
+ carneasada:{s:"carne asada",u:"lb",cat:"Meat & fish",role:"protein",life:3,fz:1,keep:"2 to 3 days in the fridge, or until the package date. 3 months frozen.",left:"Cut it into dinner-size pieces and freeze them in the marinade.",c:{n:"Marinated carne asada (skirt steak)",pack:"about 3 lb, priced per pound",q:3},t:{n:"Carne asada, marinated",pack:"about 1.5 lb",q:1.5}}
+});
+R.push(
+ {id:"salmon-burger-bowl",n:"Salmon burger rice bowls with cucumber, edamame and avocado",meal:"dinner",t:20,tags:["Bowl or salad","Omega-3","Freezer meal","Shortcut"],ing:{salmonburger:1,rice:.33,cucumber:2,edamame:1.5,avocado:.4,lemon:.2},st:["low-sodium soy sauce","sesame oil"],
+  kid:"Fish and soy are common allergens, so offer each early in the day if new. The burgers are lightly salted, so give her a quarter of one, flaked, with extra rice and avocado. Squash the edamame and take her bowl out before the soy sauce.",
+  steps:["Cook the burgers from frozen in a pan or air fryer, about 12 minutes, turning once.","Warm the rice and thaw the edamame under warm water.","Build bowls with rice, sliced burger, cucumber, edamame and avocado.","Take out her bowl, then add a little soy sauce, sesame oil and lemon to the rest."]},
+ {id:"salmon-burger-salad",n:"Salmon burger salad with lemon yogurt sauce",meal:"lunch",t:15,tags:["Bowl or salad","Omega-3","Shortcut"],ing:{salmonburger:1,spinach:2,tomato:2,cucumber:2,yogurt:1,lemon:.2},st:["extra virgin olive oil","black pepper"],
+  kid:"Fish and yogurt are common allergens, so offer each early in the day if new. Give her a small flaked piece of burger stirred into yogurt, with quartered tomatoes and peeled cucumber strips. Chop her spinach finely.",
+  steps:["Cook the burgers from frozen, about 12 minutes, turning once.","Stir lemon juice and pepper into the yogurt.","Toss the spinach, tomatoes and cucumber with olive oil.","Top with the sliced burger and spoon the sauce over."]},
+ {id:"turkey-burger-traybake",n:"Turkey burgers with sweet potato wedges and broccoli",meal:"dinner",t:30,tags:["Lean protein","One pan","Freezer meal","Shortcut"],ing:{turkeyburger:1,sweetpot:.4,broccoli:4},st:["extra virgin olive oil","smoked paprika"],
+  kid:"There are no common allergens here. The burgers are salted, so crumble a quarter of one for her and serve it with soft sweet potato and broccoli. Cook the turkey through to 165°F.",
+  steps:["Toss sweet potato wedges with oil and roast at 425°F for 15 minutes.","Add the frozen burgers and broccoli to the tray and roast 15 to 18 minutes more, flipping the burgers once, until they reach 165°F.","Sprinkle paprika on the adult wedges."]},
+ {id:"turkey-burger-bean-bowl",n:"Turkey burger, black bean and corn lunch bowl",meal:"lunch",t:15,tags:["Bowl or salad","Lean protein","Freezer meal","Shortcut"],ing:{turkeyburger:1,beans:.25,corn:2,tomato:2,avocado:.3},st:["cumin","lime or lemon"],
+  kid:"There are no common allergens here. Crumble a small piece of burger for her, mash the beans and corn with avocado, and quarter the tomatoes. Rinse the beans to cut the salt.",
+  steps:["Cook the burgers from frozen in a pan, 6 to 8 minutes a side, to 165°F.","Warm the rinsed beans and corn with cumin.","Slice the burgers over the beans and corn and top with tomatoes, avocado and lime."]},
+ {id:"sockeye-quinoa",n:"Sockeye salmon with quinoa, broccoli and lemon",meal:"dinner",t:25,tags:["Omega-3","Freezer meal"],ing:{sockeye:.35,quinoa:.3,broccoli:4,lemon:.25},st:["extra virgin olive oil","garlic"],
+  kid:"Fish is a common allergen, so offer it early in the day if it is new. Sockeye is lean and low in mercury. Flake hers, check for bones, steam her broccoli soft and salt only the adult plates.",
+  steps:["Thaw the portions in cold water for 30 minutes, or overnight in the fridge. Cook the quinoa.","Roast the salmon and broccoli with oil and garlic at 425°F for 10 to 12 minutes.","Squeeze lemon over everything."]},
+ {id:"sockeye-mango-tacos",n:"Sockeye salmon tacos with mango and avocado",meal:"dinner",t:25,tags:["Omega-3","Freezer meal"],ing:{sockeye:.3,tortilla:1.5,mango:1.5,avocado:.3,cucumber:1.5,yogurt:1},st:["extra virgin olive oil","cumin","lime or lemon"],
+  kid:"Fish and yogurt are common allergens, so offer each early in the day if new. Flake her salmon and check for bones, cut the thawed mango into thin strips and serve the tortilla in soft pieces.",
+  steps:["Thaw the salmon in cold water for 30 minutes and pat dry.","Rub with oil and cumin and roast at 425°F for 8 to 10 minutes.","Dice the thawed mango and cucumber with lime juice.","Fill warm tortillas with flaked salmon, salsa, avocado and yogurt."]},
+ {id:"shawarma-bowl",n:"Shawarma chicken bowls with hummus, cucumber and tomato",meal:"dinner",t:25,tags:["Bowl or salad","Lean protein","Shortcut"],ing:{chxmar:.35,rice:.33,hummus:1.5,cucumber:2,tomato:2,spinach:1},st:["lime or lemon"],
+  kid:"Hummus has sesame, a common allergen, so start small if it is new. The marinade is salty and spiced, so give her a small shredded piece mixed into hummus, with extra rice, peeled cucumber strips and quartered tomatoes.",
+  steps:["Cook the thighs in a hot pan or at 425°F for 18 to 22 minutes, to 165°F. Rest, then slice.","Warm the rice.","Build bowls with rice, spinach, chicken, cucumber, tomatoes and a spoon of hummus, and squeeze lemon over."]},
+ {id:"shawarma-wraps",n:"Shawarma chicken wraps with tzatziki",meal:"lunch",t:20,tags:["Lean protein","Shortcut"],ing:{tortilla:1,chxmar:.25,tzatziki:1.5,cucumber:2,tomato:2,spinach:1},st:[],
+  kid:"Tzatziki is dairy, a common allergen, so offer it early in the day if new. The chicken is salty and spiced, so give her a small shredded piece in tzatziki on a soft tortilla strip. Peel the cucumber and quarter the tomatoes.",
+  steps:["Cook the thighs to 165°F, or use leftovers from dinner, and slice thin.","Spread tzatziki on the tortillas.","Add chicken, cucumber, tomato and spinach, then roll."]},
+ {id:"carne-asada-bowls",n:"Carne asada bowls with black beans, corn and avocado",meal:"dinner",t:25,tags:["Bowl or salad","Shortcut"],ing:{carneasada:.3,rice:.33,beans:.25,corn:2,avocado:.3,tomato:2},st:["lime or lemon"],
+  kid:"There are no common allergens here. The marinade is salty, so give her a few very thin, finely chopped pieces of steak, cooked through, with mashed beans, corn and avocado. Skirt steak is chewy, so cut across the grain.",
+  steps:["Start the rice. Sear the steak in a very hot pan 3 to 4 minutes a side, then rest 5 minutes.","Warm the rinsed beans and corn.","Slice the steak thinly across the grain.","Build bowls with rice, beans, corn, steak, tomatoes and avocado, and squeeze lime over."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 
 /* ---------- state ---------- */
@@ -806,9 +843,9 @@ function orderByFreshness(){
   }
 }
 const protGroup=r=>{const k=Object.keys(r.ing);
-  if(["salmon","cansalmon","tuna","cod"].some(x=>k.includes(x))) return "fish";
-  if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")) return "turkey";
-  if(k.includes("chx")||k.includes("cb")) return "chicken"; if(k.includes("eggs")) return "egg";
+  if(["salmon","cansalmon","tuna","cod","sockeye","salmonburger"].some(x=>k.includes(x))) return "fish";
+  if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")||k.includes("turkeyburger")) return "turkey";
+  if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")) return "chicken"; if(k.includes("carneasada")) return "beef"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
 /* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
    packs; freezable items count about a third, since the rest can go in the freezer. */
@@ -887,6 +924,10 @@ function genWeek(){
   return true;
 }
 const PRESETS=[
+ {id:"shortcuts",name:"Busy week shortcuts",desc:"Frozen salmon and turkey burgers, marinated meats and quick sides.",
+  b:["overnight-oats","broccoli-egg-muffins","mango-smoothie","broccoli-egg-muffins","overnight-oats"],
+  l:["salmon-burger-salad","turkey-burger-bean-bowl","shawarma-wraps","tuna-chickpea-salad","black-bean-corn-salad"],
+  d:["salmon-burger-bowl","turkey-burger-traybake","carne-asada-bowls","sockeye-quinoa","shawarma-bowl"]},
  {id:"omega",name:"Omega-3 and plants",desc:"Salmon and shrimp, with bean and lentil meals in between.",
   b:["overnight-oats","walnut-berry-yogurt-bowl","egg-cups","chia-pudding","green-smoothie","overnight-oats","pb-banana-oatmeal"],
   l:["chickpea-avocado-wraps","lentil-crunch-jar","salmon-salad-wraps","tomato-chickpea-soup","mezze-plate"],
@@ -1104,9 +1145,9 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"));
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"));
   const shown=R.filter(r=>avail(r)&&match(r)), hidden=R.filter(r=>!avail(r)&&match(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
@@ -1125,7 +1166,7 @@ function viewRecipes(){
       <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
     </article>`;}).join("");
   return `<section class="stack">
-    <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" at "+STORE_LBL[S.store]}, all low in added salt with no added sugar.</p></div>
+    <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" at "+STORE_LBL[S.store]}. Home-cooked ones have no added sugar and little added salt; store-seasoned shortcuts have some of both.</p></div>
     <input class="search" id="rq" type="search" placeholder="Search recipes or ingredients" aria-label="Search recipes" value="${rsearch.replace(/"/g,"&quot;")}" autocomplete="off">
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
