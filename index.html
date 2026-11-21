@@ -1126,8 +1126,6 @@ function viewRecipes(){
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
     ${hidden?`<p class="meta">${hidden} more recipe${hidden>1?"s":""} use items ${STORE_LBL[S.store]} does not carry. Choose Both stores to see them.</p>`:""}
-    <details class="card"><summary>Build your own bowl</summary><ul class="tips"><li><b>Base:</b> quinoa, brown rice, baby spinach or roasted sweet potato.</li><li><b>Protein:</b> salmon, cod, tuna, chicken, shrimp, tofu, edamame, lentils, beans or chickpeas.</li><li><b>Two vegetables, one raw and one cooked.</b></li><li><b>Healthy fat:</b> avocado, olive oil, hummus, or walnuts for the adults.</li><li><b>Flavor:</b> lemon, ginger, garlic, turmeric with black pepper, or a yogurt sauce.</li></ul></details>
-    <details class="card"><summary>Feeding a 1-year-old from the family pot</summary><ul class="tips"><li>Take her portion out before you add salt, soy sauce or heat.</li><li>Quarter grapes and grape tomatoes lengthwise, flatten beans, chickpeas and blueberries, and shred meat finely.</li><li>For salads, chop raw leaves very finely or wilt them, and serve her bowl as separate soft piles.</li><li>No whole or chopped nuts. Stir nut butter into food so it is thin, never a spoonful.</li><li>Offer a new allergen such as shellfish, tree nuts, soy or egg in a small amount early in the day, one at a time.</li></ul></details>
     <p class="meta" id="rnone" hidden>No recipes match your search.</p>
     ${cards||`<p class="meta">No recipes match this filter.</p>`}
   </section>`;
