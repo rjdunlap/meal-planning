@@ -718,7 +718,7 @@ const protGroup=r=>{const k=Object.keys(r.ing);
   if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")) return "turkey";
   if(k.includes("chx")||k.includes("cb")) return "chicken"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
-function pickMeals(m,n,chosen){
+function pickMeals(m,n,chosen,bonus){
   const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], used=new Set();
   for(let i=0;i<n;i++){
     let cand=pool.filter(r=>!used.has(r.id)); if(!cand.length){used.clear(); cand=pool.slice();}
@@ -733,17 +733,33 @@ function pickMeals(m,n,chosen){
         if(m==="l"){ if(r.meal==="lunch") s+=.8; if(r.t<=20) s+=.4; } else if(r.t>45) s-=.8;
       } else if(chosen.some(x=>x.id===r.id)) s-=1;
       for(const k in r.ing){const l=I[k].life; if(l!=null&&l<=10&&chosen.some(x=>x.ing[k])) s+=.25;}
+      if(bonus) s+=bonus(r,i);
       return [s,r];}).sort((p,q)=>q[0]-p[0]);
     const r=sc[0][1]; out.push(r); used.add(r.id); chosen.push(r);
   }
   return out;
 }
+/* Weekday mornings (Monday to Friday) the day's lunch is made alongside breakfast,
+   so breakfasts lean toward sharing ingredients with that day's lunch. Lemons, onions,
+   stock and sauces have no role and do not count. */
+const isWeekday=i=>{const w=(S.shopDay+i)%7; return w>=1&&w<=5;};
+const lunchFor=i=>{const x=i<cnt("l")?arr("l")[i]:null; return x?RX[x.r]:null;};
+const shareKeys=(a,b)=>Object.keys(a.ing).filter(k=>b.ing[k]&&I[k].role);
+function prepShared(i,r){if(!isWeekday(i)) return []; const L=lunchFor(i); return L?shareKeys(r,L):[];}
+/* Rearranges the planned breakfasts (same recipes) so weekday ones line up with that day's lunch. */
+function pairBreakfasts(){
+  const A=arr("b"), idx=[], pool=[], out={};
+  for(let i=0;i<cnt("b");i++) if(A[i]){idx.push(i); pool.push(A[i]);}
+  for(const i of idx){let best=-1,bs=0; pool.forEach((x,j)=>{const n=prepShared(i,RX[x.r]).length; if(n>bs){bs=n;best=j;}}); if(best>=0) out[i]=pool.splice(best,1)[0];}
+  for(const i of idx) A[i]=out[i]||pool.shift();
+}
 function genWeek(){
   if(!S.nb&&!S.nl&&!S.nd){toast("Set at least one meal to plan first."); return false;}
   const chosen=[];
-  const d=pickMeals("d",S.nd,chosen), l=pickMeals("l",S.nl,chosen), b=pickMeals("b",S.nb,chosen);
   const set=(m,a)=>{arr(m).fill(null); a.forEach((r,i)=>arr(m)[i]={r:r.id,double:false});};
-  set("d",d); set("l",l); set("b",b); orderByFreshness(); return true;
+  set("d",pickMeals("d",S.nd,chosen)); set("l",pickMeals("l",S.nl,chosen)); orderByFreshness();
+  set("b",pickMeals("b",S.nb,chosen,(r,i)=>Math.min(1.5,.5*prepShared(i,r).length))); pairBreakfasts();
+  return true;
 }
 const PRESETS=[
  {id:"omega",name:"Omega-3 and plants",desc:"Salmon and shrimp, with bean and lentil meals in between.",
@@ -789,7 +805,7 @@ function loadPreset(id){
       if(r) a[i]={r:r.id,double:false};
     });
   }
-  return true;
+  pairBreakfasts(); return true;
 }
 /* ---------- views ---------- */
 const $=s=>document.querySelector(s);
@@ -831,6 +847,8 @@ function mealRow(m,i,x){
   if(miss.length){cls="s-warn"; chips+=chip("warn",`Not at ${STORE_LBL[S.store]}: ${list(miss.map(k=>I[k].s))}`);}
   if(c.late.length){cls="s-warn"; chips+=c.late.map(k=>chip("warn",`${I[k].s} keeps about ${I[k].life} days. Cook this earlier`)).join("");}
   if(c.thaw.length){if(cls!=="s-warn") cls="s-freeze"; chips+=chip("freeze",`Freeze the ${list(c.thaw.map(k=>I[k].s))} on shop day, thaw the night before`);}
+  const shared=m==="b"?prepShared(i,r):[];
+  if(shared.length) chips+=chip("plain",`Prep with today's lunch: ${list(shared.map(k=>I[k].s))}`);
   if(!miss.length&&!c.late.length&&!c.thaw.length) chips+=c.perishable?chip("fresh","Fresh ingredients are still good"):chip("plain","Pantry and freezer meal. Any day works");
   const last=cnt(m)-1;
   return `<div class="day ${cls}">${lab}<div class="body">
@@ -869,7 +887,7 @@ function viewWeek(){
       <h3>Meals to plan</h3>
       <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}</div>
       <div class="row"><button class="btn primary" id="gen" data-act="gen">${any?"Shuffle a new week":"Generate my week"}</button>${any?`<button class="btn ghost" id="clear" data-act="clear">Clear week</button>`:""}</div>
-      <p class="meta">The generator varies the protein, includes fish, and reuses fresh ingredients so little goes to waste.</p>
+      <p class="meta">The generator varies the protein, includes fish, and reuses fresh ingredients so little goes to waste. Monday to Friday, breakfast shares ingredients with that day's lunch, so you can make both in one go.</p>
       <details><summary>Or start from a sample week</summary><div class="presets">${PRESETS.map(p=>`<button class="preset" id="pre-${p.id}" data-act="preset" data-id="${p.id}"><b>${p.name}</b><span>${p.desc}</span></button>`).join("")}</div></details>
     </div>
     ${any?"":`<div class="empty"><b>Your week is empty.</b> Press Generate, load a sample week, or pick meals one by one below.</div>`}
@@ -1035,7 +1053,7 @@ function act(el,ev){
   else if(a==="remove"){arr(m)[d]=null;}
   else if(a==="double"){arr("d")[d].double=!arr("d")[d].double;}
   else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>=cnt(m)) return; const A=arr(m); [A[d],A[j]]=[A[j],A[d]];}
-  else if(a==="order"){orderByFreshness(); toast("Reordered. Fresh meat and fish come first.");}
+  else if(a==="order"){orderByFreshness(); pairBreakfasts(); toast("Reordered. Fresh meat and fish come first, and breakfasts line up with lunches.");}
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
   else if(a==="check"){if(ev.type!=="change") return; if(el.checked) S.checked[el.dataset.id]=true; else delete S.checked[el.dataset.id];}
