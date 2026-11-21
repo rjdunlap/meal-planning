@@ -129,6 +129,7 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .preset{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .preset b{font-size:15px} .preset span{font-size:13px;color:var(--muted)}
 .preset:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.incoming{border:2px solid var(--brand);display:flex;flex-direction:column;gap:8px}
 .empty{padding:14px 16px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:14.5px}
 .search{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:inherit;font:inherit;font-size:16px}
 /* recipes */
@@ -951,7 +952,8 @@ function familyText(){
 }
 function genText(){
   let t="The generator varies the protein, includes fish, and tries many weeks and keeps the one that leaves the least fresh food over.";
-  if(S.prepDays) t+=` On ${prepDaysText().replace("Every day","every day")}, breakfast shares ingredients with that day's lunch, so you can make both in one go.`;
+  const pd=prepDaysText(), when=pd==="Monday to Friday"?"From Monday to Friday":pd==="Every day"?"Every day":"On "+pd;
+  if(S.prepDays) t+=` ${when}, breakfast shares ingredients with that day's lunch, so you can make both in one go.`;
   if(S.repeats==="any") t+=" A recipe can come up twice, so you can cook once and eat twice.";
   else if(S.repeats==="lunch") t+=" A lunch can come up twice, so you can make it once for two days.";
   return t;
@@ -999,6 +1001,7 @@ function viewWeek(){
   }
   return `<section class="stack">
     <div><h2>Your week</h2><p class="lead">Choose how many breakfasts, lunches and dinners you want, then let the planner fill the week or pick your own. Day one is the day you shop. Amounts are sized for your family.</p></div>
+    ${incoming?`<div class="card incoming" role="region" aria-label="Shared week"><h3>A week was shared with you</h3><p class="meta" style="margin:0">${incoming.meals} meal${incoming.meals===1?"":"s"}, shopping on ${DAYL[incoming.data.shopDay]}, sized for ${incoming.data.adults} adult${incoming.data.adults>1?"s":""}${incoming.data.kids?` and ${incoming.data.kids} little one${incoming.data.kids>1?"s":""}`:""}.${incoming.dropped?` ${incoming.dropped} meal${incoming.dropped>1?"s are":" is"} not in this version of the planner and will be left empty.`:""} Loading it replaces your current week and clears your shopping ticks.</p><div class="row"><button class="btn primary" id="import-yes" data-act="import-yes">Replace my week</button><button class="btn ghost" id="import-no" data-act="import-no">Keep mine</button></div></div>`:""}
     <div class="card famline"><span>${familyText()}</span><a class="btn small ghost" id="edit-profile" href="#profile">Edit</a></div>
     <div class="card gen">
       <h3>Meals to plan</h3>
@@ -1011,6 +1014,12 @@ function viewWeek(){
     ${prep.length?`<div class="prep"><h3>When you get home on ${dayName(0,true)}</h3><ul>${prep.map(p=>`<li>${p}</li>`).join("")}</ul></div>`:""}
     ${any?`<div class="sec-head"><h2>Day by day</h2><button class="btn" id="order" data-act="order">Put most perishable first</button></div>`:`<div class="sec-head"><h2>Day by day</h2></div>`}
     ${maxN?days:`<p class="meta">Raise a meal count above to start planning.</p>`}
+    <div class="card stack">
+      <h3>Share with your family</h3>
+      ${any?`<p class="meta" style="margin:0">Sends the day-by-day plan with a link. Opening the link loads this week, with its recipes and shopping list, on the other phone.</p><div class="row">${navigator.share?`<button class="btn primary" id="share-week" data-act="share-week">Share this week</button>`:""}<button class="btn ${navigator.share?"ghost":"primary"}" id="copy-week" data-act="copy-week">Copy week as text</button></div>`:""}
+      <textarea class="copybox" id="copybox" readonly hidden aria-label="Week as text"></textarea>
+      <details><summary>Load a week someone shared</summary><div class="stack" style="margin-top:8px"><label class="field" for="import-code">Paste the link or code<input class="search" id="import-code" type="text" autocomplete="off" spellcheck="false" placeholder="https://...?week=..."></label><button class="btn" id="import-paste" data-act="import-paste" style="width:max-content">Load week</button></div></details>
+    </div>
   </section>`;
 }
 
@@ -1127,6 +1136,48 @@ function copyText(text){
   else fallback();
 }
 
+/* ---------- share a week ----------
+   A week travels as ?week=<code>#week, where the code is base64url JSON. Only the week and the
+   household it was sized for travel; ticks and planner settings stay with each person. */
+const SHARE_FIELDS=["adults","kids","kidPortion","shopDay","store","src","nb","nl","nd","bf","lunches","dinners"];
+const b64enc=t=>btoa(unescape(encodeURIComponent(t))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64dec=t=>{t=t.replace(/-/g,"+").replace(/_/g,"/"); while(t.length%4) t+="="; return decodeURIComponent(escape(atob(t)));};
+function weekCode(){
+  const o={v:1}; for(const f of SHARE_FIELDS) o[f]=S[f];
+  for(const m of MK) o[MEALS[m].arr]=arr(m).map(x=>x?(x.double?[x.r,1]:x.r):0);
+  return b64enc(JSON.stringify(o));
+}
+const pageURL=()=>location.href.split(/[?#]/)[0];
+const weekLink=()=>pageURL()+"?week="+weekCode()+"#week";
+/* Returns {data, meals, dropped} or null when the code does not hold a week. */
+function readWeekCode(raw){
+  try{
+    let code=String(raw||"").trim(); const at=code.indexOf("week=");
+    if(at>=0) code=code.slice(at+5).split(/[&#\s]/)[0];
+    if(!code||code.length>8000) return null;
+    const o=JSON.parse(b64dec(code)); if(!o||typeof o!=="object"||o.v!==1) return null;
+    let sent=0;
+    for(const m of MK){const a=o[MEALS[m].arr]; if(!Array.isArray(a)) return null;
+      o[MEALS[m].arr]=a.slice(0,7).map(x=>{const id=Array.isArray(x)?x[0]:x; if(typeof id!=="string") return null; sent++; return {r:id,double:Array.isArray(x)&&x[1]===1};});}
+    const data=normalize(o); let meals=0;
+    for(const m of MK) meals+=data[MEALS[m].arr].filter(Boolean).length;
+    return {data,meals,dropped:sent-meals};
+  }catch(e){return null;}
+}
+function weekText(){
+  const out=[`Our week, shopping on ${DAYL[S.shopDay]}`];
+  for(let i=0;i<7;i++){
+    const rows=MK.filter(m=>i<cnt(m)&&arr(m)[i]).map(m=>{const x=arr(m)[i]; return `- ${MEALS[m].lbl}: ${RX[x.r].n}${x.double?" (cook double)":""}`;});
+    if(rows.length) out.push("",dayName(i,true),...rows);
+  }
+  out.push("","Open it in the planner to see recipes and the shopping list:",weekLink());
+  return out.join("\n");
+}
+let incoming=null;
+function dropWeekQuery(){if(location.search) history.replaceState(null,"",pageURL()+location.hash);}
+{const q=new URLSearchParams(location.search).get("week");
+  if(q){incoming=readWeekCode(q); if(!incoming){dropWeekQuery(); setTimeout(()=>toast("That link does not hold a week the planner can read."),0);}}}
+
 function viewShelf(){
   const ids=Object.keys(I).filter(k=>S.store==="both"||I[k][S.store]).sort((a,b)=>(I[a].life??999)-(I[b].life??999)||nm(a).localeCompare(nm(b)));
   const stores=S.store==="both"?["c","t"]:[S.store];
@@ -1159,6 +1210,10 @@ function act(el,ev){
     return;
   }
   if(a==="copy"){copyText(listText()); return;}
+  if(a==="share-week"){const text=weekText(); navigator.share({title:"Our week",text}).catch(e=>{if(!e||e.name!=="AbortError") copyText(text);}); return;}
+  if(a==="copy-week"){copyText(weekText()); return;}
+  if(a==="import-paste"){const w=readWeekCode($("#import-code").value); if(!w){toast("That does not look like a shared week. Paste the whole link."); return;} incoming=w; render(); window.scrollTo(0,0); return;}
+  if(a==="import-no"){incoming=null; dropWeekQuery(); render(); return;}
   if(a==="store"){if(S.store===el.dataset.v) return; S.store=el.dataset.v;}
   else if(a==="swap"){const k=el.dataset.id; const cur=storeFor(k,totals().T[k]||0); S.src[k]=cur==="c"?"t":"c";}
   else if(a==="add"){if(!addRecipe(el.dataset.id,m)) return;}
@@ -1178,6 +1233,7 @@ function act(el,ev){
   else if(a==="prep"){S.prepDays^=1<<(+el.dataset.w);}
   else if(a==="check"){if(ev.type!=="change") return; if(el.checked) S.checked[el.dataset.id]=true; else delete S.checked[el.dataset.id];}
   else if(a==="uncheck"){S.checked={};}
+  else if(a==="import-yes"){if(!incoming) return; for(const f of SHARE_FIELDS) S[f]=incoming.data[f]; S.checked={}; incoming=null; dropWeekQuery(); toast("Shared week loaded");}
   else return;
   const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(k.startsWith("st:")?!st.includes(k.slice(3)):!(k in T)) delete S.checked[k];
   persist(); render();
