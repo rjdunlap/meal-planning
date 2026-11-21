@@ -516,6 +516,82 @@ R.push(
   kid:"Peanut is a common allergen. If it is new, offer a tiny taste early in the day first. Stir the peanut butter in until thin.",
   steps:["Simmer the oats in milk or water for 5 minutes.","Stir in mashed banana, peanut butter and cinnamon.","Top with blueberries."]}
 );
+
+/* ---------- healthy additions: fish, plant lunches and bowls ---------- */
+Object.assign(I,{
+ tuna:{s:"canned tuna",u:"oz",cat:"Pantry",role:"protein",life:null,keep:"Years unopened. 3 to 4 days once opened.",left:"Unopened cans keep for years. Move leftover tuna to a lidded container in the fridge.",c:{n:"Solid white albacore tuna in water",pack:"8 cans, 7 oz each",q:56},t:{n:"Albacore tuna in water, no salt added",pack:"1 can, about 4 oz",q:4}},
+ cod:{s:"cod",u:"lb",cat:"Frozen",role:"protein",life:null,keep:"6 to 8 months frozen. Thaw overnight in the fridge, or in cold water in 30 minutes.",left:"Take out only the portions you need and reseal the bag.",c:{n:"Wild Pacific cod loins, frozen",pack:"2 lb bag",q:2},t:{n:"Wild cod fillets, frozen",pack:"about 1 lb bag",q:1}},
+ corn:{s:"sweet corn",u:"oz",cat:"Frozen",role:"veg",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. It thaws in a minute under warm water.",c:{n:"Organic sweet corn, frozen",pack:"5 lb bag",q:80},t:{n:"Organic sweet cut corn, frozen",pack:"16 oz bag",q:16}},
+ mango:{s:"mango chunks",u:"oz",cat:"Frozen",role:"fruit",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. Thawed chunks are soft enough to mash for the baby.",c:{n:"Organic mango chunks, frozen",pack:"5 lb bag",q:80},t:{n:"Mango chunks, frozen",pack:"16 oz bag",q:16}}
+});
+R.push(
+/* lunches */
+ {id:"tuna-chickpea-salad",n:"Lemony tuna, chickpea and cucumber salad",meal:"lunch",t:10,tags:["Bowl or salad","Omega-3","No-cook protein"],ing:{tuna:2.5,chickpea:.3,cucumber:2,tomato:2,spinach:1.5,lemon:.25},st:["extra virgin olive oil","dried oregano","black pepper"],
+  kid:"Fish is a common allergen, so offer it early in the day if it is new. Albacore is higher in mercury, so keep hers to a spoonful about once a week. Flake it fine, squash the chickpeas, quarter the tomatoes and dress her portion before any salt.",
+  steps:["Drain the tuna and rinse the chickpeas.","Whisk olive oil, lemon juice, oregano and pepper in the bowl.","Add the tuna, chickpeas, diced cucumber and quartered tomatoes and toss.","Serve over the spinach. It keeps 2 days in the fridge."]},
+ {id:"tuna-avocado-wraps",n:"Tuna and avocado wraps with spinach",meal:"lunch",t:10,tags:["Omega-3","No-cook protein"],ing:{tortilla:1,tuna:2.5,avocado:.5,cucumber:2,spinach:1,lemon:.15},st:["Dijon mustard","black pepper"],
+  kid:"Fish is a common allergen, so offer it early in the day if it is new, and keep albacore to a small portion once a week. Mash her tuna into the avocado before the mustard and serve it on a soft strip of tortilla.",
+  steps:["Mash the avocado with lemon juice, then fold in the drained tuna.","Take out her portion, then stir mustard and pepper into the rest.","Spread on the tortillas, add cucumber strips and spinach, and roll."]},
+ {id:"edamame-corn-jar",n:"Edamame, corn and quinoa jar salad",meal:"lunch",t:20,tags:["Bowl or salad","Plant-based","Vegetarian","Make ahead"],ing:{edamame:2.5,corn:2,quinoa:.25,pepper:.3,cucumber:2,lemon:.25},st:["extra virgin olive oil","cumin","lime or lemon"],
+  kid:"Edamame is soy, a common allergen, so offer a little early in the day if it is new. Squash each bean and corn kernel flat, and peel and dice her cucumber small. No salt in her jar.",
+  steps:["Cook the quinoa and let it cool. Thaw the edamame and corn under warm water.","Whisk olive oil, lemon juice and cumin in the bottom of each jar.","Layer the quinoa, edamame, corn, diced pepper and cucumber.","Shake into a bowl at lunch. It keeps 4 days."]},
+ {id:"black-bean-corn-salad",n:"Black bean, corn and avocado salad",meal:"lunch",t:10,tags:["Bowl or salad","Plant-based","Vegetarian","No-cook protein"],ing:{beans:.4,corn:2,tomato:3,pepper:.3,avocado:.5,lemon:.25},st:["extra virgin olive oil","cumin","lime or lemon"],
+  kid:"Rinse the beans well to cut the salt, then mash hers with the avocado. Flatten the corn kernels and quarter the tomatoes lengthwise. There are no common allergens here.",
+  steps:["Thaw the corn under warm water and rinse the beans.","Dice the pepper, quarter the tomatoes and cube the avocado.","Toss with olive oil, lime juice and cumin. Add salt to the adult bowls only."]},
+ {id:"chicken-quinoa-box",n:"Chicken, quinoa and broccoli meal-prep boxes with hummus",meal:"lunch",t:30,tags:["Lean protein","Make ahead"],ing:{cb:.25,quinoa:.25,broccoli:3,hummus:1.5,carrot:.1,lemon:.15},st:["extra virgin olive oil","garlic powder","dried oregano"],
+  kid:"Hummus has sesame, a common allergen, so start with a small taste early in the day if it is new. Shred her chicken, steam her broccoli until soft and serve the carrot cooked or finely grated, never raw sticks. Season the chicken after her portion is out.",
+  steps:["Cook the quinoa. Steam the broccoli for 4 minutes.","Sear the chicken with oil, garlic powder and oregano until it reaches 165°F, then slice.","Divide quinoa, chicken, broccoli and grated carrot into boxes with a scoop of hummus.","Squeeze lemon over the top. The boxes keep 4 days."]},
+ {id:"egg-avocado-wraps",n:"Egg and avocado salad wraps",meal:"lunch",t:15,tags:["Vegetarian","Make ahead"],ing:{tortilla:1,eggs:1.5,avocado:.4,yogurt:.75,spinach:1},st:["Dijon mustard","black pepper"],
+  kid:"Egg is a common allergen, so offer it early in the day if it is new. Mash her egg and avocado smooth before the mustard and spread it thin on a soft tortilla strip. Chop her spinach finely.",
+  steps:["Hard-boil the eggs for 10 minutes, cool and peel. Boil extra for the week.","Mash the eggs with avocado and yogurt. Take out her portion, then add mustard and pepper.","Spread on the tortillas, add spinach and roll."]},
+ {id:"tuna-rice-bowl",n:"Tuna, edamame and avocado rice bowl",meal:"lunch",t:10,tags:["Bowl or salad","Omega-3","No-cook protein"],ing:{tuna:2.5,rice:.33,edamame:2,cucumber:2,avocado:.5,carrot:.1},st:["low-sodium soy sauce","sesame oil","rice vinegar"],
+  kid:"Fish, soy and sesame are all common allergens, so introduce each one early in the day on its own first. Squash the edamame, flake the tuna and take her portion out before the soy sauce.",
+  steps:["Warm leftover or frozen brown rice.","Thaw the edamame and grate the carrot. Slice the cucumber and avocado.","Top the rice with tuna and vegetables.","Take out her bowl, then season the rest with soy sauce, vinegar and a few drops of sesame oil."]},
+/* dinners */
+ {id:"cod-tacos",n:"Baked cod tacos with corn and avocado",meal:"dinner",t:25,tags:["Lean protein"],ing:{cod:.35,tortilla:1.5,corn:2,avocado:.4,pepper:.3,yogurt:1,lemon:.25},st:["extra virgin olive oil","cumin","smoked paprika","garlic powder"],
+  kid:"Fish is a common allergen, so offer it early in the day if it is new. Flake her cod and check for bones, mash the corn into avocado, and keep her piece plain before the paprika and salt.",
+  steps:["Heat the oven to 425°F. Take out her piece of cod and bake it plain.","Rub the rest with oil, cumin, paprika and garlic powder and bake 10 to 12 minutes, until it flakes.","Warm the corn with the diced pepper for 4 minutes.","Fill warm tortillas with cod, corn, avocado and yogurt mixed with lemon juice."]},
+ {id:"lemon-cod-traybake",n:"Lemon cod with sweet potato and broccoli",meal:"dinner",t:35,tags:["Lean protein","One pan"],ing:{cod:.4,sweetpot:.4,broccoli:4,lemon:.25},st:["extra virgin olive oil","garlic","dried thyme"],
+  kid:"Fish is a common allergen, so offer it early in the day if it is new. Cod flakes soft and is low in mercury. Check for bones, mash her sweet potato, and salt only the adult plates.",
+  steps:["Roast 3/4-inch sweet potato cubes with oil at 425°F for 15 minutes.","Add the broccoli and the cod, rubbed with oil, garlic and thyme, and lay lemon slices on top.","Roast 12 minutes more, until the fish flakes.","Squeeze over more lemon and season the adult plates."]},
+ {id:"cod-corn-chowder",n:"Cod, corn and sweet potato chowder",meal:"dinner",t:35,tags:["Lean protein","One pot"],ing:{cod:.3,corn:2,sweetpot:.3,stock:1,onion:.2,carrot:.15},st:["extra virgin olive oil","dried thyme","milk"],
+  kid:"Fish and milk are common allergens, so offer them early in the day if they are new. Boxed broth is salted, so thin her bowl with water or milk. Mash the corn and sweet potato and check the cod for bones.",
+  steps:["Soften the onion and carrot in oil for 6 minutes.","Add small sweet potato cubes, the broth and thyme and simmer 12 minutes.","Add the corn and cod pieces and simmer 6 minutes until the fish flakes.","Stir in a splash of milk and mash a few potato cubes to thicken."]},
+ {id:"salmon-mango-bowl",n:"Salmon, mango and black bean rice bowl",meal:"dinner",t:25,tags:["Bowl or salad","Omega-3"],ing:{salmon:.35,rice:.33,mango:2,beans:.25,avocado:.4,cucumber:2,lemon:.2},st:["extra virgin olive oil","cumin","lime or lemon"],
+  kid:"Fish is a common allergen, so offer it early in the day if it is new. Flake her salmon and check for bones, mash the beans, and cut thawed mango into thin strips. Salt only the adult bowls.",
+  steps:["Start the rice. Roast the salmon with oil and cumin at 425°F for 10 to 12 minutes.","Thaw the mango and dice it with the cucumber. Toss with lime juice.","Warm the rinsed beans.","Build the bowls with rice, salmon, beans, avocado and the mango salsa."]},
+ {id:"black-bean-patties",n:"Black bean and sweet potato patties with avocado",meal:"dinner",t:35,tags:["Vegetarian","Freezes well"],ing:{beans:.5,sweetpot:.3,oats:.15,eggs:.25,spinach:1.5,avocado:.25,yogurt:1},st:["extra virgin olive oil","cumin","smoked paprika"],
+  kid:"Egg is a common allergen, so offer it early in the day if it is new. Make her patty small and soft, and mix in cumin only, adding the paprika and any salt to the adult mix after her patty is formed.",
+  steps:["Microwave the sweet potato until soft, about 6 minutes, and mash it with the rinsed beans.","Mix in the oats, egg, chopped spinach and cumin. Shape her small patties first, then add paprika to the rest.","Bake on an oiled tray at 400°F for 20 minutes, flipping once.","Serve with avocado and yogurt. Freeze extra cooked patties."]},
+ {id:"chicken-tortilla-soup",n:"Chicken, black bean and corn tortilla soup",meal:"dinner",t:35,tags:["Lean protein","Freezes well","One pot"],ing:{cb:.25,beans:.33,corn:2,dicedtom:.33,stock:1,onion:.2,pepper:.3,avocado:.25,tortilla:.5},st:["extra virgin olive oil","garlic","cumin","chili powder","lime or lemon"],
+  kid:"Boxed broth is salted, so thin her bowl with water. Shred her chicken, mash the beans and corn, and scoop her portion out before the chili powder. There are no common allergens here.",
+  steps:["Soften the onion, pepper and garlic in oil. Add the cumin, tomatoes, broth and whole chicken breasts.","Simmer 15 minutes, then lift out the chicken and shred it.","Return the chicken with the rinsed beans and corn and simmer 5 minutes. Take out her bowl, then add chili powder.","Bake tortilla strips at 400°F for 8 minutes and serve on top with avocado and lime."]},
+ {id:"chickpea-sweetpot-traybake",n:"Chickpea, sweet potato and broccoli tray bake with lemon yogurt",meal:"dinner",t:35,tags:["Vegetarian","One pan"],ing:{chickpea:.5,sweetpot:.5,broccoli:4,yogurt:1.5,lemon:.25},st:["extra virgin olive oil","cumin","smoked paprika","garlic"],
+  kid:"Yogurt is dairy, a common allergen, so offer it early in the day if it is new. Squash each chickpea flat and mash the sweet potato. Roast her share with cumin only before the paprika and salt go on.",
+  steps:["Toss sweet potato cubes and rinsed chickpeas with oil and cumin. Set her share on one corner of the tray.","Add paprika to the rest and roast at 425°F for 15 minutes.","Add the broccoli and roast 12 minutes more.","Stir lemon juice and garlic into the yogurt and spoon it over."]},
+ {id:"peanut-tofu-noodles",n:"Peanut noodles with tofu, edamame and cucumber",meal:"dinner",t:25,tags:["Plant-based","Vegetarian"],ing:{pasta:2.5,tofu:.3,edamame:2,cucumber:2,carrot:.15,pb:.3,lemon:.2},st:["low-sodium soy sauce","fresh ginger","garlic","lime or lemon"],
+  kid:"Peanut and soy are common allergens, so introduce each early in the day on its own first. Thin the sauce so it never sits as a lump of peanut butter, squash the edamame, cut her noodles short and take her portion out before the soy sauce.",
+  steps:["Boil the pasta, adding the edamame for the last 3 minutes. Brown the cubed tofu in a little oil.","Whisk peanut butter, lime juice, ginger, garlic and warm pasta water into a thin sauce.","Toss with the pasta, tofu, edamame, grated carrot and cucumber strips.","Take out her portion, then add soy sauce to the rest."]},
+ {id:"turkey-taco-bowls",n:"Turkey, black bean and corn taco bowls",meal:"dinner",t:25,tags:["Bowl or salad","Lean protein"],ing:{turkey:.25,beans:.25,corn:2,rice:.33,tomato:2,avocado:.4,yogurt:1},st:["extra virgin olive oil","cumin","garlic","chili powder"],
+  kid:"Yogurt is dairy, a common allergen, so offer it early in the day if it is new. Crumble her turkey fine, mash the beans and corn, and quarter the tomatoes. Take her portion out before the chili powder and salt.",
+  steps:["Start the rice. Brown the turkey with garlic and cumin.","Add the rinsed beans, corn and a splash of water and cook 5 minutes.","Take out her portion, then stir in chili powder.","Build bowls with rice, turkey, tomatoes, avocado and yogurt."]},
+ {id:"shrimp-mango-salad",n:"Shrimp, mango and avocado spinach salad",meal:"dinner",t:20,tags:["Bowl or salad","Lean protein","Freezer meal"],ing:{shrimp:.3,mango:2,avocado:.5,spinach:2,cucumber:2,lemon:.25},st:["extra virgin olive oil","garlic","lime or lemon"],
+  kid:"Shellfish is a common allergen, so offer a little early in the day if it is new. Chop her shrimp small, cut the mango into thin strips, and wilt and chop her spinach. Salt only the adult plates.",
+  steps:["Thaw the shrimp and mango in cold water for 15 minutes and pat dry.","Cook the shrimp with garlic in oil for 3 minutes until pink.","Dice the mango, cucumber and avocado.","Toss the spinach with oil and lime juice and top with everything."]},
+/* breakfasts */
+ {id:"mango-smoothie",n:"Mango, spinach and chia yogurt smoothie",meal:"breakfast",t:5,tags:["Vegetarian"],ing:{mango:3,yogurt:4,spinach:1,banana:.5,chia:.2},st:["milk"],
+  kid:"Yogurt and milk are dairy, a common allergen, so offer them early in the day if they are new. Blend the chia in fully so no seeds clump, and serve hers in an open or straw cup. Nothing is salted.",
+  steps:["Blend the mango, yogurt, spinach, banana and chia with a splash of milk until smooth.","Thin her cup with more milk."]},
+ {id:"savory-oats",n:"Savory oats with egg, spinach and cheese",meal:"breakfast",t:10,tags:["Vegetarian"],ing:{oats:.4,eggs:1,spinach:1.5,cheese:.5},st:["black pepper"],
+  kid:"Egg and cheese are common allergens, so offer them early in the day if they are new. Scramble her egg into the oats until fully set and chop the spinach fine. Add pepper and any salt to the adult bowls only.",
+  steps:["Simmer the oats in water for 5 minutes.","Stir in the chopped spinach until it wilts.","Scramble the eggs in a pan and fold them in with the cheese.","Season the adult bowls with pepper."]},
+ {id:"apple-baked-oats",n:"Apple, cinnamon and walnut baked oatmeal",meal:"breakfast",t:40,tags:["Vegetarian","Freezes well","Make ahead"],ing:{oats:.5,apple:.25,eggs:.5,walnut:.3,yogurt:1},st:["milk","cinnamon","baking powder"],
+  kid:"Egg, milk and walnut are common allergens, so introduce each early in the day first. Grate her apple instead of dicing it, and bake her corner with ground walnut meal only, never pieces. No sugar is added, the apple sweetens it.",
+  steps:["Mix the oats, baking powder and cinnamon. Whisk in the eggs, yogurt and 1 cup milk per 2 cups oats.","Fold in grated or diced apple. Grind her share of walnuts fine and chop the rest.","Bake in an oiled dish at 375°F for 30 minutes.","Cut into squares. It keeps 4 days in the fridge or 2 months frozen."]},
+ {id:"tofu-scramble",n:"Tofu scramble with spinach and peppers",meal:"breakfast",t:15,tags:["Plant-based","Vegetarian"],ing:{tofu:.3,spinach:1.5,pepper:.3,avocado:.25,tortilla:.5},st:["extra virgin olive oil","ground turmeric","black pepper"],
+  kid:"Tofu is soy, a common allergen, so offer it early in the day if it is new. Crumble hers soft, cook the pepper until very tender, and serve the avocado in spears. Add pepper and salt to the adult plates only.",
+  steps:["Soften the diced pepper in oil for 4 minutes.","Crumble in the pressed tofu with turmeric and cook 5 minutes.","Wilt in the spinach.","Serve with avocado and a warm tortilla."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 
 /* ---------- state ---------- */
@@ -684,7 +760,23 @@ const PRESETS=[
  {id:"tj",name:"Trader Joe's shortcuts",desc:"Steamed lentils, riced cauliflower and frozen grains.",
   b:["overnight-oats","egg-spinach-bowl","walnut-berry-yogurt-bowl","chia-pudding","green-smoothie"],
   l:["lentil-crunch-jar","hummus-chicken-wraps","chickpea-avocado-wraps","mezze-plate","tomato-chickpea-soup"],
-  d:["lentil-feta-bowl","cauli-chicken-bowl","tzatziki-chicken-bowl","crunch-salmon-salad","shrimp-cauli-bowl"]}
+  d:["lentil-feta-bowl","cauli-chicken-bowl","tzatziki-chicken-bowl","crunch-salmon-salad","shrimp-cauli-bowl"]},
+ {id:"plants",name:"Mostly plants",desc:"Beans, tofu and chickpeas most nights, with one salmon dinner.",
+  b:["mango-smoothie","tofu-scramble","overnight-oats","chia-pudding","apple-baked-oats"],
+  l:["black-bean-corn-salad","edamame-corn-jar","chickpea-avocado-wraps","tomato-chickpea-soup","mezze-plate"],
+  d:["peanut-tofu-noodles","chickpea-sweetpot-traybake","black-bean-patties","salmon-mango-bowl","chickpea-curry"]},
+ {id:"fish",name:"Three fish nights",desc:"Cod, salmon and shrimp, with turkey and chicken in between.",
+  b:["savory-oats","banana-pancakes","walnut-berry-yogurt-bowl","egg-cups","mango-smoothie"],
+  l:["tuna-chickpea-salad","chicken-quinoa-box","egg-avocado-wraps","black-bean-corn-salad","edamame-corn-jar"],
+  d:["lemon-cod-traybake","turkey-taco-bowls","salmon-power-bowl","chicken-tortilla-soup","shrimp-mango-salad"]},
+ {id:"lunchbox",name:"Packed lunches all week",desc:"Seven grab-and-go lunches, plus dinners that leave leftovers.",
+  b:["overnight-oats","apple-baked-oats","egg-cups","chia-pudding","overnight-oats","apple-baked-oats","egg-cups"],
+  l:["chicken-quinoa-box","edamame-corn-jar","tuna-avocado-wraps","black-bean-corn-salad","egg-avocado-wraps","bean-egg-burritos","hummus-chicken-wraps"],
+  d:["chicken-tortilla-soup","cod-corn-chowder","sweetpot-bean-chili","turkey-taco-bowls","black-bean-patties"]},
+ {id:"either",name:"Works at either store",desc:"Every meal can be bought at Costco alone or Trader Joe's alone.",
+  b:["overnight-oats","mango-smoothie","savory-oats","tofu-scramble","banana-pancakes"],
+  l:["tuna-chickpea-salad","black-bean-corn-salad","egg-avocado-wraps","chickpea-avocado-wraps","tuna-rice-bowl"],
+  d:["lemon-cod-traybake","turkey-taco-bowls","chickpea-sweetpot-traybake","shrimp-mango-salad","chicken-fajita-bowls","tofu-mushroom-stirfry"]}
 ];
 function loadPreset(id){
   const p=PRESETS.find(x=>x.id===id); if(!p) return false;
