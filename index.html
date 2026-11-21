@@ -690,7 +690,7 @@ Object.assign(I,{
 });
 R.push(
 /* Lebanese */
- {id:"shish-tawook",n:"Shish tawook chicken with garlic yogurt, pita and salad",meal:"dinner",t:35,tags:["Lean protein","Lebanese"],ing:{cb:.35,yogurt:1.5,lemon:.3,pita:.5,tomato:2,cucumber:2},st:["extra virgin olive oil","garlic","paprika","fresh parsley"],
+ {id:"shish-tawook",n:"Shish tawook chicken with garlic yogurt, pita and salad",meal:"dinner",t:35,tags:["Lebanese"],ing:{chx:.35,yogurt:1.5,lemon:.3,pita:.5,tomato:2,cucumber:2},st:["extra virgin olive oil","garlic","paprika","fresh parsley"],
   kid:"Shred her chicken finely and dip it in the garlic yogurt, quarter the tomatoes, and peel her cucumber into strips. Salt only the adult plates.",
   steps:["Mix half the yogurt with lemon juice, garlic, paprika and oil. Coat the chicken cubes and leave 30 minutes, or overnight.","Thread on skewers or spread on a tray and cook at 450°F for 15 to 18 minutes, to 165°F.","Stir garlic and lemon into the rest of the yogurt.","Serve with warm pita, tomatoes, cucumber, parsley and the garlic yogurt."]},
  {id:"fattoush",n:"Fattoush salad with chickpeas and toasted pita",meal:"lunch",t:15,tags:["Bowl or salad","Plant-based","Vegetarian","Lebanese"],ing:{romaine:1,tomato:3,cucumber:2,pepper:.3,chickpea:.3,pita:.5,lemon:.25},st:["extra virgin olive oil","sumac","dried mint","fresh parsley"],
@@ -1058,6 +1058,25 @@ R.push(
   Greek:["greek-chicken","tzatziki-chicken-bowl","chickpea-feta-salad","med-chickpea-salad","feta-olive-bites","mezze-plate"]};
  for(const c in T) for(const id of T[c]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes(c)) r.tags.push(c);}}
 const CUISINES=["Chinese","Greek","Indian","Italian","Japanese","Korean","Lebanese","Mexican","Moroccan","Portuguese","Thai","Vietnamese"];
+/* ---------- more family dishes ---------- */
+R.push(
+ {id:"riz-a-djej",n:"Riz a djej: Lebanese spiced chicken and rice",meal:"dinner",t:45,tags:["One pot","Freezes well","Lebanese"],ing:{chx:.35,rice:.4,onion:.2,stock:.75,walnut:.15},st:["cinnamon","ground allspice","garlic","extra virgin olive oil","fresh parsley"],
+  kid:"Boxed broth is salted, so thin her rice with water. Shred her chicken finely into the rice and grind the walnuts or leave them off hers.",
+  steps:["Brown the chicken thighs in a little oil, then set aside.","Soften the onion and garlic, stir in the rice, cinnamon and allspice, then add the broth and chicken.","Cover and simmer until the rice is tender and the chicken reaches 165°F, about 40 minutes for brown rice.","Shred the chicken over the rice and top with toasted walnuts and parsley."]},
+ {id:"shorbat-adas",n:"Shorbat adas: Lebanese lentil soup with lemon and cumin",meal:"lunch",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Lebanese"],ing:{lentil:.5,onion:.25,carrot:.2,potato:.2,lemon:.25},st:["ground cumin","garlic","extra virgin olive oil"],
+  kid:"Made with water and no salt, it is smooth and suits her well.",
+  steps:["Soften the onion, carrot and garlic in a little olive oil.","Add the diced potato, cumin and water to cover and simmer 15 minutes.","Add the lentils and simmer 5 minutes, then blend until smooth.","Finish with plenty of lemon juice and a drizzle of olive oil."]},
+ {id:"hummus-lahmeh",n:"Hummus bil lahmeh: hummus with spiced turkey and warm pita",meal:"dinner",t:20,tags:["Lean protein","Bowl or salad","Lebanese"],ing:{hummus:3,turkey:.25,pita:.75,cucumber:2,tomato:2},st:["ground allspice","cinnamon","garlic","extra virgin olive oil","fresh parsley"],
+  kid:"Crumble her turkey fine into the hummus, quarter the tomatoes and peel the cucumber. Give her soft pita.",
+  steps:["Brown the turkey with garlic, allspice and cinnamon.","Spread the hummus on plates and spoon the warm turkey over.","Drizzle with olive oil and parsley and serve with pita, cucumber and tomatoes."]},
+ {id:"canja",n:"Canja de galinha: Portuguese chicken and rice soup with lemon and mint",meal:"lunch",t:35,tags:["Freezes well","One pot","Portuguese"],ing:{chx:.3,rice:.25,carrot:.15,onion:.2,stock:1.25,lemon:.15},st:["fresh mint"],
+  kid:"Boxed broth is salted, so thin her bowl with water. Shred her chicken finely; the soft rice and carrot make it easy to eat.",
+  steps:["Simmer the chicken thighs, onion and carrot in the broth for 20 minutes, to 165°F.","Lift out the chicken and shred it.","Add the rice to the pot and cook until very soft, then return the chicken.","Finish with lemon juice and chopped mint."]},
+ {id:"arroz-de-frango",n:"Arroz de frango: Portuguese chicken and tomato rice",meal:"dinner",t:45,tags:["One pot","Freezes well","Portuguese"],ing:{chx:.35,rice:.33,dicedtom:.3,onion:.25,pepper:.3,stock:.75},st:["smoked paprika","bay leaves","garlic","extra virgin olive oil","fresh parsley"],
+  kid:"Brown her chicken with garlic and bay only, before the paprika. Shred it finely into soft rice and thin her portion with water.",
+  steps:["Brown the chicken pieces in a little oil.","Add the onion, pepper and garlic, then the rice, tomatoes, bay leaves, paprika and broth.","Cover and simmer until the rice is tender and a little soupy and the chicken reaches 165°F.","Finish with parsley."]}
+);
+for(const id of ["shawarma-bowl","shawarma-wraps","mezze-board","zeit-zaatar"]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes("Lebanese")) r.tags.push("Lebanese");}
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1416,10 +1435,30 @@ const PRESETS=[
   b:["wild-blue-oats","daily-dozen-oats","carrot-cake-oats","daily-dozen-oats","mango-berry-chia"],
   l:["southwest-salad","turmeric-bean-soup","kale-chickpea-soup","ginger-carrot-soup","southwest-salad"],
   d:["bean-mushroom-burgers","bean-mushroom-burgers","mushroom-bolognese","mushroom-cottage-pie","loubieh"]},
- {id:"family",theme:"family",name:"Lebanese and Portuguese week",desc:"Shish tawook, piri-piri chicken, cod à Brás and soups from both kitchens.",
+ {id:"lebanese",theme:"family",name:"Lebanese week",desc:"Shish tawook, riz a djej, kafta, spicy fish with tahini and loubieh, with za'atar eggs and balila for breakfast.",
   b:["zaatar-eggs","balila","walnut-berry-yogurt-bowl","zaatar-eggs","balila"],
-  l:["fattoush","sopa-de-legumes","salada-de-grao","caldo-verde","fattoush"],
-  d:["shish-tawook","frango-piri-piri","mujadara","bacalhau-a-bras","mujadara","samkeh-harra"]},
+  l:["fattoush","shorbat-adas","mujadara","fattoush","shawarma-wraps"],
+  d:["shish-tawook","riz-a-djej","kafta-tray","samkeh-harra","loubieh"]},
+ {id:"portuguese",theme:"family",name:"Portuguese week",desc:"Piri-piri chicken, cod à Brás, roast fish and tomato rice, with caldo verde and canja for lunch.",
+  b:["chia-pudding","walnut-berry-yogurt-bowl","overnight-oats","banana-pancakes","egg-fruit-breakfast"],
+  l:["caldo-verde","canja","salada-de-grao","sopa-de-legumes","sardinhas-salad"],
+  d:["frango-piri-piri","bacalhau-a-bras","peixe-assado","arroz-de-tomate-camarao","arroz-de-frango"]},
+ {id:"airfryer",theme:"everyday",name:"Air fryer week",desc:"Greek chicken, salmon burgers, black bean patties and roasted sweet potatoes, all from the air fryer.",
+  b:["overnight-oats","egg-fruit-breakfast","banana-pancakes","chia-pudding","balila"],
+  l:["apple-walnut-chicken-salad","hummus-chicken-bowl","black-bean-corn-salad","egg-quinoa-bowl","salmon-burger-salad"],
+  d:["greek-chicken","salmon-burger-bowl","sweet-potato-bean-bowl","turmeric-chicken-bowl","black-bean-patties"]},
+ {id:"summer",theme:"season",months:[6,7,8],name:"Summer no-cook week",desc:"Shrimp bowls, salads, pesto pasta and cold lunches for hot days, with iced drinks.",
+  b:["green-smoothie","chia-pudding","mango-smoothie","walnut-berry-yogurt-bowl","daily-dozen-oats"],
+  l:["tuna-chickpea-salad","black-bean-corn-salad","salada-de-grao","chickpea-avocado-wraps","mezze-plate"],
+  d:["shrimp-avocado-bowl","chickpea-feta-salad","pesto-pasta","burrito-bowls","sesame-tofu-bowl"],
+  p:["hibiscus-tea","cucumber-lemon-water","laban-ayran","hibiscus-tea","cucumber-lemon-water"]},
+ {id:"hosting",theme:"season",months:[11,12],name:"Holiday hosting",desc:"Make-ahead dinners for a crowd, plus snack boards, desserts and warm drinks for guests.",
+  b:["walnut-berry-yogurt-bowl","tofu-scramble","overnight-oats","apple-baked-oats","egg-cups"],
+  l:["greens-grain-bowl","chicken-fajita-bowls","tempeh-taco-bowl","black-bean-corn-salad","chicken-quinoa-box"],
+  d:["enchilada-bake","chicken-cacciatore","bean-mushroom-burgers","mushroom-cottage-pie","salmon-cakes"],
+  s:["charcuterie-board","mezze-board","petiscos-board","guacamole-snack"],
+  e:["baked-apples","berry-crumble","black-bean-brownies"],
+  p:["golden-milk","date-hot-cocoa","cha-de-limao","golden-milk"]},
  {id:"shortcuts",theme:"everyday",name:"Busy week shortcuts",desc:"Frozen salmon and turkey burgers, marinated meats and quick sides.",
   b:["chia-pudding","zaatar-eggs","mango-smoothie","broccoli-egg-muffins","green-smoothie"],
   l:["shawarma-wraps","sweet-potato-bean-bowl","sweetpot-bean-chili","tzatziki-chicken-bowl","chickpea-feta-salad"],
@@ -1565,12 +1604,21 @@ function presetCard(p){
     <button class="btn primary" id="pre-${p.id}" data-act="preset" data-id="${p.id}" style="width:max-content">Use this week</button>
   </article>`;
 }
+/* Discover changes its order every day: a pick for today on top (in-season weeks first), then
+   the themes and the weeks inside them rotated by the day's number. */
+const dayNum=()=>{const d=new Date(); return Math.floor((d-d.getTimezoneOffset()*6e4)/864e5);};
+const rot=(a,k)=>{if(!a.length) return a; const n=((k%a.length)+a.length)%a.length; return a.slice(n).concat(a.slice(0,n));};
 function viewDiscover(){
-  const now=new Date().getMonth()+1;
-  const order=t=>t.k==="season"&&!PRESETS.some(p=>p.theme==="season"&&p.months&&p.months.includes(now))?9:0;
-  const groups=THEMES.slice().sort((a,b)=>order(a)-order(b)).map(t=>{const ps=PRESETS.filter(p=>p.theme===t.k); if(!ps.length) return "";
+  const now=new Date().getMonth()+1, day=dayNum();
+  const inSeason=PRESETS.filter(p=>p.months&&p.months.includes(now));
+  const pickFrom=inSeason.length?inSeason:PRESETS.filter(p=>p.theme!=="season"), pick=pickFrom[day%pickFrom.length];
+  const seasonFirst=t=>t.k==="season"?(inSeason.length?-1:9):0;
+  const themes=rot(THEMES.filter(t=>t.k!=="season"),day).concat(THEMES.filter(t=>t.k==="season")).sort((a,b)=>seasonFirst(a)-seasonFirst(b));
+  const groups=themes.map(t=>{let ps=rot(PRESETS.filter(p=>p.theme===t.k&&p!==pick),day); if(!ps.length) return "";
+    if(t.k==="season") ps=ps.filter(p=>inSeason.includes(p)).concat(ps.filter(p=>!inSeason.includes(p)));
     return `<section class="stack"><div><h2 class="disc-theme">${t.name}</h2><p class="meta" style="margin:2px 0 0">${t.desc}</p></div>${ps.map(presetCard).join("")}</section>`;}).join("");
-  return `<section class="stack"><div><h2>Discover</h2><p class="lead">Sample weeks to start from. Using one replaces the meals it includes; swap anything after.</p></div>${groups}</section>`;
+  return `<section class="stack"><div><h2>Discover</h2><p class="lead">Sample weeks to start from, in a new order each day. Using one replaces the meals it includes; swap anything after.</p></div>
+    <section class="stack"><div><h2 class="disc-theme">Today's pick</h2></div>${presetCard(pick)}</section>${groups}</section>`;
 }
 function viewProfile(){
   const opt=(act,v,cur,label,desc)=>`<button class="choice" id="${act}-${v}" data-act="${act}" data-v="${v}" aria-pressed="${cur===v}"><b>${label}</b>${desc?`<span>${desc}</span>`:""}</button>`;
