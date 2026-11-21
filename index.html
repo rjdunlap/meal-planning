@@ -1091,6 +1091,39 @@ R.push(
   kid:"Take out her potatoes before the pepper flakes and mash them, and give her skinless breast meat shredded fine, warmed before the raw garlic sauce.",
   steps:["Toss cubed potatoes with oil and coriander and roast at 425°F for 25 minutes. Set hers aside, then toss the rest with pepper flakes, garlic and cilantro.","Warm the shredded chicken with the spinach until wilted, then stir in some toum.","Serve the chicken over the potatoes with lemon."]}
 );
+/* ---------- more store shortcuts ---------- */
+Object.assign(I,{
+ beets:{s:"cooked beets",u:"oz",cat:"Produce",role:"veg",life:14,keep:"Sealed until the package date. About 5 days once opened.",left:"Slice the rest into salads or blend into hummus.",c:{n:"Organic cooked beets, ready to eat",pack:"4 packs, about 10.6 oz each",q:42},t:{n:"Steamed and peeled baby beets",pack:"about 8 oz",q:8}},
+ artichoke:{s:"artichoke hearts",u:"oz",cat:"Pantry",role:"veg",life:null,keep:"Years unopened. About 2 weeks in the fridge once opened, covered in their oil.",left:"Keep them covered in oil in the fridge and add to pasta, salads or eggs.",c:{n:"Artichoke hearts in oil",pack:"2 jars, 33 oz each",q:66},t:{n:"Marinated artichoke hearts",pack:"jar, about 12 oz",q:12}},
+ saladkit:{s:"salad kit",u:"oz",cat:"Produce",role:"veg",life:5,keep:"Until the package date, usually 5 to 7 days.",left:"Use the second kit within a few days; the greens stay crisp until dressed.",c:{n:"Sweet kale chopped salad kit",pack:"2 kits, about 14 oz each",q:28},t:null},
+ hbegg:{s:"peeled hard-boiled eggs",u:"egg",cat:"Dairy & eggs",role:"protein",life:14,keep:"Sealed until the package date. 3 days once a pack is opened.",left:"Each small pack holds two eggs, so open only what you need.",c:{n:"Organic peeled hard-boiled eggs",pack:"16 eggs in packs of 2",q:16},t:null},
+ cookedshrimp:{s:"cooked shrimp",u:"lb",cat:"Frozen",role:"protein",life:null,keep:"Up to 6 months frozen. Thaw in cold water in 10 minutes.",left:"Reseal the bag and thaw only what you need.",c:{n:"Cooked shrimp, tail off, frozen",pack:"2 lb bag",q:2},t:null},
+ redonion:{s:"red onions",u:"onion",cat:"Produce",role:"veg",life:30,keep:"1 to 2 months in a cool, dark spot.",left:"Quick-pickle the rest; they keep 2 weeks in the fridge.",c:{n:"Red onions",pack:"bag, about 10",q:10},t:{n:"Red onions",pack:"bag, about 4",q:4}}
+});
+const PICKLE="Quick-pickle the red onion: slice it thin and cover with vinegar and a splash of water for 15 minutes. It keeps 2 weeks in the fridge.";
+R.push(
+ {id:"beet-feta-salad",n:"Beet, feta and walnut salad with pickled red onions",meal:"lunch",t:15,tags:["Bowl or salad","Vegetarian","Shortcut","Daily Dozen"],ing:{beets:3,spinach:2,feta:.5,walnut:.25,redonion:.15,lemon:.2},st:["red wine or apple cider vinegar","extra virgin olive oil"],
+  kid:"Cooked beets are soft; cut hers into small cubes (they stain). Skip the pickled onion, rinse a few feta crumbs, chop her spinach fine and grind the walnuts or leave them out.",
+  steps:[PICKLE,"Slice the ready-cooked beets.","Toss the spinach with olive oil and lemon, top with beets, feta, walnuts and the pickled onion."]},
+ {id:"beet-hummus-snack",n:"Pink beet hummus with cucumber and pita",meal:"snack",t:10,tags:["Plant-based","Vegetarian","Shortcut"],ing:{beets:1.5,chickpea:.25,lemon:.1,cucumber:2,pita:.5},st:["tahini","garlic","cumin"],
+  kid:"Smooth and bright pink, a good dip for her with soft pita and peeled cucumber strips. No salt needed.",
+  steps:["Blend the cooked beets, rinsed chickpeas, a spoon of tahini, lemon juice, garlic and cumin until smooth.","Serve with cucumber and warm pita. It keeps 4 days."]},
+ {id:"artichoke-tuna-salad",n:"Artichoke, chickpea and tuna salad",meal:"lunch",t:10,tags:["Bowl or salad","Omega-3","No-cook protein","Shortcut"],ing:{artichoke:1.5,chickpea:.3,tuna:2,tomato:2,spinach:1.5,lemon:.2},st:["dried oregano","black pepper"],
+  kid:"Marinated artichokes are salty, so rinse a few and chop them small for her. Flake the tuna fine (keep albacore to a small portion once a week), squash the chickpeas and quarter the tomatoes.",
+  steps:["Chop the artichoke hearts and use a spoon of their oil for the dressing with lemon and oregano.","Toss with the rinsed chickpeas, tuna, tomatoes and spinach."]},
+ {id:"artichoke-chicken-pasta",n:"Lemony artichoke, spinach and chicken pasta",meal:"dinner",t:20,tags:["Shortcut","Italian"],ing:{pasta:2.5,artichoke:2,rotis:.12,spinach:2,lemon:.25,feta:.3},st:["garlic","red pepper flakes","black pepper"],
+  kid:"Cut her pasta short, chop the artichokes small and rinse them, and give her skinless rotisserie breast meat shredded fine. Add pepper flakes to the adult plates only.",
+  steps:["Boil the pasta.","Warm the chopped artichokes in a spoon of their oil with garlic, then add the shredded chicken, skin off, and the spinach.","Toss with the pasta, lemon juice and a splash of pasta water, then top with feta."]},
+ {id:"salad-kit-chicken",n:"Kale salad kit with rotisserie chicken and chickpeas",meal:"lunch",t:5,tags:["Bowl or salad","No-cook protein","Shortcut"],ing:{saladkit:4,rotis:.1,chickpea:.2,cucumber:1.5},st:[],
+  kid:"Raw kale is too tough for her, so give her the chicken (skinless breast, shredded), squashed chickpeas and peeled cucumber instead.",
+  steps:["Empty the salad kit into a bowl with its toppings and dressing.","Add shredded rotisserie chicken, skin off, rinsed chickpeas and cucumber and toss."]},
+ {id:"shrimp-avocado-kit-bowl",n:"Cooked shrimp, avocado and kale salad bowl",meal:"lunch",t:10,tags:["Bowl or salad","Lean protein","No-cook protein","Shortcut"],ing:{cookedshrimp:.2,saladkit:4,avocado:.4,mango:1,redonion:.1},st:["lime or lemon"],
+  kid:"Chop her shrimp small and serve it with mashed avocado and thin mango strips. Skip the raw kale and pickled onion for her.",
+  steps:[PICKLE,"Thaw the cooked shrimp in cold water for 10 minutes.","Toss the salad kit and top with shrimp, avocado, mango, pickled onion and lime."]},
+ {id:"cobb-salad",n:"Shortcut cobb salad with rotisserie chicken and peeled eggs",meal:"dinner",t:10,tags:["Bowl or salad","No-cook protein","Shortcut"],ing:{romaine:1,hbegg:1,rotis:.1,avocado:.4,tomato:3,redonion:.1,cheese:.5},st:["Dijon mustard","red wine vinegar","extra virgin olive oil"],
+  kid:"Chop her egg, give her skinless shredded chicken breast and avocado, and quarter the tomatoes. Skip the lettuce and onion for her.",
+  steps:[PICKLE,"Chop the romaine and slice the store-bought eggs.","Arrange rows of chicken, egg, avocado, tomatoes, cheese and pickled onion.","Whisk mustard, vinegar and oil and pour over."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1374,7 +1407,7 @@ function orderByFreshness(){
 }
 const protGroup=r=>{const k=Object.keys(r.ing);
   if(["salmon","cansalmon","tuna","cod","sockeye","salmonburger","trout","sardines","mahi"].some(x=>k.includes(x))) return "fish";
-  if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")||k.includes("turkeyburger")) return "turkey";
+  if(k.includes("shrimp")||k.includes("cookedshrimp")) return "shrimp"; if(k.includes("turkey")||k.includes("turkeyburger")) return "turkey";
   if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")||k.includes("rotis")) return "chicken"; if(k.includes("prosciutto")) return "other"; if(k.includes("carneasada")) return "beef"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
 /* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
