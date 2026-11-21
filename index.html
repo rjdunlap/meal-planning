@@ -1158,7 +1158,44 @@ const AFX={
 };
 for(const id in AFX){const r=RX[id]; if(!r) continue; r.af={};
   for(const [m,txt] of AFX[id]){const i=r.steps.findIndex(s=>s.includes(m)); if(i>=0) r.af[i]=txt;}}
-const stepsFor=r=>S.cook==="air"&&r.af?r.steps.map((s,i)=>r.af[i]||s):r.steps;
+const stepsFor=r=>{const air=S.cook==="air";
+  return r.steps.map((t,i)=>{if(r.useRot&&r.rot&&i in r.rot){const [txt,alt]=r.rot[i]; return air&&alt?alt:txt;} return air&&r.af&&r.af[i]?r.af[i]:t;}).filter(t=>t!==null);};
+/* ---------- rotisserie chicken in place of raw ----------
+   With the Family setting on (the default) and Costco in the mix, these recipes use shredded
+   rotisserie chicken instead of raw chicken. Each entry replaces the step containing the
+   matching text; null drops the step; a third value is the air fryer wording. Half a pound of
+   raw chicken per portion becomes about a quarter of a rotisserie chicken. */
+const SHRED="shredded rotisserie chicken, skin off";
+const ROT={
+ "turmeric-chicken-bowl":[["Toss sliced chicken","Toss "+SHRED+", with oil, turmeric, pepper, ginger and garlic and warm it in a pan for 3 minutes."],["Add the chicken and broccoli","Add the broccoli to the tray and roast 12 to 15 minutes.","Air fry the broccoli at 380°F for 6 to 8 minutes."]],
+ "chicken-berry-salad":[["Sear the chicken","Shred rotisserie chicken, skin off."]],
+ "hummus-chicken-bowl":[["Rub the chicken","Cook the quinoa. Warm "+SHRED+", with oil, oregano and garlic for 2 minutes."],["Sear the chicken",null]],
+ "cauli-chicken-bowl":[["Slice the chicken thin","Shred rotisserie chicken, skin off."]],
+ "tzatziki-chicken-bowl":[["Rub the chicken","Cook the quinoa. Warm "+SHRED+", with oil, oregano and garlic for 2 minutes."],["Sear the chicken",null]],
+ "brussels-chicken-salad":[["Sear the chicken","Shred rotisserie chicken, skin off."]],
+ "hummus-chicken-wraps":[["Sear the chicken","Shred rotisserie chicken, skin off, and toss with a little oil and oregano."]],
+ "apple-walnut-chicken-salad":[["Cook and chop the chicken","Chop rotisserie chicken, skin off."]],
+ "chicken-mushroom-skillet":[["Sear sliced chicken","Cook the quinoa. Shred rotisserie chicken, skin off."]],
+ "chicken-fajita-bowls":[["Slice the chicken, pepper and onion","Start the rice. Shred rotisserie chicken, skin off, and slice the pepper and onion."],["Cook the chicken with cumin","Cook the pepper and onion until soft, then stir in the chicken with cumin and paprika to warm through."]],
+ "chicken-quinoa-box":[["Sear the chicken","Shred rotisserie chicken, skin off, and toss with garlic powder and oregano."]],
+ "chicken-tortilla-soup":[["whole chicken breasts","Soften the onion, pepper and garlic in oil. Add the cumin, tomatoes and broth."],["Simmer 15 minutes","Simmer 10 minutes and shred rotisserie chicken, skin off."]],
+ "chicken-fried-rice":[["Brown the sliced chicken","Stir-fry the frozen vegetables and garlic, then add "+SHRED+"."]],
+ "thai-green-curry":[["add the coconut milk and sliced chicken","Start the rice. Soften the ginger and garlic, then add the coconut milk and simmer 3 minutes."],["Add the frozen vegetables","Add the frozen vegetables and "+SHRED+", and cook 5 minutes."]],
+ "greek-chicken":[["Rub the chicken","Cook the quinoa. Toss "+SHRED+", with oil, oregano, garlic and lemon zest."],["Sear the chicken",null]],
+ "chicken-tinga-tacos":[["Simmer the chicken thighs","Simmer the tomatoes, sliced onion, garlic and oregano, covered, for 10 minutes, then stir in "+SHRED+"."],["Shred the chicken in the sauce","Take out her portion, then stir chopped chipotle into the rest."]],
+ "vietnamese-chicken-bowl":[["Rub the chicken","Toss "+SHRED+", with lemongrass and garlic. Set her portion aside, then add a little fish sauce to the rest."],["Roast at 425°F","Warm it in a hot pan for 3 to 4 minutes until the edges crisp."]],
+ "canja":[["Simmer the chicken thighs","Simmer the onion and carrot in the broth for 10 minutes."],["Lift out the chicken","Shred rotisserie chicken, skin off."]],
+ "arroz-de-frango":[["Brown the chicken pieces",null],["Cover and simmer","Cover and simmer until the rice is tender and a little soupy, then stir in "+SHRED+", to warm through."]],
+ "riz-a-djej":[["Brown the chicken thighs",null],["then add the broth and chicken","Soften the onion and garlic, stir in the rice, cinnamon and allspice, then add the broth."],["Cover and simmer","Cover and simmer until the rice is tender, about 40 minutes for brown rice."],["Shred the chicken over","Stir in "+SHRED+", and top with toasted walnuts and parsley."]]
+};
+for(const id in ROT){const r=RX[id]; if(!r) continue; r.ing0={...r.ing}; r.t0=r.t; r.rot={};
+  for(const [m,txt,air] of ROT[id]){const i=r.steps.findIndex(s=>s.includes(m)); if(i>=0) r.rot[i]=[txt,air];}}
+function applyRotis(){
+  const on=S.rotis!==false&&S.store!=="t";
+  for(const r of R){if(!r.ing0) continue;
+    if(on){const ing={}; for(const k in r.ing0){if(k==="cb"||k==="chx") ing.rotis=+((ing.rotis||0)+r.ing0[k]*.5).toFixed(3); else ing[k]=r.ing0[k];} r.ing=ing; r.t=Math.max(10,r.t0-10); r.useRot=true;}
+    else {r.ing={...r.ing0}; r.t=r.t0; r.useRot=false;}}
+}
 
 /* ---------- state ---------- */
 const MEALS={b:{arr:"bf",cnt:"nb",lbl:"Breakfast",pl:"Breakfasts",short:"Bkfst"},l:{arr:"lunches",cnt:"nl",lbl:"Lunch",pl:"Lunches",short:"Lunch"},d:{arr:"dinners",cnt:"nd",lbl:"Dinner",pl:"Dinners",short:"Dinner"},
@@ -1211,7 +1248,7 @@ const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<M
 const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
 const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
 const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",rotis:true,prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),snacks:Array(7).fill(null),desserts:Array(7).fill(null),sips:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -1222,7 +1259,7 @@ function normalize(d){
   s.kidPortion=own(KID_PORTIONS,d.kidPortion)&&Number.isInteger(d.kidPortion)?d.kidPortion:25;
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,m==="p"?3:2);
-  s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air";
+  s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air"; s.rotis=d.rotis!==false;
   s.life={}; if(d.life&&typeof d.life==="object") for(const k of Object.keys(d.life)){if(own(I,k)&&I[k].life!=null){const v=int(d.life[k],1,60,I[k].life); if(v!==I[k].life) s.life[k]=v;}}
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
   s.tune={}; if(d.tune&&typeof d.tune==="object") for(const t of TUNE){if(!t.k) continue; const v=d.tune[t.k];
@@ -1411,6 +1448,7 @@ function weekScore(){
   return tw("waste")*wasteOf(totals().T)+tw("reuse")*Math.max(0,prot.size-2)+.8*over+2.5*tw("fish")*noFish-.7*tw("prep")*pairs;
 }
 function genWeek(){
+  applyRotis();
   if(MK.every(m=>!cnt(m))){toast("Set at least one meal to plan first."); return false;}
   /* Keep a random one of the near-best tries, so shuffling still brings new recipes. */
   const tries=[];
@@ -1518,6 +1556,7 @@ const PRESETS=[
   d:["greens-grain-bowl","chicken-berry-salad","chickpea-sweetpot-traybake","shrimp-mango-salad","chicken-fajita-bowls","tofu-mushroom-stirfry"]}
 ];
 function loadPreset(id){
+  applyRotis();
   const p=PRESETS.find(x=>x.id===id); if(!p) return false;
   for(const m of MK){
     if(!p[m]) continue; /* presets plan breakfast, lunch and dinner; snacks and desserts stay */
@@ -1561,7 +1600,8 @@ function recipeBody(r,mult){
   const ings=Object.keys(r.ing).map(k=>`<li><span>${nm(k)}</span><b>${fq(r.ing[k]*P()*mult,I[k].u)}</b></li>`).join("");
   return `<p class="meta" style="margin:8px 0 0">Amounts for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}${mult>1?", cooked double":""}.</p>
         <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
-        ${S.kids?`<p class="kid"><b>For your little one:</b> ${r.kid}</p>`:""}
+        ${r.useRot?`<p class="meta" style="margin:0">Made with rotisserie chicken.</p>`:""}
+        ${S.kids?`<p class="kid"><b>For your little one:</b> ${r.kid}${r.useRot?" Rotisserie chicken is salted, so give her breast meat without skin.":""}</p>`:""}
         <ol class="steps">${stepsFor(r).map(s=>`<li>${s}</li>`).join("")}</ol>`;
 }
 let openWeek=new Set();
@@ -1660,6 +1700,7 @@ function viewProfile(){
       <h3>How you cook</h3>
       <div class="choices three" role="group" aria-label="How you cook" style="grid-template-columns:repeat(2,1fr)">${[["air","Air fryer"],["oven","Oven"]].map(([v,l])=>`<button class="choice" id="cook-${v}" data-act="cook" data-v="${v}" aria-pressed="${S.cook===v}"><b>${l}</b></button>`).join("")}</div>
       <span class="meta">Recipes that roast or sear show air fryer times and temperatures. Dishes that need a baking dish or muffin tin stay in the oven.</span>
+      <div class="field">Chicken<div class="choices three" role="group" aria-label="Chicken" style="grid-template-columns:repeat(2,1fr)">${[[true,"Rotisserie when it works"],[false,"Raw"]].map(([v,l])=>`<button class="choice" id="rotis-${v?"on":"off"}" data-act="rotis" data-v="${v}" aria-pressed="${S.rotis===v}"><b>${l}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">Bowls, salads, wraps, soups and stir-fries use shredded Costco rotisserie chicken instead of raw. Recipes stay on raw chicken when you shop only at Trader Joe's.</span></div>
     </div>
     <div class="card stack">
       <h3>How often a recipe can repeat</h3>
@@ -1905,6 +1946,7 @@ function dropWeekQuery(){if(location.search) history.replaceState(null,"",pageUR
 /* ---------- render + events ---------- */
 function tab(){const h=location.hash.slice(1); return h==="shelf-life"?"shopping-list":TABS.includes(h)?h:"week";}
 function render(){
+  applyRotis();
   const t=tab(), fid=document.activeElement&&document.activeElement.id;
   document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.tab===t) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");});
   $("#app").innerHTML=t==="week"&&!S.setup&&!incoming&&!slots().length?viewWelcome():t==="profile"?viewProfile():t==="discover"?viewDiscover():t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():viewWeek();
@@ -1916,6 +1958,7 @@ let toastT=null;
 function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("on"),2600);}
 
 function act(el,ev){
+  applyRotis();
   const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
   if(a==="cuisine"){if(ev.type!=="change") return; cuisine=el.value; render(); return;}
@@ -1951,6 +1994,7 @@ function act(el,ev){
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
   else if(a==="cook"){S.cook=el.dataset.v;}
+  else if(a==="rotis"){S.rotis=el.dataset.v==="true";}
   else if(a==="kidp"){S.kidPortion=+el.dataset.v;}
   else if(a==="rep"){S.rep[m]=+el.dataset.v;}
   else if(a==="prep"){S.prepDays^=1<<(+el.dataset.w);}
