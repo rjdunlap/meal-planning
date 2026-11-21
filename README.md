@@ -3,7 +3,7 @@
 Week planner for a family of three (two adults and a 1-year-old) who shop at Costco, Trader Joe's, or both.
 
 - Choose Costco, Trader Joe's or both stores (under Family). The shopping list uses each store's pack sizes and, in "both" mode, sends each item to the store that wastes less.
-- Pick healthy breakfasts, lunches and dinners, including bowls, salads, fish and plant-based meals, plus shortcuts built on store frozen burgers, frozen fish and marinated meats.
+- Pick healthy breakfasts, lunches and dinners, including bowls, salads, fish and plant-based meals, plus shortcuts built on store frozen burgers, frozen fish and marinated meats, and Lebanese and Portuguese family recipes.
 - See how many packs the week needs, how long each item keeps (and change it to match your fridge), and freezer guidance.
 - Start from a sample week, or let the generator mix proteins, include fish, keep fresh-food waste low, pair weekday breakfasts with that day's lunch, and repeat a recipe when cooking once for two days makes sense.
 - A short welcome on first visit asks who is eating, where and when you shop, and which mornings you make lunch with breakfast, then plans the first week.
