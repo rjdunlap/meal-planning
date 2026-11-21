@@ -724,9 +724,9 @@ R.push(
  {id:"arroz-de-tomate-camarao",n:"Tomato rice with shrimp (arroz de tomate)",meal:"dinner",t:35,tags:["Lean protein","One pot","Freezer meal","Portuguese"],ing:{shrimp:.3,rice:.33,dicedtom:.4,onion:.25,pepper:.3,stock:.75},st:["extra virgin olive oil","garlic","bay leaves","fresh parsley"],
   kid:"Shellfish is a common allergen, so offer a little early in the day if it is new. Chop her shrimp small. Boxed broth is salted, so thin her rice with a splash of water.",
   steps:["Soften the onion, pepper and garlic in olive oil.","Add the rice, tomatoes, broth and bay leaves, cover and simmer until the rice is tender. Brown rice takes about 40 minutes; frozen cooked rice needs only 5.","Stir in the thawed shrimp and cook 3 minutes until pink.","Keep it a little soupy, the Portuguese way, and top with parsley."]},
- {id:"caldo-verde",n:"Caldo verde-style potato and greens soup",meal:"lunch",t:30,tags:["Freezes well","One pot","Portuguese"],ing:{potato:.4,onion:.25,spinach:2,stock:1.25},st:["extra virgin olive oil","garlic"],
-  kid:"There are no common allergens here. Boxed broth is salted, so thin her bowl with water. The blended potato base is a good texture for her. Chop her greens very finely.",
-  steps:["Soften the onion and garlic in olive oil, add the potatoes and broth and simmer 15 minutes.","Blend until smooth.","Stir in finely sliced greens and simmer 5 minutes. Kale or collards are the traditional greens; spinach works too.","Finish each bowl with a drizzle of olive oil. Add a few slices of chouriço for the adults if you like."]},
+ {id:"caldo-verde",n:"Caldo verde: potato and kale soup",meal:"lunch",t:30,tags:["Freezes well","One pot","Portuguese"],ing:{potato:.4,onion:.25,kale:2,stock:1.25},st:["extra virgin olive oil","garlic"],
+  kid:"There are no common allergens here. Boxed broth is salted, so thin her bowl with water. The blended potato base is a good texture for her. Chop her kale very finely.",
+  steps:["Soften the onion and garlic in olive oil, add the potatoes and broth and simmer 15 minutes.","Blend until smooth.","Stir in the kale, sliced into very thin ribbons, and simmer 5 minutes.","Finish each bowl with a drizzle of olive oil. Add a few slices of chouriço for the adults if you like."]},
  {id:"sopa-de-legumes",n:"Sopa de legumes: blended vegetable soup with chickpeas",meal:"lunch",t:35,tags:["Plant-based","Vegetarian","Freezes well","One pot","Portuguese"],ing:{potato:.3,carrot:.3,onion:.25,chickpea:.25,spinach:1},st:["extra virgin olive oil","garlic"],
   kid:"There are no common allergens here. Made with water, it is low in salt, and the smooth texture suits her well. Leave out any salt until her bowl is served.",
   steps:["Simmer the potatoes, carrots, onion, garlic and rinsed chickpeas in water to cover for 20 minutes.","Blend until smooth.","Add the spinach and simmer 3 minutes, then stir in a good drizzle of olive oil.","Freeze single portions for quick lunches."]},
@@ -941,6 +941,36 @@ R.push(
  {id:"egg-quinoa-bowl",n:"Hard-boiled egg, quinoa and spinach bowl with lemon",meal:"lunch",t:10,tags:["Bowl or salad","Vegetarian","Make ahead"],ing:{eggs:1.5,quinoa:.25,spinach:2,tomato:2,chickpea:.2,lemon:.2},st:["extra virgin olive oil","black pepper"],
   kid:"Egg is a common allergen, so offer it early in the day if it is new. Chop her egg small, squash the chickpeas, quarter the tomatoes and stir finely chopped spinach into warm quinoa.",
   steps:["Hard-boil the eggs ahead and cook a pot of quinoa for the week.","Toss the quinoa with spinach, tomatoes, chickpeas, lemon juice and olive oil.","Top with the sliced eggs and pepper."]}
+);
+/* ---------- Trader Joe's greens, grains and tempeh ---------- */
+Object.assign(I,{
+ kale:{s:"kale",u:"oz",cat:"Produce",role:"veg",life:6,fz:1,keep:"5 to 7 days in the fridge.",left:"Freeze handfuls for soups and smoothies before it wilts.",c:null,t:{n:"Organic Tuscan kale",pack:"10 oz bag",q:10}},
+ tempeh:{s:"tempeh",u:"oz",cat:"Dairy & eggs",role:"legume",life:21,fz:1,keep:"Sealed until the package date. About 5 days once opened. Freezes well.",left:"Freeze the rest wrapped tightly; it crumbles well from frozen.",c:null,t:{n:"Organic 3 grain tempeh",pack:"8 oz",q:8}},
+ farro:{s:"farro",u:"cup",cat:"Pantry",role:"grain",life:null,keep:"About a year sealed and dry.",left:"Cook a pot for the week; it keeps 5 days in the fridge.",c:null,t:{n:"10 minute farro",pack:"8.8 oz bag, about 1⅓ cups",q:1.35}},
+ wildblue:{s:"wild blueberries",u:"oz",cat:"Frozen",role:"fruit",life:null,keep:"8 to 12 months frozen.",left:"Reseal the bag. They thaw in a minute.",c:null,t:{n:"Organic wild blueberries, frozen",pack:"12 oz bag",q:12}}
+});
+R.push(
+ {id:"farro-lentil-kale-bowl",n:"Farro, lentil and kale bowl with broccoli and lemon",meal:"dinner",t:25,tags:["Bowl or salad","Plant-based","Vegetarian","Daily Dozen"],ing:{farro:.25,lentil:.4,kale:2,broccoli:3,lemon:.25},st:["garlic","ground turmeric","black pepper","nutritional yeast","apple cider vinegar"],
+  kid:"There are no common allergens here, and no added salt. Mash her lentils, cook the broccoli soft, and chop the kale very fine after it wilts. Farro is chewy, so mash hers with the lentils.",
+  steps:["Cook the farro for 10 minutes with the turmeric and pepper, then drain.","Steam the broccoli for 4 minutes.","Cook the garlic in a splash of water, then wilt in the chopped kale with the warm lentils.","Build bowls and finish with lemon, vinegar and nutritional yeast."]},
+ {id:"kale-chickpea-soup",n:"Kale and chickpea soup with tomatoes and turmeric",meal:"lunch",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Daily Dozen"],ing:{kale:2,chickpea:.4,dicedtom:.4,onion:.25,carrot:.2},st:["garlic","ground turmeric","black pepper","dried thyme"],
+  kid:"There are no common allergens here. Made with water and no salt, it suits her well. Chop her kale very fine and squash the chickpeas.",
+  steps:["Cook the onion, carrot and garlic in a splash of water for 6 minutes.","Add the spices, tomatoes, rinsed chickpeas and water to cover and simmer 15 minutes.","Stir in the chopped kale and simmer 5 minutes more. Freeze single portions."]},
+ {id:"kale-apple-salad",n:"Massaged kale salad with chickpeas, apple and walnuts",meal:"lunch",t:15,tags:["Bowl or salad","Plant-based","Vegetarian","No-cook protein","Daily Dozen"],ing:{kale:2.5,chickpea:.3,apple:.25,walnut:.25,lemon:.25},st:["apple cider vinegar","Dijon mustard","black pepper"],
+  kid:"Walnuts are a common allergen, so offer them early in the day if new. Raw kale is too tough for her, so wilt hers and chop it fine, grate her apple, squash the chickpeas and grind the walnuts or leave them out.",
+  steps:["Strip the kale from its stems and chop it.","Rub it with lemon juice for a minute until it softens and darkens.","Toss with the chickpeas, diced apple, walnuts, vinegar, mustard and pepper."]},
+ {id:"tempeh-broccoli-stirfry",n:"Ginger tempeh, broccoli and edamame stir-fry with brown rice",meal:"dinner",t:25,tags:["Plant-based","Vegetarian","Daily Dozen"],ing:{tempeh:3,broccoli:4,edamame:1.5,rice:.33,pepper:.3},st:["low-sodium soy sauce","fresh ginger","garlic","rice vinegar"],
+  kid:"Tempeh and edamame are soy, a common allergen, so offer them early in the day if new. Crumble her tempeh small, squash the edamame, cook the broccoli soft and take her portion out before the soy sauce.",
+  steps:["Start the rice. Steam the tempeh for 10 minutes to soften its flavor, then cut into cubes.","Brown the tempeh in a dry nonstick pan for 6 minutes.","Add the broccoli, pepper, edamame, ginger and garlic with a splash of water and cook 5 minutes.","Take out her portion, then season the rest with a little soy sauce and rice vinegar."]},
+ {id:"tempeh-taco-bowl",n:"Tempeh taco crumble bowls with beans, corn and avocado",meal:"lunch",t:20,tags:["Bowl or salad","Plant-based","Vegetarian","Freezes well"],ing:{tempeh:2.5,beans:.25,corn:2,tomato:2,avocado:.3,rice:.25},st:["cumin","smoked paprika","garlic powder","lime or lemon"],
+  kid:"Tempeh is soy, a common allergen, so offer it early in the day if new. Season her crumble with cumin only, before the paprika, mash the beans and corn and quarter the tomatoes.",
+  steps:["Crumble the tempeh and cook it in a splash of water with cumin and garlic powder for 8 minutes. Take out her share, then add paprika.","Warm the rinsed beans and corn.","Build bowls over rice with tomatoes, avocado and lime. The crumble freezes well."]},
+ {id:"wild-blue-kale-smoothie",n:"Wild blueberry and kale smoothie with flax",meal:"sip",t:5,tags:["Plant-based","Vegetarian","Daily Dozen"],ing:{wildblue:2,kale:1,banana:.5,soymilk:.75,flax:.1},st:[],
+  kid:"Soy is a common allergen, so offer it early in the day if new. Blend hers very smooth so no kale bits remain, and serve it in an open cup.",
+  steps:["Blend the frozen wild blueberries, kale, banana, soy milk and flax until completely smooth."]},
+ {id:"wild-blue-oats",n:"Wild blueberry oatmeal with walnuts and cinnamon",meal:"breakfast",t:10,tags:["Plant-based","Vegetarian","Daily Dozen"],ing:{oats:.5,wildblue:2.5,soymilk:.75,walnut:.25,flax:.25},st:["cinnamon"],
+  kid:"Soy and walnuts are common allergens, so offer each early in the day if new. Wild blueberries are small and soft, but mash them into hers, and grind the walnuts fine or leave them out.",
+  steps:["Simmer the oats in the soy milk for 5 minutes.","Stir in the frozen wild blueberries until they turn the oats purple.","Top with flax, walnuts and cinnamon."]}
 );
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
