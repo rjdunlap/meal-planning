@@ -81,6 +81,18 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .chip.plain{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);font-weight:500}
 .chip.sc{background:var(--sc-bg);color:var(--sc)} .chip.st{background:var(--st-bg);color:var(--st)}
 /* household */
+.prof{margin-left:auto;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.12);color:var(--hero-ink);text-decoration:none;text-transform:none;letter-spacing:0;font-size:14px}
+.prof svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.famline{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14.5px}
+.famline a.btn{color:var(--ink);text-decoration:none;display:inline-flex;align-items:center}
+.choices{display:grid;gap:8px}
+.choices.three{grid-template-columns:repeat(3,1fr)}
+.choice{text-align:left;border:1.5px solid var(--line);background:transparent;border-radius:12px;padding:10px 12px;min-height:44px;cursor:pointer;display:flex;flex-direction:column;gap:2px;color:var(--ink);font-size:14.5px}
+.choice span{font-size:13px;color:var(--muted);font-weight:400}
+.choice[aria-pressed="true"]{border-color:var(--brand);background:var(--soft);box-shadow:inset 0 0 0 1px var(--brand)}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day-t{min-height:44px;border:1.5px solid var(--line);background:transparent;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);padding:0}
+.day-t[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
 .settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .field{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted);font-weight:600}
 .stepper{display:inline-flex;align-items:center;border:1.5px solid var(--ink);border-radius:10px;width:max-content}
@@ -180,7 +192,7 @@ nav.tabs a[aria-current="page"]{color:var(--brand);background:var(--soft)}
 <body>
 <header class="hero">
   <div class="wrap">
-    <div class="brand"><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f2f7f0" opacity=".18"/><circle cx="32" cy="32" r="25" fill="#f2f7f0"/><path d="M32 32L32 10A22 22 0 0 1 51 43Z" fill="#e0674a"/><path d="M32 32L51 43A22 22 0 0 1 13 43Z" fill="#3f9c4e"/><path d="M32 32L13 43A22 22 0 0 1 32 10Z" fill="#e2b24a"/></svg><span>Week planner</span></div>
+    <div class="brand"><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f2f7f0" opacity=".18"/><circle cx="32" cy="32" r="25" fill="#f2f7f0"/><path d="M32 32L32 10A22 22 0 0 1 51 43Z" fill="#e0674a"/><path d="M32 32L51 43A22 22 0 0 1 13 43Z" fill="#3f9c4e"/><path d="M32 32L13 43A22 22 0 0 1 32 10Z" fill="#e2b24a"/></svg><span>Week planner</span><a class="prof" id="profile-link" href="#profile" aria-label="Family and settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="10" r="2.3"/><path d="M3.5 19c.6-3.4 2.8-5.2 5.5-5.2s4.9 1.8 5.5 5.2M14.5 15.2c.8-.9 1.6-1.3 2.5-1.3 2 0 3.3 1.5 3.6 5.1"/></svg>Family</a></div>
     <h1>Plan the week <em>around the cart</em></h1>
     <div class="seg" id="seg" role="group" aria-label="Where you shop"></div>
     <div class="status" id="status" aria-live="polite"></div>
@@ -330,7 +342,7 @@ const R=[
   steps:["Blend everything with a splash of milk until smooth.","Add more milk to thin it for her cup."]}
 ];
 const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], DAYL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const TABS=["week","recipes","shopping-list","shelf-life"];
+const TABS=["week","recipes","shopping-list","shelf-life","profile"];
 const KEY="costco-week-planner-v2";
 
 
@@ -627,7 +639,10 @@ const canD=r=>r.meal==="dinner";
 const canL=r=>r.meal==="lunch"||(r.meal==="dinner"&&r.tags.some(t=>["Bowl or salad","Freezes well","No-cook protein","Make ahead"].includes(t)));
 const can={b:canB,l:canL,d:canD};
 const defM=r=>r.meal==="breakfast"?"b":r.meal==="lunch"?"l":"d";
-function starter(){return {v:3,adults:2,kids:1,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
+/* Family profile. kidPortion is the share of an adult portion in percent, repeats is
+   "none", "lunch" or "any", and prepDays is a bitmask of weekdays (bit 0 Sunday, 62 = Monday to Friday). */
+const KID_PORTIONS={25:"A quarter",33:"A third",50:"A half"}, REPEATS=["none","lunch","any"];
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,repeats:"any",prepDays:62,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -635,6 +650,8 @@ function normalize(d){
   const int=(x,lo,hi,def)=>Number.isInteger(x)&&x>=lo&&x<=hi?x:def;
   s.adults=int(d.adults,1,8,2); s.kids=int(d.kids,0,6,1); s.shopDay=int(d.shopDay,0,6,6);
   s.nb=int(d.nb,0,7,7); s.nl=int(d.nl,0,7,5); s.nd=int(d.nd,0,7,5);
+  s.kidPortion=own(KID_PORTIONS,d.kidPortion)&&Number.isInteger(d.kidPortion)?d.kidPortion:25;
+  s.repeats=REPEATS.includes(d.repeats)?d.repeats:"any"; s.prepDays=int(d.prepDays,0,127,62);
   s.store=d.store==="c"||d.store==="t"||d.store==="both"?d.store:"both";
   s.src={}; if(d.src&&typeof d.src==="object") for(const k of Object.keys(d.src)){const v=d.src[k]; if(own(I,k)&&(v==="c"||v==="t")&&I[k][v]) s.src[k]=v;}
   for(const m of MK){const a=d[MEALS[m].arr];
@@ -673,7 +690,8 @@ function setSync(m){syncMsg=m; renderStatus();}
 })();
 
 /* ---------- maths ---------- */
-const P=()=>S.adults+S.kids*.25;
+const kidShare=()=>S.kidPortion===33?1/3:S.kidPortion/100;
+const P=()=>S.adults+S.kids*kidShare();
 const nm=k=>(I[k].c||I[k].t).n;
 const has=(k,s)=>!!I[k][s];
 function frac(x){const w=Math.floor(x+1e-9), f=x-w; const g=f>.6?"¾":f>.4?"½":f>.2?"¼":""; return (w||!g?w:"")+g;}
@@ -749,12 +767,15 @@ const wasteW=k=>{const it=I[k]; return it.life==null||it.life>14?0:it.fz?.35:1;}
 function leftPacks(k,need){if(need<=0) return 0; const s=storeFor(k,need); if(!s) return 0; const q=I[k][s].q; return Math.max(0,packsAt(k,need,s)*q-need)/q;}
 function wasteOf(T){let w=0; for(const k in T){const ww=wasteW(k); if(ww) w+=ww*leftPacks(k,T[k]);} return w;}
 function needOf(rs){const T={}; for(const r of rs) for(const k in r.ing) T[k]=(T[k]||0)+r.ing[k]*P(); return T;}
-/* A recipe can come back once more in the same meal type: cook once, eat twice. */
-const MAX_REPEAT=2, REPEAT_COST={b:.6,l:.7,d:.8};
+/* With repeats allowed (profile setting), a recipe can come back once more in the same
+   meal type, at a small cost per repeat: cook once, eat twice. */
+const REPEAT_COST={b:.6,l:.7,d:.8};
+const maxRepeat=m=>S.repeats==="any"||(S.repeats==="lunch"&&m==="l")?2:1;
 function pickMeals(m,n,chosen,bonus){
   const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], seen={};
   for(let i=0;i<n;i++){
-    const cand=pool.filter(r=>(seen[r.id]||0)<MAX_REPEAT);
+    let cand=pool.filter(r=>(seen[r.id]||0)<maxRepeat(m));
+    if(!cand.length) cand=pool.slice(); /* fewer recipes than slots: repeat rather than leave a gap */
     if(!cand.length) break;
     const T=needOf(chosen);
     const sc=cand.map(r=>{
@@ -774,17 +795,17 @@ function pickMeals(m,n,chosen,bonus){
   }
   return out;
 }
-/* Weekday mornings (Monday to Friday) the day's lunch is made alongside breakfast,
-   so breakfasts lean toward sharing ingredients with that day's lunch. Lemons, onions,
+/* On prep days (profile setting, Monday to Friday by default) the day's lunch is made alongside
+   breakfast, so breakfasts lean toward sharing ingredients with that day's lunch. Lemons, onions,
    stock and sauces have no role and do not count, and neither do dairy and fruit, which
    need no prep, nor do pantry nuts and seeds. */
-const isWeekday=i=>{const w=(S.shopDay+i)%7; return w>=1&&w<=5;};
+const isPrepDay=i=>!!(S.prepDays>>((S.shopDay+i)%7)&1);
 const lunchFor=i=>{const x=i<cnt("l")?arr("l")[i]:null; return x?RX[x.r]:null;};
 const PREP_ROLES=["protein","legume","veg","grain","fat"];
 const isPrep=k=>PREP_ROLES.includes(I[k].role)&&!(I[k].role==="fat"&&I[k].cat==="Pantry");
 const shareKeys=(a,b)=>Object.keys(a.ing).filter(k=>b.ing[k]&&isPrep(k));
-function prepShared(i,r){if(!isWeekday(i)) return []; const L=lunchFor(i); return L?shareKeys(r,L):[];}
-/* Rearranges the planned breakfasts (same recipes) so weekday ones line up with that day's lunch. */
+function prepShared(i,r){if(!isPrepDay(i)) return []; const L=lunchFor(i); return L?shareKeys(r,L):[];}
+/* Rearranges the planned breakfasts (same recipes) so prep-day ones line up with that day's lunch. */
 function pairBreakfasts(){
   const A=arr("b"), idx=[], pool=[], out={};
   for(let i=0;i<cnt("b");i++) if(A[i]){idx.push(i); pool.push(A[i]);}
@@ -918,6 +939,48 @@ function mealRow(m,i,x){
       <button class="btn small ghost" id="rm-${m}-${i}" data-act="remove" data-m="${m}" data-day="${i}" aria-label="Remove ${r.n}">Remove</button>
     </div></div>${glyph(r.ing)}</div>`;
 }
+const DAYS_MON=[1,2,3,4,5,6,0];
+function prepDaysText(){
+  const on=DAYS_MON.filter(w=>S.prepDays>>w&1);
+  if(on.join()==="1,2,3,4,5") return "Monday to Friday"; if(on.length===7) return "Every day";
+  return list(on.map(w=>DAYL[w]));
+}
+function familyText(){
+  const ad=`${S.adults} adult${S.adults>1?"s":""}`, kd=S.kids?` and ${S.kids} little one${S.kids>1?"s":""} (${KID_PORTIONS[S.kidPortion].toLowerCase()} portion${S.kids>1?"s":""})`:"";
+  return `${ad}${kd}. Shopping on ${DAYL[S.shopDay]}.`;
+}
+function genText(){
+  let t="The generator varies the protein, includes fish, and tries many weeks and keeps the one that leaves the least fresh food over.";
+  if(S.prepDays) t+=` On ${prepDaysText().replace("Every day","every day")}, breakfast shares ingredients with that day's lunch, so you can make both in one go.`;
+  if(S.repeats==="any") t+=" A recipe can come up twice, so you can cook once and eat twice.";
+  else if(S.repeats==="lunch") t+=" A lunch can come up twice, so you can make it once for two days.";
+  return t;
+}
+function viewProfile(){
+  const opt=(act,v,cur,label,desc)=>`<button class="choice" id="${act}-${v}" data-act="${act}" data-v="${v}" aria-pressed="${cur===v}"><b>${label}</b>${desc?`<span>${desc}</span>`:""}</button>`;
+  return `<section class="stack">
+    <div><h2>Family and settings</h2><p class="lead">Saved on this device with your week. The store choice stays at the top of every page.</p></div>
+    <div class="card stack">
+      <h3>Family</h3>
+      <div class="settings">${stepper("ad","Adults",S.adults,"hh",'data-k="adults"')}${stepper("kd","Little ones",S.kids,"hh",'data-k="kids"')}</div>
+      ${S.kids?`<div class="field">How much a little one eats, as a share of an adult portion<div class="choices three">${[25,33,50].map(v=>opt("kidp",v,S.kidPortion,KID_PORTIONS[v])).join("")}</div><span class="meta" style="font-weight:400">A quarter suits about age 1. Raise it as she grows. Amounts and packs on the shopping list follow it.</span></div>`:""}
+    </div>
+    <div class="card stack">
+      <h3>Shopping</h3>
+      <label class="field" for="shopday">Shopping day<select id="shopday" data-act="shopday">${DAYL.map((d,i)=>`<option value="${i}" ${i===S.shopDay?"selected":""}>${d}</option>`).join("")}</select></label>
+    </div>
+    <div class="card stack">
+      <h3>Repeats in a week</h3>
+      <div class="choices">${opt("rep","none",S.repeats,"Every meal different","Most variety. Leftover fresh food can be a little higher.")}${opt("rep","lunch",S.repeats,"Lunches can repeat","Make a lunch once for two days.")}${opt("rep","any",S.repeats,"Any meal can repeat","Cook once, eat twice. Least food waste.")}</div>
+    </div>
+    <div class="card stack">
+      <h3>Breakfast and lunch prep days</h3>
+      <p class="meta" style="margin:0">On these days you make lunch alongside breakfast, so the planner picks breakfasts that share ingredients with that day's lunch.</p>
+      <div class="days" role="group" aria-label="Prep days">${DAYS_MON.map(w=>`<button class="day-t" id="prep-${w}" data-act="prep" data-w="${w}" aria-pressed="${!!(S.prepDays>>w&1)}" aria-label="${DAYL[w]}">${DAYS[w]}</button>`).join("")}</div>
+    </div>
+    <a class="btn primary" href="#week" id="profile-done" style="width:max-content;text-decoration:none;display:inline-flex;align-items:center">Back to your week</a>
+  </section>`;
+}
 function viewWeek(){
   const {T}=totals(), any=slots().length>0;
   const prep=[];
@@ -935,17 +998,13 @@ function viewWeek(){
     days+=`<section class="dayg" aria-label="${dayName(i,true)}"><h3 class="dayh">${dayName(i,true)}${i===0?`<small>SHOP DAY</small>`:""}</h3>${rows}</section>`;
   }
   return `<section class="stack">
-    <div><h2>Your week</h2><p class="lead">Choose how many breakfasts, lunches and dinners you want, then let the planner fill the week or pick your own. Day one is the day you shop. Amounts are sized for your household, counting each little one as a quarter portion.</p></div>
-    <div class="card settings">
-      ${stepper("ad","Adults",S.adults,"hh",'data-k="adults"')}
-      ${stepper("kd","Little ones",S.kids,"hh",'data-k="kids"')}
-      <label class="field" for="shopday">Shopping day<select id="shopday" data-act="shopday">${["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"].map((d,i)=>`<option value="${i}" ${i===S.shopDay?"selected":""}>${d}</option>`).join("")}</select></label>
-    </div>
+    <div><h2>Your week</h2><p class="lead">Choose how many breakfasts, lunches and dinners you want, then let the planner fill the week or pick your own. Day one is the day you shop. Amounts are sized for your family.</p></div>
+    <div class="card famline"><span>${familyText()}</span><a class="btn small ghost" id="edit-profile" href="#profile">Edit</a></div>
     <div class="card gen">
       <h3>Meals to plan</h3>
       <div class="settings">${stepper("nb","Breakfasts",S.nb,"cnt",'data-k="nb"')}${stepper("nl","Lunches",S.nl,"cnt",'data-k="nl"')}${stepper("nd","Dinners",S.nd,"cnt",'data-k="nd"')}</div>
       <div class="row"><button class="btn primary" id="gen" data-act="gen">${any?"Shuffle a new week":"Generate my week"}</button>${any?`<button class="btn ghost" id="clear" data-act="clear">Clear week</button>`:""}</div>
-      <p class="meta">The generator varies the protein, includes fish, and tries many weeks and keeps the one that leaves the least fresh food over. Monday to Friday, breakfast shares ingredients with that day's lunch, so you can make both in one go. A recipe can come up twice, so you can cook once and eat twice.</p>
+      <p class="meta">${genText()}</p>
       <details><summary>Or start from a sample week</summary><div class="presets">${PRESETS.map(p=>`<button class="preset" id="pre-${p.id}" data-act="preset" data-id="${p.id}"><b>${p.name}</b><span>${p.desc}</span></button>`).join("")}</div></details>
     </div>
     ${any?"":`<div class="empty"><b>Your week is empty.</b> Press Generate, load a sample week, or pick meals one by one below.</div>`}
@@ -1083,7 +1142,7 @@ function render(){
   const t=tab(), fid=document.activeElement&&document.activeElement.id;
   document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.tab===t) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");});
   renderSeg();
-  $("#app").innerHTML=t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():t==="shelf-life"?viewShelf():viewWeek();
+  $("#app").innerHTML=t==="profile"?viewProfile():t==="recipes"?viewRecipes():t==="shopping-list"?viewShop():t==="shelf-life"?viewShelf():viewWeek();
   if(t==="recipes") applySearch();
   renderStatus();
   if(fid&&fid!=="rq"){const el=document.getElementById(fid); if(el&&!el.disabled) el.focus({preventScroll:true});}
@@ -1114,6 +1173,9 @@ function act(el,ev){
   else if(a==="order"){orderByFreshness(); pairBreakfasts(); toast("Reordered. Fresh meat and fish come first, and breakfasts line up with lunches.");}
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
   else if(a==="shopday"){if(ev.type!=="change") return; S.shopDay=+el.value;}
+  else if(a==="kidp"){S.kidPortion=+el.dataset.v;}
+  else if(a==="rep"){S.repeats=el.dataset.v;}
+  else if(a==="prep"){S.prepDays^=1<<(+el.dataset.w);}
   else if(a==="check"){if(ev.type!=="change") return; if(el.checked) S.checked[el.dataset.id]=true; else delete S.checked[el.dataset.id];}
   else if(a==="uncheck"){S.checked={};}
   else return;
