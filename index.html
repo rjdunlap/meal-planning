@@ -114,6 +114,13 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .dow{font:700 24px/1 var(--display);text-transform:uppercase;padding-left:4px}
 .dow small{display:block;font:700 10px/1.2 var(--body);color:var(--brand);letter-spacing:.05em;margin-top:5px}
 .day .body{display:flex;flex-direction:column;gap:8px;min-width:0}
+.day[data-key]{cursor:pointer}
+.day.open{cursor:auto}
+.rtitle{all:unset;cursor:pointer;display:inline-flex;align-items:flex-start;gap:6px;font:inherit;color:inherit}
+.rtitle:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
+.rtitle svg{flex:none;width:18px;height:18px;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;color:var(--muted);transition:transform .15s}
+.day.open .rtitle svg{transform:rotate(180deg)}
+.day .more{grid-column:1/-1;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
 .prep{background:var(--lemon);color:var(--lemon-ink);border-radius:16px;padding:14px 16px}
 .prep h3{font:700 20px/1.1 var(--display);margin-bottom:6px}
 .prep ul{margin:0;padding-left:18px} .prep li{margin:4px 0;font-size:14.5px}
@@ -186,7 +193,7 @@ nav.tabs a[aria-current="page"]{color:var(--brand);background:var(--soft)}
 #toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
 #toast.on{opacity:1}
 @media (max-width:420px){ .day{grid-template-columns:46px 1fr 48px;gap:10px} .dow{font-size:19px;padding-left:2px} .day .glyph{width:48px;height:48px} .recipe .head{grid-template-columns:48px 1fr auto} .recipe .head .glyph{width:48px;height:48px} }
-@media (prefers-reduced-motion:reduce){ #toast{transition:none} }
+@media (prefers-reduced-motion:reduce){ #toast,.rtitle svg{transition:none} }
 </style>
 </head>
 <body>
@@ -951,6 +958,15 @@ function renderStatus(){
 function stepper(id,label,val,act,extra){
   return `<div class="field">${label}<div class="stepper" role="group" aria-label="${label}"><button id="${id}-m" data-act="${act}" ${extra} data-d="-1" aria-label="Fewer ${label.toLowerCase()}">−</button><output>${val}</output><button id="${id}-p" data-act="${act}" ${extra} data-d="1" aria-label="More ${label.toLowerCase()}">+</button></div></div>`;
 }
+/* Amounts, pantry, toddler note and steps for one recipe; mult is 2 for a doubled dinner. */
+function recipeBody(r,mult){
+  const ings=Object.keys(r.ing).map(k=>`<li><span>${nm(k)}</span><b>${fq(r.ing[k]*P()*mult,I[k].u)}</b></li>`).join("");
+  return `<p class="meta" style="margin:8px 0 0">Amounts for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}${mult>1?", cooked double":""}.</p>
+        <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
+        ${S.kids?`<p class="kid"><b>For your little one:</b> ${r.kid}</p>`:""}
+        <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;
+}
+let openWeek=new Set();
 function mealRow(m,i,x){
   const word=MEALS[m].lbl.toLowerCase(), lab=`<div class="dow">${MEALS[m].short}</div>`;
   if(!x){
@@ -967,15 +983,16 @@ function mealRow(m,i,x){
   if(j>=0) chips+=chip("plain",batch&&i-j<=2?`Make extra on ${dayName(j,true)} for today`:`Also on ${dayName(j,true)}`);
   const shared=m==="b"?prepShared(i,r):[];
   if(shared.length) chips+=chip("plain",`Prep with today's lunch: ${list(shared.map(k=>I[k].s))}`);
-  const last=cnt(m)-1;
-  return `<div class="day ${cls}">${lab}<div class="body">
-    <h3>${r.n}</h3><div class="row">${chip("plain",r.t+" min")}${chips}</div>
+  const last=cnt(m)-1, key=m+":"+i, open=openWeek.has(key);
+  return `<div class="day ${cls}${open?" open":""}" data-key="${key}">${lab}<div class="body">
+    <h3><button class="rtitle" id="open-${m}-${i}" data-act="open" data-key="${key}" aria-expanded="${open}">${r.n}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="row">${chip("plain",r.t+" min")}${x.double?chip("plain","Cooking double"):""}${chips}</div>
+    </div>${glyph(r.ing)}${open?`<div class="more">
     <div class="row">
       <button class="btn small ghost" id="up-${m}-${i}" data-act="move" data-m="${m}" data-day="${i}" data-dir="-1" ${i===0?"disabled":""} aria-label="Move ${r.n} a day earlier">↑ Earlier</button>
       <button class="btn small ghost" id="down-${m}-${i}" data-act="move" data-m="${m}" data-day="${i}" data-dir="1" ${i>=last?"disabled":""} aria-label="Move ${r.n} a day later">↓ Later</button>
       ${m==="d"?`<button class="btn small" id="dbl-${i}" data-act="double" data-m="d" data-day="${i}" aria-pressed="${x.double}">Cook double</button>`:""}
       <button class="btn small ghost" id="rm-${m}-${i}" data-act="remove" data-m="${m}" data-day="${i}" aria-label="Remove ${r.n}">Remove</button>
-    </div></div>${glyph(r.ing)}</div>`;
+    </div>${recipeBody(r,x.double?2:1)}</div>`:""}</div>`;
 }
 const DAYS_MON=[1,2,3,4,5,6,0];
 function prepDaysText(){
@@ -1098,17 +1115,13 @@ function viewRecipes(){
     else fresh=chip("plain","Any day of the week");
     const tag=storeTag(r);
     const where=inPlan(r.id).map(s=>`${MEALS[s.m].lbl.toLowerCase()} ${dayName(s.i)}`).join(", ");
-    const ings=Object.keys(r.ing).map(k=>`<li><span>${nm(k)}</span><b>${fq(r.ing[k]*P(),I[k].u)}</b></li>`).join("");
     const ms=MK.filter(m=>can[m](r)), pm=defM(r);
     const btns=ms.map(m=>`<button class="btn ${m===pm?"primary":"ghost"}" id="add-${m}-${r.id}" data-act="add" data-m="${m}" data-id="${r.id}">Add as ${MEALS[m].lbl.toLowerCase()}</button>`).join("");
     const hay=(r.n+" "+r.tags.join(" ")+" "+Object.keys(r.ing).map(k=>I[k].s).join(" ")).toLowerCase();
     return `<article class="card recipe" data-name="${hay.replace(/"/g,"")}" ${hay.includes(rsearch.toLowerCase())?"":"hidden"}>
       <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${r.tags.filter(t=>t!=="Bowl or salad").map(t=>chip("plain",t)).join("")}</div></div><div class="time">${r.t}<small>min</small></div></div>
       <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps</summary>
-        <p class="meta" style="margin:8px 0 0">Amounts for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}.</p>
-        <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
-        ${S.kids?`<p class="kid"><b>For your little one:</b> ${r.kid}</p>`:""}
-        <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol></details>
+        ${recipeBody(r,1)}</details>
       <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
     </article>`;}).join("");
   return `<section class="stack">
@@ -1265,6 +1278,7 @@ function toast(m){const el=$("#toast"); el.textContent=m; el.classList.add("on")
 function act(el,ev){
   const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
+  if(a==="open"){const k=el.dataset.key; if(openWeek.has(k)) openWeek.delete(k); else openWeek.add(k); render(); return;}
   if(a==="tune"){if(ev.type!=="change") return; const t=TUNEX[el.dataset.k], v=fromSlider(t,+el.value); if(v===t.def) delete S.tune[t.k]; else S.tune[t.k]=v;
     const rb=$("#tune-reset"); if(rb) rb.disabled=!Object.keys(S.tune).length; persist(); return;}
   if(a==="share"){
@@ -1280,15 +1294,17 @@ function act(el,ev){
   if(a==="store"){if(S.store===el.dataset.v) return; S.store=el.dataset.v;}
   else if(a==="swap"){const k=el.dataset.id; const cur=storeFor(k,totals().T[k]||0); S.src[k]=cur==="c"?"t":"c";}
   else if(a==="add"){if(!addRecipe(el.dataset.id,m)) return;}
-  else if(a==="gen"){if(!genWeek()) return; toast("Week ready. Shuffle for a different mix.");}
-  else if(a==="clear"){for(const k of MK) arr(k).fill(null); S.checked={}; toast("Week cleared");}
-  else if(a==="preset"){if(!loadPreset(el.dataset.id)) return; toast("Sample week loaded. Swap anything.");}
+  else if(a==="gen"){if(!genWeek()) return; openWeek.clear(); toast("Week ready. Shuffle for a different mix.");}
+  else if(a==="clear"){openWeek.clear(); for(const k of MK) arr(k).fill(null); S.checked={}; toast("Week cleared");}
+  else if(a==="preset"){if(!loadPreset(el.dataset.id)) return; openWeek.clear(); toast("Sample week loaded. Swap anything.");}
   else if(a==="cnt"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<0||v>7) return; S[k]=v;}
   else if(a==="pick"){if(ev.type!=="change"||!el.value) return; arr(m)[d]={r:el.value,double:false};}
-  else if(a==="remove"){arr(m)[d]=null;}
+  else if(a==="remove"){arr(m)[d]=null; openWeek.delete(m+":"+d);}
   else if(a==="double"){arr("d")[d].double=!arr("d")[d].double;}
-  else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>=cnt(m)) return; const A=arr(m); [A[d],A[j]]=[A[j],A[d]];}
-  else if(a==="order"){orderByFreshness(); pairBreakfasts(); toast("Reordered so fresh meat and fish come first");}
+  else if(a==="move"){const j=d+(+el.dataset.dir); if(j<0||j>=cnt(m)) return; const A=arr(m); [A[d],A[j]]=[A[j],A[d]];
+    const kd=m+":"+d, kj=m+":"+j, od=openWeek.has(kd), oj=openWeek.has(kj); openWeek.delete(kd); openWeek.delete(kj); if(od) openWeek.add(kj); if(oj) openWeek.add(kd);
+    setTimeout(()=>{const b=document.getElementById((+el.dataset.dir<0?"up-":"down-")+m+"-"+j); if(b&&!b.disabled) b.focus({preventScroll:true});},0);}
+  else if(a==="order"){openWeek.clear(); orderByFreshness(); pairBreakfasts(); toast("Reordered so fresh meat and fish come first");}
   else if(a==="life"){const k=el.dataset.id, v=lifeOf(k)+(+el.dataset.d); if(v<1||v>60) return; if(v===I[k].life) delete S.life[k]; else S.life[k]=v;}
   else if(a==="life-reset"){delete S.life[el.dataset.id];}
   else if(a==="hh"){const k=el.dataset.k, v=S[k]+(+el.dataset.d); if(v<(k==="adults"?1:0)||v>(k==="adults"?8:6)) return; S[k]=v;}
@@ -1305,7 +1321,9 @@ function act(el,ev){
   const {T,st}=totals(); for(const k of Object.keys(S.checked)) if(k.startsWith("st:")?!st.includes(k.slice(3)):!(k in T)) delete S.checked[k];
   persist(); render();
 }
-document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el) act(el,e);});
+document.addEventListener("click",e=>{const el=e.target.closest("button[data-act]"); if(el){act(el,e); return;}
+  /* a tap anywhere on a closed meal card opens it; once open, use the title to close */
+  const card=e.target.closest(".day[data-key]:not(.open)"); if(card&&!e.target.closest("a,select,input,label,summary")){const t=card.querySelector(".rtitle"); if(t) act(t,e);}});
 document.addEventListener("change",e=>{const el=e.target.closest("select[data-act],input[data-act]"); if(el) act(el,e);});
 document.addEventListener("input",e=>{if(e.target.id==="rq"){rsearch=e.target.value; applySearch();}
   if(e.target.dataset&&e.target.dataset.act==="tune"){const t=TUNEX[e.target.dataset.k], o=$("#tno-"+t.k), w=tuneFmt(t,fromSlider(t,+e.target.value)); if(o) o.textContent=w; e.target.setAttribute("aria-valuetext",w);}});
