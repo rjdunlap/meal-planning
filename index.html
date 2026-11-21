@@ -883,6 +883,40 @@ R.push(
   steps:["Dice the apples and simmer with a splash of water, lemon juice, cinnamon and ginger for 10 minutes until soft.","Top the adult bowls with chopped walnuts."]}
 );
 for(const id of ["edamame-snack","crispy-chickpeas","banana-oat-cookies","date-energy-bites","baked-apples","berry-nice-cream","cherry-cocoa-nice-cream","chocolate-chia-pudding","mango-berry-sorbet","berry-crumble"]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes("Daily Dozen")) r.tags.push("Daily Dozen");}
+/* ---------- snack boards and olive oil tapas ----------
+   Cured meats are salty processed meat, so boards keep them to a few slices and lean on
+   vegetables, fruit, cheese and olive oil. */
+Object.assign(I,{
+ prosciutto:{s:"prosciutto",u:"oz",cat:"Meat & fish",role:"protein",life:14,keep:"Sealed until the package date. 3 to 5 days once opened.",left:"Wrap the rest tightly. Tear it into pasta or over a salad.",c:{n:"Prosciutto di Parma, sliced",pack:"2 packs, 6 oz each",q:12},t:{n:"Prosciutto, sliced",pack:"about 3 oz",q:3}},
+ manchego:{s:"Manchego",u:"oz",cat:"Dairy & eggs",role:"dairy",life:30,keep:"3 to 4 weeks in the fridge once cut, wrapped in paper.",left:"Hard cheese keeps for weeks. Grate the end over eggs or pasta.",c:{n:"Manchego cheese",pack:"about 2 lb wedge",q:32},t:{n:"Manchego cheese",pack:"about 8 oz wedge",q:8}},
+ crispbread:{s:"crispbread",u:"cracker",cat:"Pantry",role:"grain",life:null,keep:"Months sealed. A few weeks once opened, kept dry.",left:"Clip the bag shut so they stay crisp.",c:null,t:{n:"Seeds and grains crispbread",pack:"about 10 crackers, 7.75 oz",q:10}},
+ olives:{s:"olives",u:"oz",cat:"Pantry",role:"fat",life:null,keep:"A year unopened. 2 to 3 weeks in the fridge once opened, kept in their brine.",left:"Keep them covered in brine in the fridge.",c:null,t:{n:"Pitted olives",pack:"jar, about 6 oz",q:6}},
+ dolmas:{s:"dolmas",u:"dolma",cat:"Pantry",role:"grain",life:null,keep:"Years unopened. 3 to 4 days in the fridge once opened.",left:"Move leftovers to a lidded container with a little oil.",c:null,t:{n:"Dolmas (stuffed grape leaves)",pack:"can of about 10, 9.9 oz",q:10}},
+ grapes:{s:"grapes",u:"oz",cat:"Produce",role:"fruit",life:7,keep:"About a week in the fridge, unwashed.",left:"Freeze extras on a tray for a cold snack.",c:{n:"Seedless grapes",pack:"about 3 lb",q:48},t:{n:"Seedless grapes",pack:"about 2 lb",q:32}}
+});
+R.push(
+ {id:"charcuterie-board",n:"Snack board with prosciutto, Manchego, crispbread, grapes and olives",meal:"snack",t:10,tags:["Snack board"],ing:{prosciutto:.75,manchego:1,crispbread:1,grapes:3,olives:.5,cucumber:2},st:["extra virgin olive oil"],
+  kid:"Cured meat is very salty, so leave it off her plate. Manchego is dairy, a common allergen, so offer it early in the day if new, in thin slices. Quarter her grapes lengthwise, chop the olives small, peel the cucumber and give her soft pita instead of hard crackers.",
+  steps:["Slice the cheese and cucumber.","Arrange with a few folds of prosciutto, crispbread, grapes and olives.","Drizzle a little olive oil over the olives. Keep the meat to a few slices each."]},
+ {id:"mezze-board",n:"Mezze snack board: hummus, dolmas, olives, cucumber and pita",meal:"snack",t:10,tags:["Snack board","Vegetarian","Lebanese"],ing:{hummus:2,dolmas:2,olives:.4,cucumber:2,tomato:2,pita:.5},st:["extra virgin olive oil","za'atar"],
+  kid:"Hummus and za'atar contain sesame, a common allergen, so start small if new. Unwrap her dolma and give her the soft rice, chop the olives small, quarter the tomatoes and peel the cucumber.",
+  steps:["Spoon the hummus into a bowl and drizzle with olive oil and za'atar.","Arrange the dolmas, olives, cucumber, tomatoes and warm pita around it."]},
+ {id:"zeit-zaatar",n:"Olive oil and za'atar dip with warm pita, olives and tomatoes",meal:"snack",t:5,tags:["Snack board","Plant-based","Vegetarian","Lebanese"],ing:{pita:.5,olives:.4,tomato:2,cucumber:1},st:["extra virgin olive oil","za'atar"],
+  kid:"Za'atar contains sesame, a common allergen, so offer it early in the day if new. Give her soft pita dipped in plain olive oil, quartered tomatoes and finely chopped olives.",
+  steps:["Pour good olive oil into a shallow dish and spoon za'atar into it.","Serve with warm torn pita, olives, tomatoes and cucumber."]},
+ {id:"petiscos-board",n:"Petiscos: sardines, sheep's cheese, olives and tomatoes",meal:"snack",t:10,tags:["Snack board","Omega-3","Portuguese"],ing:{sardines:1.5,manchego:.75,olives:.4,tomato:2,pita:.5},st:["extra virgin olive oil","smoked paprika","fresh parsley"],
+  kid:"Fish and cheese are common allergens, so offer each early in the day if new. Mash a little sardine onto soft pita for her, cut the cheese thin, chop the olives small and quarter the tomatoes.",
+  steps:["Lay the sardines on a plate, drizzle with olive oil and dust with smoked paprika and parsley.","Add sliced cheese, olives, tomatoes and warm pita."]},
+ {id:"tomato-bread-tapas",n:"Tomato bread with olive oil, garlic and Manchego",meal:"snack",t:10,tags:["Snack board","Vegetarian"],ing:{pita:.75,tomato:3,manchego:.5},st:["extra virgin olive oil","garlic"],
+  kid:"Manchego is dairy, a common allergen, so offer it early in the day if new. Give her soft pita with grated tomato, no raw garlic, and thin slivers of cheese.",
+  steps:["Toast the pita and rub it with a cut garlic clove.","Grate the tomatoes, spread them over and drizzle with olive oil.","Top with thin slices of Manchego."]},
+ {id:"feta-olive-bites",n:"Cucumber, feta and olive bites with oregano",meal:"snack",t:5,tags:["Snack board","Vegetarian"],ing:{cucumber:3,feta:.75,olives:.4,tomato:2},st:["extra virgin olive oil","dried oregano"],
+  kid:"Feta is dairy and salty, so give her only a few rinsed crumbs. Peel her cucumber into strips, quarter the tomatoes and chop the olives small.",
+  steps:["Slice the cucumber into thick rounds.","Top with feta, a halved olive and a tomato quarter.","Drizzle with olive oil and sprinkle with oregano."]},
+ {id:"trout-crispbread",n:"Smoked trout on crispbread with yogurt and cucumber",meal:"snack",t:5,tags:["Snack board","Omega-3"],ing:{trout:1.5,crispbread:1,yogurt:1,cucumber:1,lemon:.1},st:["fresh dill or parsley","black pepper"],
+  kid:"Fish and yogurt are common allergens, so offer each early in the day if new. Smoked trout is salty, so give her a few flakes mixed into yogurt on soft pita rather than hard crispbread.",
+  steps:["Stir lemon juice and dill into the yogurt.","Spread on the crispbread and top with cucumber and flaked trout."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1123,7 +1157,7 @@ function orderByFreshness(){
 const protGroup=r=>{const k=Object.keys(r.ing);
   if(["salmon","cansalmon","tuna","cod","sockeye","salmonburger","trout","sardines","mahi"].some(x=>k.includes(x))) return "fish";
   if(k.includes("shrimp")) return "shrimp"; if(k.includes("turkey")||k.includes("turkeyburger")) return "turkey";
-  if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")) return "chicken"; if(k.includes("carneasada")) return "beef"; if(k.includes("eggs")) return "egg";
+  if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")) return "chicken"; if(k.includes("prosciutto")) return "other"; if(k.includes("carneasada")) return "beef"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
 /* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
    packs; freezable items count about a third, since the rest can go in the freezer. */
