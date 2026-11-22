@@ -1060,7 +1060,7 @@ R.push(
   Italian:["pesto-pasta","turkey-meatballs","pesto-salmon","mushroom-bolognese","veggie-frittata","tomato-bread-tapas"],
   Greek:["greek-chicken","tzatziki-chicken-bowl","chickpea-feta-salad","med-chickpea-salad","feta-olive-bites","mezze-plate"]};
  for(const c in T) for(const id of T[c]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes(c)) r.tags.push(c);}}
-const CUISINES=["Brazilian","Caribbean","Chinese","Cuban","Ethiopian","Filipino","Greek","Hawaiian","Indian","Italian","Japanese","Korean","Lebanese","Mexican","Moroccan","Persian","Peruvian","Portuguese","Spanish","Thai","Turkish","Vietnamese"];
+const CUISINES=["Argentinian","Brazilian","Cajun","Cape Verdean","Caribbean","Chilean","Chinese","Colombian","Cuban","Eastern European","Ethiopian","Filipino","French","Greek","Hawaiian","Indian","Indonesian","Italian","Japanese","Korean","Lebanese","Malaysian","Mexican","Middle Eastern","Moroccan","Nepali","Nordic","Pakistani","Persian","Peruvian","Portuguese","Puerto Rican","Spanish","Sri Lankan","Thai","Turkish","Vietnamese","West African"];
 /* ---------- more family dishes ---------- */
 R.push(
  {id:"riz-a-djej",n:"Riz a djej: Lebanese spiced chicken and rice",meal:"dinner",t:45,tags:["One pot","Freezes well","Lebanese"],ing:{chx:.35,rice:.4,onion:.2,stock:.75,walnut:.15},st:["cinnamon","ground allspice","garlic","extra virgin olive oil","fresh parsley"],
@@ -1560,6 +1560,181 @@ R.push(
   kid:"Take her chicken out before the fish sauce and chili, chop it small and cook her egg through. "+LOWCARB_KID,
   steps:["Stir-fry finely chopped chicken with garlic and peppers for 6 minutes.","Take out her portion, then add coconut aminos, fish sauce, chili and basil.","Fry the eggs and serve over cooked cauliflower rice with spinach."]}
 );
+/* ---------- more cuisines: Africa, Asia, Americas ---------- */
+Object.assign(I,{
+ cabbage:{s:"shredded cabbage",u:"oz",cat:"Produce",role:"veg",life:10,keep:"About 1 to 2 weeks in the fridge, sealed.",left:"Toss the rest into slaw, soup or a stir-fry.",c:{n:"Coleslaw mix (green and red cabbage)",pack:"bag, about 2 lb",q:32},t:{n:"Shredded cabbage",pack:"bag, about 10 oz",q:10}}
+});
+R.push(
+/* West African */
+ {id:"jollof-chicken",n:"Jollof rice with chicken and peppers",meal:"dinner",t:45,tags:["One pot","West African"],ing:{chx:.35,rice:.33,dicedtom:.35,pepper:.5,onion:.25,stock:.5},st:["curry powder","dried thyme","smoked paprika","garlic","fresh ginger","scotch bonnet, optional"],
+  kid:"Take her portion out before any hot pepper, shred her chicken and thin her rice with water.",
+  steps:["Blend the tomatoes, one pepper, onion, garlic and ginger into a sauce.","Brown the chicken, then fry the sauce with curry powder, thyme and paprika for 10 minutes.","Add the rice, broth and sliced peppers, cover and cook on low until the rice is tender, about 40 minutes for brown rice.","Take out her portion before stirring in any scotch bonnet."]},
+ {id:"groundnut-stew",n:"West African groundnut stew with sweet potato, chickpeas and greens",meal:"dinner",t:35,tags:["Plant-based","Vegetarian","One pot","Freezes well","West African"],ing:{sweetpot:.35,chickpea:.35,pb:.5,dicedtom:.3,spinach:2,onion:.2,rice:.25},st:["fresh ginger","garlic","ground cumin","chili flakes, optional"],
+  kid:"The peanut sauce is stirred in thin; mash her sweet potato and squash the chickpeas. Take hers out before any chili.",
+  steps:["Soften the onion, ginger and garlic, then add the cubed sweet potato, tomatoes and water to cover.","Simmer 15 minutes, then stir in the peanut butter and chickpeas.","Add the greens and cook until wilted. Serve over rice."]},
+ {id:"suya-chicken",n:"Suya-spiced chicken skewers with tomato onion salad",meal:"dinner",t:30,tags:["Lean protein","Grill","West African"],ing:{cb:.4,tomato:3,cucumber:2,redonion:.1,lemon:.2},st:["suya spice (ground peanuts, ginger, paprika, garlic, cayenne)","extra virgin olive oil"],
+  kid:"Season her piece with ginger and garlic only, without the ground peanuts and cayenne. Shred it and peel the cucumber.",
+  steps:["Rub the chicken strips with oil and suya spice and thread on skewers.","Grill over medium-high heat or roast at 450°F for 10 to 12 minutes, to 165°F.","Serve with sliced tomato, cucumber and onion with lemon."]},
+/* Indonesian and Malaysian */
+ {id:"chicken-satay",n:"Chicken satay with peanut sauce, cucumber and rice",meal:"dinner",t:30,tags:["Grill","Indonesian"],ing:{cb:.4,pb:.4,cucumber:3,rice:.3,lemon:.2},st:["ground turmeric","ground coriander","garlic","coconut aminos or low-sodium soy sauce","chili, optional"],
+  kid:"Thin her peanut sauce well and shred her chicken; keep the chili for the adults.",
+  steps:["Marinate thin chicken strips with turmeric, coriander and garlic, then thread on skewers.","Grill or roast at 450°F for 8 to 10 minutes, to 165°F.","Whisk peanut butter with lime, warm water and a little coconut aminos.","Serve with rice, cucumber and the sauce."]},
+ {id:"nasi-goreng",n:"Nasi goreng: Indonesian fried rice with shrimp and egg",meal:"dinner",t:20,tags:["Indonesian"],ing:{rice:.35,shrimp:.25,eggs:1,stirfry:4,cucumber:2},st:["garlic","shallot","sambal oelek, optional","low-sodium soy sauce"],
+  kid:"Chop her shrimp small, cook her egg through and take her portion out before the soy sauce and sambal.",
+  steps:["Stir-fry garlic and shallot, then the frozen vegetables for 4 minutes.","Add the thawed shrimp for 2 minutes, then the cold cooked rice.","Take out her portion, then season with soy sauce and sambal.","Top with fried eggs and cucumber."]},
+ {id:"gado-gado",n:"Gado-gado: Indonesian salad with tofu, egg, potato and peanut sauce",meal:"lunch",t:25,tags:["Bowl or salad","Vegetarian","Indonesian"],ing:{tofu:.25,eggs:1,potato:.25,greenbeans:3,cucumber:2,cabbage:2,pb:.35},st:["garlic","lime or lemon","coconut aminos or low-sodium soy sauce","chili, optional"],
+  kid:"Mash her potato and egg, cut the tofu small, cook the beans soft and thin her peanut sauce.",
+  steps:["Boil the potatoes and eggs; steam the green beans and cabbage for 3 minutes.","Brown the cubed tofu.","Whisk peanut butter with lime, garlic, coconut aminos and warm water.","Arrange everything with cucumber and spoon the sauce over."]},
+ {id:"beef-rendang",n:"Beef rendang-style coconut braise with greens",meal:"dinner",t:60,tags:["One pot","Instant Pot or slow cooker","Malaysian"],ing:{sirloin:.35,coconut:.25,onion:.25,spinach:2,rice:.3},st:["lemongrass paste","fresh ginger","garlic","ground turmeric","cinnamon","chili, optional"],
+  kid:"Take her beef out before any chili and shred it very finely.",
+  steps:["Blend onion, lemongrass, ginger, garlic and turmeric into a paste and fry it 5 minutes.","Add the beef cubes, coconut milk and cinnamon. Simmer covered 45 minutes, or Instant Pot on high 25 minutes, or slow cooker on low 6 hours.","Uncover and cook until thick, then stir in the greens. Serve with rice."]},
+/* Cajun and Creole */
+ {id:"chicken-shrimp-gumbo",n:"Chicken and shrimp gumbo with peppers and greens",meal:"dinner",t:50,tags:["One pot","Freezes well","Cajun"],ing:{chx:.25,shrimp:.2,pepper:.5,onion:.25,dicedtom:.25,stock:1,greenbeans:2,rice:.25},st:["Cajun seasoning","dried thyme","bay leaves","garlic","file powder, optional","extra virgin olive oil"],
+  kid:"Take her portion out before the Cajun seasoning, chop the chicken and shrimp small and thin with water.",
+  steps:["Brown the chicken pieces, then soften the peppers, onion and garlic.","Add the tomatoes, broth, thyme and bay and simmer 25 minutes.","Take out her portion, then stir in Cajun seasoning. Add the thawed shrimp and green beans for 5 minutes.","Serve over rice."]},
+ {id:"jambalaya",n:"Chicken, shrimp and pepper jambalaya",meal:"dinner",t:45,tags:["One pot","Cajun"],ing:{chx:.25,shrimp:.2,rice:.33,pepper:.5,onion:.25,dicedtom:.3,stock:.75},st:["Cajun seasoning","dried thyme","garlic","bay leaves"],
+  kid:"Take her portion out before the Cajun seasoning and chop the meat and shrimp small.",
+  steps:["Brown the chicken, then the peppers, onion and garlic.","Add the rice, tomatoes, broth, thyme and bay, cover and simmer until the rice is tender.","Stir in the thawed shrimp for 5 minutes. Take out her portion, then season the rest."]},
+ {id:"blackened-fish-greens",n:"Blackened cod with garlicky greens and slaw",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Cajun"],ing:{cod:.45,spinach:2,cabbage:2,lemon:.25},st:["blackening spice (paprika, garlic, thyme, cayenne)","extra virgin olive oil","apple cider vinegar"],
+  kid:"Season her piece with paprika and garlic only, flake it and check for bones. "+LOWCARB_KID,
+  steps:["Pat the thawed cod dry and coat the adult pieces in blackening spice.","Sear in a very hot pan 3 minutes a side.","Wilt the greens with garlic and toss the cabbage with vinegar and oil."]},
+/* Latin America */
+ {id:"pollo-guisado",n:"Pollo guisado: Puerto Rican chicken stew with potatoes and olives",meal:"dinner",t:45,tags:["One pot","Freezes well","Instant Pot or slow cooker","Puerto Rican"],ing:{chx:.4,potato:.3,pepper:.4,onion:.25,dicedtom:.25,olives:.25},st:["sofrito or garlic and cilantro","ground cumin","dried oregano","bay leaves"],
+  kid:"Shred her chicken, mash the potatoes into the sauce and leave the olives off hers.",
+  steps:["Brown the chicken, then the sofrito, pepper and onion.","Add the tomatoes, potatoes, spices and a cup of water. Simmer covered 30 minutes, or Instant Pot on high 10 minutes, or slow cooker on low 6 hours.","Stir in the olives."]},
+ {id:"ajiaco",n:"Ajiaco-style Colombian chicken, potato and corn soup",meal:"dinner",t:45,tags:["One pot","Freezes well","Colombian"],ing:{chx:.3,potato:.45,corn:2,onion:.2,stock:1.25,avocado:.25},st:["dried oregano or guascas","fresh cilantro","capers, optional"],
+  kid:"Thin her bowl with water, shred the chicken and mash the potato and corn.",
+  steps:["Simmer the chicken, potatoes, onion and herbs in the broth for 30 minutes.","Shred the chicken and mash some potatoes to thicken.","Add the corn for 5 minutes and serve with avocado."]},
+ {id:"porotos-granados",n:"Porotos granados: Chilean bean, squash and corn stew",meal:"dinner",t:35,tags:["Plant-based","Vegetarian","One pot","Freezes well","Chilean"],ing:{beans:.4,sweetpot:.35,corn:2,onion:.2,pepper:.3},st:["smoked paprika","dried oregano","fresh basil","garlic","extra virgin olive oil"],
+  kid:"Mash her beans and sweet potato with the corn; it is mild and soft.",
+  steps:["Soften the onion, pepper and garlic with paprika.","Add cubed sweet potato and water to cover and simmer 15 minutes, mashing some.","Add the beans and corn for 10 minutes and finish with basil."]},
+ {id:"argentine-steak-salad",n:"Argentine steak with chimichurri, roasted peppers and greens",meal:"dinner",t:25,tags:["Lean protein","Grill","Argentinian"],ing:{sirloin:.4,pepper:.5,romaine:.5,tomato:2},st:["fresh parsley","garlic","dried oregano","red wine vinegar","extra virgin olive oil"],
+  kid:"Cut her steak into tiny pieces and give her the soft roasted pepper. "+LOWCARB_KID,
+  steps:["Blend parsley, garlic, oregano, vinegar and oil for chimichurri.","Grill or sear the steak 3 to 4 minutes a side and the peppers until soft.","Slice and serve over greens with tomato and chimichurri."]},
+/* South Asia */
+ {id:"sri-lankan-dal",n:"Sri Lankan coconut dal with greens and pol sambol",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","One pot","Sri Lankan"],ing:{lentil:.5,coconut:.2,spinach:2,onion:.2,rice:.3,lemon:.2},st:["ground turmeric","curry leaves or curry powder","garlic","chili flakes, optional","unsweetened shredded coconut"],
+  kid:"Mild and soft; skip the chili in her sambol.",
+  steps:["Soften the onion and garlic with turmeric and curry leaves.","Add the lentils and coconut milk and simmer 10 minutes, then the greens.","Mix shredded coconut with lime and a pinch of chili for the sambol.","Serve with rice."]},
+ {id:"momo-meatballs",n:"Momo-style turkey meatballs with tomato achar",meal:"dinner",t:35,tags:["Lean protein","Freezes well","Nepali"],ing:{turkey:.35,cabbage:1.5,dicedtom:.3,spinach:1.5,rice:.25},st:["fresh ginger","garlic","ground cumin","sesame seeds","chili, optional"],
+  kid:"Quarter her meatballs and take her achar out before the chili.",
+  steps:["Mix the turkey with finely chopped cabbage, ginger, garlic and cumin and roll into small balls.","Steam for 12 minutes or bake at 400°F for 15 minutes, to 165°F.","Simmer the tomatoes with toasted sesame, garlic and chili and blend into achar.","Serve with rice and wilted spinach."]},
+ {id:"chicken-karahi",n:"Pakistani chicken karahi with tomatoes and ginger",meal:"dinner",t:35,tags:["One pot","Pakistani"],ing:{chx:.4,tomato:4,onion:.15,spinach:1.5,rice:.25},st:["fresh ginger","garlic","ground cumin","garam masala","green chili, optional","fresh cilantro"],
+  kid:"Take her portion out before the green chili and shred the chicken. "+LOWCARB_KID,
+  steps:["Brown the chicken pieces with garlic and ginger.","Add the halved tomatoes and cook down 15 minutes until saucy, then the spices.","Take out her portion, then add green chili and cilantro. Serve with rice and greens."]}
+);
+/* ---------- more cuisines: Europe, Middle East, Portuguese-speaking; gaps ---------- */
+R.push(
+/* Eastern European */
+ {id:"chicken-paprikash",n:"Chicken paprikash with yogurt and egg noodles",meal:"dinner",t:40,tags:["One pot","Freezes well","Eastern European"],ing:{chx:.4,onion:.3,pepper:.4,dicedtom:.2,yogurt:2,pasta:2},st:["sweet paprika","garlic","extra virgin olive oil"],
+  kid:"Shred her chicken into the sauce and cut her noodles short.",
+  steps:["Brown the chicken, then soften the onion and peppers with lots of paprika.","Add the tomatoes and a cup of water, cover and simmer 25 minutes, to 165°F.","Off the heat, stir in the yogurt. Serve over noodles."]},
+ {id:"unstuffed-cabbage",n:"Unstuffed cabbage roll skillet with turkey and rice",meal:"dinner",t:35,tags:["One pot","Freezes well","Instant Pot or slow cooker","Eastern European"],ing:{turkey:.3,cabbage:4,rice:.25,dicedtom:.4,onion:.2},st:["sweet paprika","garlic","dried dill","lemon juice"],
+  kid:"Cook the cabbage very soft and crumble her turkey fine.",
+  steps:["Brown the turkey with onion and garlic.","Add the cabbage, rice, tomatoes, paprika and a cup of water. Simmer covered 25 minutes, or Instant Pot on high 12 minutes, or slow cooker on low 5 hours.","Finish with dill and lemon."]},
+ {id:"borscht",n:"Borscht with beets, potato, cabbage and dill yogurt",meal:"lunch",t:35,tags:["Vegetarian","Freezes well","One pot","Eastern European"],ing:{beets:4,potato:.25,cabbage:2,carrot:.15,onion:.2,yogurt:1},st:["fresh dill","garlic","red wine vinegar","bay leaves"],
+  kid:"Soft and sweet from the beets; mash her vegetables and skip the vinegar in hers. It stains.",
+  steps:["Soften the onion and carrot, then add diced potato, bay and water to cover and simmer 10 minutes.","Add the cabbage and diced cooked beets for 10 minutes.","Finish with a splash of vinegar and serve with dill yogurt."]},
+/* French */
+ {id:"chicken-provencal",n:"Chicken provençal with tomatoes, olives and herbs",meal:"dinner",t:40,tags:["One pan","French"],ing:{chx:.4,tomato:3,olives:.3,onion:.15,greenbeans:3},st:["herbes de Provence","garlic","extra virgin olive oil","lemon zest"],
+  kid:"Shred her chicken, quarter the tomatoes and leave the olives off hers. "+LOWCARB_KID,
+  steps:["Toss the chicken, tomatoes, onion, garlic and herbs with oil.","Roast at 425°F for 25 minutes, to 165°F, adding the olives for the last 5.","Serve with green beans."]},
+ {id:"ratatouille-chickpeas",n:"Ratatouille-style vegetable stew with chickpeas",meal:"dinner",t:40,tags:["Plant-based","Vegetarian","One pot","Freezes well","French"],ing:{pepper:.75,mushroom:2,dicedtom:.4,onion:.25,chickpea:.3,spinach:1},st:["herbes de Provence","garlic","extra virgin olive oil","fresh basil"],
+  kid:"Cook the vegetables very soft, chop them small and squash the chickpeas.",
+  steps:["Soften the onion, peppers, mushrooms and garlic slowly in olive oil.","Add the tomatoes, herbs and chickpeas and simmer 20 minutes.","Stir in the spinach and finish with basil."]},
+ {id:"coq-au-vin-light",n:"Lighter coq au vin with mushrooms and carrots",meal:"dinner",t:60,tags:["One pot","Freezes well","Instant Pot or slow cooker","French"],ing:{chx:.4,mushroom:3,carrot:.25,onion:.25,stock:.75,potato:.3},st:["red wine, optional","dried thyme","bay leaves","garlic"],
+  kid:"Shred her chicken and mash her potatoes and carrots. If you use wine, simmer it well.",
+  steps:["Brown the chicken, then the mushrooms, onion and carrots.","Add the wine if using, the broth, thyme and bay. Simmer covered 40 minutes, or Instant Pot on high 15 minutes, or slow cooker on low 6 hours.","Serve with boiled potatoes."]},
+/* Middle Eastern */
+ {id:"musakhan",n:"Musakhan: sumac chicken with onions on warm pita",meal:"dinner",t:40,tags:["Middle Eastern"],ing:{chx:.4,onion:.5,pita:.75,walnut:.15,cucumber:2},st:["sumac","ground allspice","extra virgin olive oil"],
+  kid:"Shred her chicken, give her soft pita and grind the walnuts or leave them out.",
+  steps:["Cook the sliced onions slowly in olive oil with sumac for 20 minutes.","Rub the chicken with sumac and allspice and roast at 425°F for 20 minutes, to 165°F.","Pile onions and chicken on the pita, warm briefly and top with walnuts. Serve with cucumber."]},
+ {id:"maqluba",n:"Maqluba: upside-down chicken and vegetable rice",meal:"dinner",t:60,tags:["One pot","Middle Eastern"],ing:{chx:.35,rice:.33,potato:.25,pepper:.3,onion:.2,yogurt:1},st:["ground allspice","cinnamon","ground turmeric","extra virgin olive oil"],
+  kid:"Shred her chicken into soft rice and mash the potato.",
+  steps:["Brown the chicken and roast sliced potatoes and peppers.","Layer chicken, vegetables, then the rice and spices in a pot with water to cover.","Cook covered on low until the rice is tender, rest 10 minutes and flip onto a platter. Serve with yogurt."]},
+ {id:"sabich",n:"Sabich-style pita with eggs, potatoes, hummus and salad",meal:"lunch",t:20,tags:["Vegetarian","Sandwich or flatbread","Middle Eastern"],ing:{pita:1,eggs:1,potato:.2,hummus:1.5,cucumber:2,tomato:2},st:["tahini","fresh parsley","amba or pickles, optional"],
+  kid:"Mash her egg and potato with hummus on soft pita and quarter the tomatoes.",
+  steps:["Boil the eggs and sliced potatoes until tender.","Spread hummus in warm pita.","Fill with sliced egg, potato, chopped cucumber and tomato, tahini and parsley."]},
+/* Portuguese-speaking */
+ {id:"cachupa",n:"Cachupa: Cape Verdean corn, bean and vegetable stew",meal:"dinner",t:40,tags:["Plant-based","Vegetarian","Freezes well","One pot","Cape Verdean"],ing:{corn:2.5,beans:.35,sweetpot:.3,kale:1.5,onion:.2,dicedtom:.2},st:["garlic","bay leaves","smoked paprika","extra virgin olive oil"],
+  kid:"Mash her beans, corn and sweet potato and chop the greens fine.",
+  steps:["Soften the onion and garlic in olive oil.","Add the tomatoes, sweet potato, bay and water and simmer 15 minutes.","Add the beans and corn for 10 minutes, then the greens. Add a little chouriço for the adults if you like."]},
+ {id:"feijoada-lite",n:"Lighter feijoada with black beans, beef and greens",meal:"dinner",t:50,tags:["Freezes well","One pot","Instant Pot or slow cooker","Brazilian"],ing:{beans:.5,sirloin:.25,onion:.25,kale:1.5,rice:.3,lemon:.15},st:["smoked paprika","garlic","bay leaves","orange slices to serve"],
+  kid:"Shred her beef very finely and mash her beans into soft rice.",
+  steps:["Brown small beef cubes, then the onion and garlic.","Add the beans, paprika, bay and water. Simmer 35 minutes, or Instant Pot on high 15 minutes, or slow cooker on low 6 hours.","Serve over rice with garlicky greens and orange slices."]},
+ {id:"moqueca-camarao",n:"Moqueca de camarão: Brazilian shrimp coconut stew, no rice",meal:"dinner",t:25,tags:["Lean protein","Freezer meal","Brazilian"],ing:{shrimp:.4,coconut:.2,pepper:.4,tomato:3,onion:.15,lemon:.25},st:["garlic","smoked paprika","fresh cilantro","extra virgin olive oil"],
+  kid:"Chop her shrimp small; the coconut broth is mild. "+LOWCARB_KID,
+  steps:["Soften the onion, peppers and garlic in a little oil.","Add the tomatoes, paprika and coconut milk and simmer 5 minutes.","Add the thawed shrimp and lime and cook 3 minutes. Finish with cilantro."]},
+/* Nordic */
+ {id:"dill-salmon-potatoes",n:"Nordic salmon with dill potatoes and cucumber salad",meal:"dinner",t:30,tags:["Omega-3","Nordic"],ing:{salmon:.4,potato:.35,cucumber:3,yogurt:1,lemon:.25},st:["fresh dill","apple cider vinegar"],
+  kid:"Flake her salmon and check for bones, and mash her potatoes with a little dill yogurt.",
+  steps:["Boil small potatoes until tender and toss with dill.","Roast the salmon at 425°F for 10 to 12 minutes.","Slice the cucumber thin with vinegar and dill.","Serve with dill yogurt."]},
+ {id:"smorrebrod",n:"Smørrebrød-style open-faced crispbread with egg and smoked trout",meal:"lunch",t:10,tags:["Omega-3","Sandwich or flatbread","Nordic"],ing:{crispbread:2,eggs:1,trout:1.5,cucumber:2,yogurt:.5},st:["fresh dill","black pepper"],
+  kid:"Give her the egg and a few flakes of trout mashed with yogurt on soft bread instead of crispbread.",
+  steps:["Hard-boil the eggs and slice.","Spread the crispbread with dill yogurt.","Top with egg, trout, cucumber and dill."]},
+ {id:"gravlax-bowl",n:"Gravlax-style smoked trout bowl with potatoes and beets",meal:"lunch",t:15,tags:["Bowl or salad","Omega-3","Nordic"],ing:{trout:2,potato:.25,beets:2,cucumber:2,yogurt:1},st:["fresh dill","Dijon mustard","lemon"],
+  kid:"Smoked trout is salty, so give her just a few flakes with mashed potato and soft beet cubes.",
+  steps:["Boil and slice the potatoes.","Arrange with the trout, cooked beets and cucumber.","Stir mustard, lemon and dill into the yogurt and spoon over."]},
+/* gaps */
+ {id:"paksiw-fish",n:"Paksiw: Filipino fish simmered in vinegar and ginger",meal:"dinner",t:25,tags:["Lean protein","Freezer meal","Filipino"],ing:{cod:.45,greenbeans:3,onion:.15,rice:.3},st:["cane or apple cider vinegar","fresh ginger","garlic","whole black peppercorns"],
+  kid:"Flake her fish and check for bones, and cook the beans soft.",
+  steps:["Start the rice. Lay ginger, garlic and onion in a pan with the vinegar, a cup of water and peppercorns.","Add the thawed fish and green beans, cover and simmer 10 minutes without stirring.","Serve with rice."]},
+ {id:"grao-espinafres",n:"Grão com espinafres: Portuguese chickpeas with spinach and egg",meal:"dinner",t:25,tags:["Vegetarian","One pot","Portuguese"],ing:{chickpea:.5,spinach:3,eggs:1,onion:.15,dicedtom:.2,pita:.5},st:["garlic","smoked paprika","extra virgin olive oil"],
+  kid:"Squash the chickpeas, chop the spinach fine and cook her egg through.",
+  steps:["Soften the onion and garlic in olive oil with paprika.","Add the tomatoes and chickpeas and simmer 10 minutes, then the spinach.","Make wells, crack in the eggs, cover and cook until set. Serve with bread."]},
+/* styles: build your own */
+ {id:"taco-bar",n:"Build-your-own taco bar with turkey, beans and toppings",meal:"dinner",t:25,tags:["Build your own","Mexican"],ing:{turkey:.25,beans:.25,corntort:2,tomato:2,avocado:.3,cheese:.5,romaine:.3,yogurt:.5},st:["ground cumin","chili powder","lime or lemon","salsa"],
+  kid:"She builds hers too: soft tortilla strips, crumbled turkey before the chili powder, mashed beans and avocado.",
+  steps:["Brown the turkey with cumin. Take out hers, then add chili powder.","Warm the beans and tortillas.","Set out bowls of tomatoes, avocado, cheese, lettuce, yogurt and salsa and let everyone build."]},
+ {id:"bowl-bar",n:"Build-your-own grain bowl bar",meal:"dinner",t:30,tags:["Build your own","Bowl or salad"],ing:{rotis:.12,quinoa:.25,chickpea:.25,sweetpot:.25,cucumber:2,avocado:.3,hummus:1.5},st:["lemon","extra virgin olive oil","tahini"],
+  kid:"She picks her piles: soft quinoa, mashed sweet potato, squashed chickpeas, shredded skinless chicken and peeled cucumber.",
+  steps:["Cook the quinoa and roast cubed sweet potato at 425°F for 25 minutes.","Shred the rotisserie chicken, skin off, and rinse the chickpeas.","Set everything out with cucumber, avocado, hummus and lemon-tahini dressing."]},
+ {id:"flatbread-pizza-night",n:"Flatbread pizza night with spinach, peppers and chicken",meal:"dinner",t:20,tags:["Build your own","Sandwich or flatbread","Little chef"],ing:{pita:1.5,marinara:2,cheese:1,spinach:1,pepper:.25,rotis:.08,mushroom:1},st:["dried oregano"],
+  kid:"She spreads her own sauce and sprinkles cheese. Cut hers into strips once cool.",
+  steps:["She and you: spread sauce on each pita and add cheese and toppings.","Bake at 425°F for 8 to 10 minutes until bubbling.","Cool a minute and slice."]},
+ {id:"potato-bar",n:"Baked potato bar with chili beans, broccoli and yogurt",meal:"dinner",t:30,tags:["Build your own","Vegetarian"],ing:{potato:.5,beans:.3,broccoli:3,cheese:.5,yogurt:1,dicedtom:.15},st:["ground cumin","chives"],
+  kid:"Scoop her potato out of the skin and mash with beans, soft broccoli and yogurt.",
+  steps:["Microwave the pricked potatoes 8 to 10 minutes, or bake at 400°F for 50 minutes.","Simmer the beans with tomatoes and cumin; steam the broccoli.","Set out toppings: beans, broccoli, cheese, yogurt and chives."]},
+/* styles: Instant Pot or slow cooker */
+ {id:"salsa-chicken-ip",n:"Instant Pot or slow cooker shredded salsa chicken bowls",meal:"dinner",t:25,tags:["Instant Pot or slow cooker","Freezes well","Lean protein","Mexican"],ing:{cb:.4,dicedtom:.3,beans:.25,corn:1.5,rice:.3,avocado:.25},st:["salsa","ground cumin","garlic","lime or lemon"],
+  kid:"Shred her chicken finely, mash the beans and corn, and use plain tomatoes in her portion if the salsa is spicy.",
+  steps:["Put the chicken, tomatoes, salsa, cumin and garlic in the pot.","Instant Pot on high 10 minutes with natural release, or slow cooker on low 5 to 6 hours, to 165°F.","Shred the chicken and serve over rice with beans, corn, avocado and lime."]},
+ {id:"white-chicken-chili",n:"Instant Pot or slow cooker white chicken chili",meal:"dinner",t:30,tags:["Instant Pot or slow cooker","Freezes well","One pot"],ing:{cb:.35,chickpea:.4,corn:1.5,onion:.25,stock:1,yogurt:1},st:["ground cumin","dried oregano","garlic","green chiles, optional"],
+  kid:"Take her bowl out before the green chiles, shred her chicken and squash the chickpeas.",
+  steps:["Put the chicken, onion, garlic, broth, spices and chickpeas in the pot.","Instant Pot on high 10 minutes, or slow cooker on low 6 hours.","Shred the chicken, add the corn and stir in yogurt off the heat."]},
+ {id:"beef-veg-stew",n:"Instant Pot or slow cooker beef and vegetable stew",meal:"dinner",t:30,tags:["Instant Pot or slow cooker","Freezes well","One pot"],ing:{sirloin:.3,potato:.35,carrot:.25,onion:.25,mushroom:2,stock:.75},st:["dried thyme","bay leaves","garlic","tomato paste"],
+  kid:"Cut her beef tiny or shred it and mash the vegetables; thin with water.",
+  steps:["Brown the beef cubes if you have time.","Add everything to the pot.","Instant Pot on high 25 minutes, or slow cooker on low 7 to 8 hours."]},
+ {id:"lentil-curry-ip",n:"Instant Pot or slow cooker red lentil and sweet potato curry",meal:"dinner",t:25,tags:["Instant Pot or slow cooker","Plant-based","Vegetarian","Freezes well"],ing:{lentil:.4,sweetpot:.3,coconut:.2,spinach:2,dicedtom:.25,rice:.3},st:["curry powder","fresh ginger","garlic"],
+  kid:"Mild and soft; mash her sweet potato and lentils.",
+  steps:["Add the sweet potato, tomatoes, coconut milk, spices and a cup of water to the pot.","Instant Pot on high 5 minutes, or slow cooker on low 5 hours.","Stir in the lentils and spinach and serve with rice."]},
+/* styles: grill */
+ {id:"grilled-chicken-veg-kebabs",n:"Grilled chicken and vegetable kebabs with lemon yogurt",meal:"dinner",t:30,tags:["Grill","Lean protein"],ing:{cb:.4,pepper:.5,mushroom:2,yogurt:1.5,lemon:.25,quinoa:.25},st:["dried oregano","garlic","extra virgin olive oil"],
+  kid:"Shred her chicken and cook her vegetables very soft; serve with quinoa and yogurt.",
+  steps:["Cook the quinoa. Thread chicken, peppers and mushrooms on skewers with oil, garlic and oregano.","Grill over medium-high heat 10 to 12 minutes, turning, to 165°F.","Serve with lemon yogurt and quinoa."]},
+ {id:"grilled-salmon-asparagus",n:"Grilled salmon and asparagus with lemon",meal:"dinner",t:20,tags:["Grill","Omega-3"],ing:{salmon:.4,asparagus:.35,lemon:.25,potato:.25},st:["extra virgin olive oil","garlic","fresh dill"],
+  kid:"Flake her salmon and check for bones, cut the asparagus tips soft and mash a potato.",
+  steps:["Boil small potatoes. Toss the asparagus with oil and garlic.","Grill the salmon skin-side down for 8 to 10 minutes, and the asparagus for 5.","Finish with lemon and dill."]},
+ {id:"grilled-turkey-burgers",n:"Grilled turkey burgers with corn and tomato salad",meal:"dinner",t:20,tags:["Grill","Freezer meal","Shortcut"],ing:{turkeyburger:1,corn:2,tomato:3,avocado:.25,pita:.5},st:["lime or lemon","fresh cilantro"],
+  kid:"Crumble a small piece of burger and mash the corn and avocado.",
+  steps:["Grill the burgers from frozen over medium heat 6 to 8 minutes a side, to 165°F.","Char the corn in the pan or on the grill.","Toss with tomatoes, lime and cilantro, and serve with the burgers in pita or lettuce."]},
+/* styles: breakfast for dinner and sandwiches */
+ {id:"bfd-burrito-bowls",n:"Breakfast-for-dinner burrito bowls with eggs, beans and potatoes",meal:"dinner",t:25,tags:["Breakfast for dinner","Vegetarian"],ing:{eggs:2,beans:.3,potato:.3,pepper:.3,avocado:.3,cheese:.4},st:["ground cumin","smoked paprika","salsa"],
+  kid:"Cook her eggs through, mash the beans and potatoes, and keep the salsa off hers.",
+  steps:["Roast or pan-fry diced potatoes and peppers with cumin and paprika for 20 minutes.","Warm the beans and scramble the eggs.","Build bowls with potatoes, eggs, beans, avocado, cheese and salsa."]},
+ {id:"bfd-pancakes-eggs",n:"Breakfast-for-dinner banana oat pancakes with eggs and berries",meal:"dinner",t:20,tags:["Breakfast for dinner","Vegetarian"],ing:{oats:.5,banana:1,eggs:2.5,blueberry:2,yogurt:2},st:["cinnamon"],
+  kid:"Easy finger food; flatten the blueberries and cook the eggs through.",
+  steps:["Blend the oats, bananas, one egg per person and cinnamon and cook small pancakes.","Scramble the rest of the eggs.","Serve with yogurt and blueberries."]},
+ {id:"chicken-pita-pockets",n:"Chicken, hummus and crunchy vegetable pita pockets",meal:"lunch",t:10,tags:["Sandwich or flatbread","No-cook protein"],ing:{pita:1,rotis:.1,hummus:1.5,cucumber:2,tomato:2,cabbage:1},st:["lemon","dried oregano"],
+  kid:"Soft pita with hummus and shredded skinless chicken; peel her cucumber and skip the raw cabbage.",
+  steps:["Shred the rotisserie chicken, skin off.","Open the pitas and spread with hummus.","Fill with chicken, cucumber, tomato and cabbage with lemon and oregano."]},
+ {id:"turkey-avocado-wrap",n:"Turkey, avocado and spinach wraps",meal:"lunch",t:15,tags:["Sandwich or flatbread","Lean protein"],ing:{tortilla:1,turkey:.2,avocado:.3,spinach:1,tomato:2,cheese:.3},st:["ground cumin","garlic powder"],
+  kid:"Crumble her turkey and mash the avocado onto soft tortilla strips.",
+  steps:["Brown the turkey with cumin and garlic powder, or use leftovers.","Spread mashed avocado on the tortillas.","Add turkey, spinach, tomato and cheese and roll."]},
+ {id:"med-hummus-flatbread",n:"Mediterranean hummus flatbread with vegetables and feta",meal:"lunch",t:10,tags:["Sandwich or flatbread","Vegetarian"],ing:{pita:1,hummus:2,cucumber:2,tomato:2,feta:.5,olives:.2},st:["extra virgin olive oil","za'atar"],
+  kid:"Soft pita with hummus, peeled cucumber and quartered tomatoes; rinse a few feta crumbs and skip the olives.",
+  steps:["Warm the pita.","Spread with hummus and top with cucumber, tomato, feta and olives.","Drizzle with olive oil and za'atar."]}
+);
+for(const [id,tag] of [["chickpea-shakshuka","Breakfast for dinner"],["veggie-frittata","Breakfast for dinner"],["chickpea-shakshuka","Middle Eastern"],["tuna-nicoise","French"],["chickpea-avocado-wraps","Sandwich or flatbread"],["hummus-chicken-wraps","Sandwich or flatbread"],["toum-chicken-wraps","Sandwich or flatbread"],["shawarma-wraps","Sandwich or flatbread"],["tuna-avocado-wraps","Sandwich or flatbread"],["egg-avocado-wraps","Sandwich or flatbread"],["salmon-salad-wraps","Sandwich or flatbread"],["bean-egg-burritos","Sandwich or flatbread"],["turkey-chili","Instant Pot or slow cooker"],["sweetpot-bean-chili","Instant Pot or slow cooker"],["chicken-tinga-tacos","Instant Pot or slow cooker"],["riz-a-djej","Instant Pot or slow cooker"],["shish-tawook","Grill"],["churrasco-steak","Grill"],["turkish-chicken-kebab","Grill"],["joojeh-kabab","Grill"],["chicken-yakitori-greens","Grill"],["carne-asada-salad","Grill"]]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes(tag)) r.tags.push(tag);}
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1636,6 +1811,20 @@ const AFX={
  "chicken-yakitori-greens":[["Roast at 450°F","Air fry at 400°F for 12 to 14 minutes, to 165°F, and serve with greens and cucumber."]],
  "five-spice-chicken":[["Roast at 425°F","Air fry at 380°F for 18 to 20 minutes, to 165°F."]],
  "tandoori-salmon":[["Roast at 425°F","Air fry at 400°F for 8 to 10 minutes."]],
+ "suya-chicken":[["Grill over medium-high","Grill, or air fry at 400°F for 10 to 12 minutes, to 165°F."]],
+ "chicken-satay":[["Grill or roast at 450°F","Grill, or air fry at 400°F for 8 to 10 minutes, to 165°F."]],
+ "chicken-provencal":[["Roast at 425°F for 25 minutes","Air fry at 380°F for 18 to 20 minutes, to 165°F, adding the olives for the last 3."]],
+ "musakhan":[["Rub the chicken with sumac","Rub the chicken with sumac and allspice and air fry at 380°F for 16 to 18 minutes, to 165°F."]],
+ "dill-salmon-potatoes":[["Roast the salmon","Air fry the salmon at 400°F for 8 to 10 minutes."]],
+ "bowl-bar":[["Cook the quinoa and roast","Cook the quinoa and air fry cubed sweet potato at 400°F for 15 minutes."]],
+ "flatbread-pizza-night":[["Bake at 425°F","Air fry one or two at a time at 350°F for 5 to 6 minutes until bubbling."]],
+ "potato-bar":[["Microwave the pricked potatoes","Microwave the pricked potatoes 8 to 10 minutes, or air fry at 400°F for 35 to 40 minutes."]],
+ "momo-meatballs":[["Steam for 12 minutes","Steam for 12 minutes or air fry at 375°F for 10 to 12 minutes, to 165°F."]],
+ "grilled-chicken-veg-kebabs":[["Grill over medium-high heat","Grill, or air fry at 400°F for 12 to 14 minutes, turning once, to 165°F."]],
+ "grilled-salmon-asparagus":[["Grill the salmon","Grill, or air fry the salmon and asparagus at 400°F for 8 to 10 minutes."]],
+ "grilled-turkey-burgers":[["Grill the burgers","Grill, or air fry the burgers from frozen at 380°F for 12 to 15 minutes, to 165°F."]],
+ "argentine-steak-salad":[["Grill or sear the steak","Grill or sear the steak 3 to 4 minutes a side, and air fry the peppers at 400°F for 10 minutes."]],
+ "bfd-burrito-bowls":[["Roast or pan-fry diced potatoes","Air fry diced potatoes and peppers with cumin and paprika at 400°F for 15 minutes."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1670,7 +1859,7 @@ const stepsFor=r=>{const air=S.cook==="air";
    per cup dry, beans per drained can, rotisserie per chicken of skinless meat. A recipe that uses
    olive oil adds one teaspoon per portion; other pantry items are not counted. */
 const NUTR={
- cb:[545,102,0,12,0],sirloin:[650,100,0,25,0],cansalmon:[190,33,0,6,0],edamame:[34,3.3,2.5,1.4,1.4],walnut:[185,4.3,3.9,18.5,1.9],cucumber:[4,.2,1,0,.1],
+ cb:[545,102,0,12,0],cabbage:[7,.4,1.6,0,.7],sirloin:[650,100,0,25,0],cansalmon:[190,33,0,6,0],edamame:[34,3.3,2.5,1.4,1.4],walnut:[185,4.3,3.9,18.5,1.9],cucumber:[4,.2,1,0,.1],
  hummus:[47,2.2,4,2.7,1.7],chx:[550,90,0,18.6,0],salmon:[944,90,0,61,0],turkey:[680,86,0,36,0],rotis:[990,150,0,40,0],
  shrimp:[386,91,0,2.3,0],eggs:[72,6.3,.4,4.8,0],tofu:[476,52,10,28,4],yogurt:[21,2.8,1.1,.55,0],cheese:[110,7,1,9,0],
  spinach:[6.5,.8,1,.1,.6],broccoli:[9.5,.8,1.9,.1,.7],sweetpot:[390,7,91,.5,14],pepper:[37,1.2,7,.4,2.5],avocado:[240,3,13,22,10],
@@ -1711,7 +1900,12 @@ const GLUTEN=["pasta","pita","tortilla","crispbread","farro"];
 /* Paleo: no grains, legumes (including soy and peanuts), dairy, soy sauce or sugary marinades.
    Potatoes and sweet potatoes count as paleo, as most plans now allow them. */
 const PALEO_NO=["rice","quinoa","oats","pasta","pita","tortilla","corntort","crispbread","farro","corn","dolmas","mixveg","beans","chickpea","lentil","edamame","tofu","tempeh","hummus","soymilk","pb","chxmar","carneasada"];
-const MED=["Greek","Lebanese","Italian","Portuguese","Spanish","Turkish","Moroccan","Persian"];
+const MED=["Greek","Lebanese","Italian","Portuguese","Spanish","Turkish","Moroccan","Persian","French","Middle Eastern"];
+/* Lower sodium leaves out salty store items and sauces. Anti-inflammatory leaves out red and
+   processed meat and added sugar and needs at least two of fish, greens, berries, nuts, seeds,
+   beans or olive oil, turmeric and ginger. */
+const HIGH_NA=["prosciutto","olives","feta","manchego","kimchi","chxmar","carneasada","salmonburger","turkeyburger","rotis","stock","trout","dolmas","artichoke","cheese","marinara","cansalmon","sardines","tzatziki","pesto","hummus","crispbread","saladkit","pita","tortilla"];
+const AI_KEYS=["salmon","sockeye","sardines","trout","cansalmon","walnut","flax","chia","spinach","kale","broccoli","berries","blueberry","wildblue","cherries","avocado","brussels","kalecrunch","beets","lentil","beans","chickpea","cabbage"];
 const hasAny=(r,ks)=>Object.keys(r.ing).some(k=>ks.includes(k));
 const stHas=(r,re)=>r.st.some(x=>re.test(x));
 const DIETS={
@@ -1720,6 +1914,10 @@ const DIETS={
  pescatarian:{n:"Pescatarian",ok:r=>!hasAny(r,MEAT)},
  glutenfree:{n:"Gluten free",ok:r=>!hasAny(r,GLUTEN)&&!stHas(r,/soy sauce|chili bean paste|gochujang|baking powder/i)},
  paleo:{n:"Paleo",ok:r=>!hasAny(r,[...PALEO_NO,...DAIRY])&&!stHas(r,/soy sauce|miso|chili bean paste|gochujang|peanut|milk$|^milk|butter|parmesan|cheese|sugar|honey|maple/i)},
+ whole30:{n:"Whole30",ok:r=>DIETS.paleo.ok(r)&&!r.ing.dates&&r.meal!=="dessert"&&!stHas(r,/honey|maple|sugar|wine|cocoa/i)},
+ lowsodium:{n:"Lower sodium",ok:r=>!hasAny(r,HIGH_NA)&&!stHas(r,/soy sauce|fish sauce|miso|gochujang|capers|anchov|salsa|chili bean paste|toum|pickle/i)},
+ lowgi:{n:"Lower glycemic",ok:r=>{const m=macro(r); return r.meal!=="dessert"&&!r.ing.dates&&m.net<=30&&(m.fib>=5||m.net<=15);}},
+ antiinflam:{n:"Anti-inflammatory",ok:r=>!hasAny(r,["prosciutto","chxmar","carneasada","sirloin","salmonburger","turkeyburger","dates"])&&(Object.keys(r.ing).filter(k=>AI_KEYS.includes(k)).length+(stHas(r,/olive oil|turmeric|ginger/i)?1:0))>=2},
  dairyfree:{n:"Dairy free",ok:r=>!hasAny(r,DAIRY)&&!stHas(r,/milk$|^milk|butter|parmesan|cheese/i)},
  protein:{n:"High protein",ok:r=>isHighProtein(r)},
  keto:{n:"Keto friendly",ok:r=>isKeto(r)},
@@ -1852,7 +2050,7 @@ let S=starter();
 try{const raw=localStorage.getItem(KEY); if(raw) S=normalize(JSON.parse(raw));}catch(e){}
 /* The recipe list is shuffled once each time the app opens, so different recipes lead. */
 const RORDER=Object.fromEntries(R.map(r=>[r.id,Math.random()]));
-let filter="all", cuisine="all", diet="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
+let filter="all", cuisine="all", diet="all", style="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
 const arr=m=>S[MEALS[m].arr], cnt=m=>S[MEALS[m].cnt];
 function slots(){const o=[]; for(const m of MK) arr(m).slice(0,cnt(m)).forEach((x,i)=>{if(x) o.push({m,i,x});}); return o;}
 function persist(){
@@ -2049,6 +2247,18 @@ const THEMES=[
  {k:"world",name:"Around the world",desc:"A week from one country's kitchen, or a different country each night."}
 ];
 const PRESETS=[
+ {id:"byo",theme:"everyday",name:"Build-your-own nights",desc:"Taco bar, grain bowl bar, flatbread pizza night and a baked potato bar, where everyone builds their own plate.",
+  b:["overnight-oats","egg-cups","banana-pancakes","walnut-berry-yogurt-bowl","egg-cups"],
+  l:["chicken-pita-pockets","med-hummus-flatbread","black-bean-corn-salad","chicken-pita-pockets","egg-avocado-wraps"],
+  d:["taco-bar","bowl-bar","flatbread-pizza-night","potato-bar","salmon-poke-bowl"]},
+ {id:"grill",theme:"season",months:[5,6,7,8,9],name:"Grill week",desc:"Chicken and vegetable kebabs, salmon with asparagus, turkey burgers, Argentine steak and satay, with air fryer steps for rainy days.",
+  b:["overnight-oats","walnut-berry-yogurt-bowl","egg-cups","mango-smoothie","overnight-oats"],
+  l:["black-bean-corn-salad","tuna-chickpea-salad","chicken-pita-pockets","shrimp-avocado-salad","med-chickpea-salad"],
+  d:["grilled-chicken-veg-kebabs","grilled-salmon-asparagus","grilled-turkey-burgers","argentine-steak-salad","chicken-satay"]},
+ {id:"slowcooker",theme:"everyday",name:"Set-and-forget week",desc:"Instant Pot or slow cooker dinners: salsa chicken, white chicken chili, beef stew, lentil curry and coq au vin, plus a quick fish night.",
+  b:["overnight-oats","egg-cups","apple-baked-oats","overnight-oats","egg-cups"],
+  l:["chicken-quinoa-box","tomato-chickpea-soup","egg-avocado-wraps","black-bean-soup","chicken-quinoa-box"],
+  d:["salsa-chicken-ip","white-chicken-chili","beef-veg-stew","lentil-curry-ip","blackened-fish-greens"]},
  {id:"paleo",theme:"health",name:"Paleo week",desc:"No grains, beans or dairy: egg breakfasts, shrimp ceviche lunches, chicken tagine, chermoula salmon, mojo chicken and roast fish with potatoes.",
   b:["tortilla-espanola","callaloo-eggs","cuban-sofrito-eggs","turkey-sweetpot-hash","trout-egg-scramble"],
   l:["shrimp-ceviche","coctel-camaron","keto-chicken-soup","shrimp-avocado-salad","caldo-verde"],
@@ -2428,10 +2638,15 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["chef","Little chef"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],];
+const STYLES=[["bowl","Bowls and salads",r=>r.tags.includes("Bowl or salad")],["quick15","15 minutes or less",r=>r.t<=15],["quick","30 minutes or less",r=>r.t<=30],
+ ["byo","Build your own",r=>r.tags.includes("Build your own")],["ip","Instant Pot or slow cooker",r=>r.tags.includes("Instant Pot or slow cooker")],["grill","Grill",r=>r.tags.includes("Grill")],
+ ["bfd","Breakfast for dinner",r=>r.tags.includes("Breakfast for dinner")],["sandwich","Sandwiches and flatbreads",r=>r.tags.includes("Sandwich or flatbread")],
+ ["onepot","One pot or one pan",r=>r.tags.includes("One pot")||r.tags.includes("One pan")],["freezes","Freezes well",r=>r.tags.includes("Freezes well")],
+ ["shortcut","Shortcuts",r=>r.tags.includes("Shortcut")],["chef","Little chef",r=>r.tags.includes("Little chef")]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="chef"&&r.tags.includes("Little chef"));
-  const inCuisine=r=>(cuisine==="all"||r.tags.includes(cuisine))&&(diet==="all"||DIETS[diet].ok(r));
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast");
+  const inCuisine=r=>(cuisine==="all"||r.tags.includes(cuisine))&&(diet==="all"||DIETS[diet].ok(r))&&(style==="all"||STYLES.find(x=>x[0]===style)[2](r));
   const shown=R.filter(r=>avail(r)&&match(r)&&inCuisine(r)).sort((a,b)=>RORDER[a.id]-RORDER[b.id]), hidden=R.filter(r=>!avail(r)&&match(r)&&inCuisine(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
@@ -2453,7 +2668,8 @@ function viewRecipes(){
     <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" at "+STORE_LBL[S.store]}. Home-cooked ones have no added sugar and little added salt; store-seasoned shortcuts have some of both.</p></div>
     <input class="search" id="rq" type="search" placeholder="Search recipes or ingredients" aria-label="Search recipes" value="${rsearch.replace(/"/g,"&quot;")}" autocomplete="off">
     <div class="settings"><label class="field" for="diet">Diet<select id="diet" data-act="diet"><option value="all">Any diet</option>${Object.entries(DIETS).map(([k,d])=>`<option value="${k}" ${diet===k?"selected":""}>${d.n} (${R.filter(r=>d.ok(r)&&avail(r)).length})</option>`).join("")}</select></label>
-    <label class="field" for="cuisine">Cuisine<select id="cuisine" data-act="cuisine"><option value="all">Any cuisine</option>${CUISINES.map(c=>`<option value="${c}" ${cuisine===c?"selected":""}>${c} (${R.filter(r=>r.tags.includes(c)&&avail(r)).length})</option>`).join("")}</select></label></div>
+    <label class="field" for="cuisine">Cuisine<select id="cuisine" data-act="cuisine"><option value="all">Any cuisine</option>${CUISINES.map(c=>`<option value="${c}" ${cuisine===c?"selected":""}>${c} (${R.filter(r=>r.tags.includes(c)&&avail(r)).length})</option>`).join("")}</select></label>
+    <label class="field" for="style">Style<select id="style" data-act="style-pick"><option value="all">Any style</option>${STYLES.map(([k,l,f])=>`<option value="${k}" ${style===k?"selected":""}>${l} (${R.filter(r=>f(r)&&avail(r)).length})</option>`).join("")}</select></label></div>
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
     ${hidden?`<p class="meta">${hidden} more recipe${hidden>1?"s use":" uses"} items ${STORE_LBL[S.store]} does not carry. Choose Both under <a href="#profile">Family</a> to see them.</p>`:""}
@@ -2609,6 +2825,7 @@ function act(el,ev){
   if(a==="filter"){filter=el.dataset.f; render(); return;}
   if(a==="cuisine"){if(ev.type!=="change") return; cuisine=el.value; render(); return;}
   if(a==="diet"){if(ev.type!=="change") return; diet=el.value; render(); return;}
+  if(a==="style-pick"){if(ev.type!=="change") return; style=el.value; render(); return;}
   if(a==="open"){const k=el.dataset.key; if(openWeek.has(k)) openWeek.delete(k); else openWeek.add(k); render(); return;}
   if(a==="tune"){if(ev.type!=="change") return; const t=TUNEX[el.dataset.k], v=fromSlider(t,+el.value); if(v===t.def) delete S.tune[t.k]; else S.tune[t.k]=v;
     const rb=$("#tune-reset"); if(rb) rb.disabled=!Object.keys(S.tune).length; persist(); return;}
