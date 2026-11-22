@@ -1378,6 +1378,188 @@ R.push(
   kid:"Blend her portion before the cocoa, with banana instead of the date, since she should have no added sugar before age 2.",
   steps:["Blend the avocado with the soy milk, the date, cocoa, vanilla and cinnamon until silky.","Chill 30 minutes and serve in small cups."]}
 );
+/* ---------- more from each country, across diets ---------- */
+const MILD="Take her portion out before the chili or hot pepper.";
+R.push(
+/* Caribbean */
+ {id:"caribbean-chickpea-curry",n:"Caribbean coconut curry with chickpeas and sweet potato",meal:"dinner",t:35,tags:["Plant-based","Vegetarian","One pot","Freezes well","Caribbean"],ing:{chickpea:.4,sweetpot:.35,coconut:.25,spinach:2,onion:.2,rice:.3},st:["curry powder","ground allspice","fresh thyme","garlic","scotch bonnet, optional"],
+  kid:MILD+" Squash the chickpeas and mash the sweet potato into the rice.",
+  steps:["Start the rice. Soften the onion and garlic, then stir in the curry powder, allspice and thyme.","Add the cubed sweet potato, chickpeas, coconut milk and a splash of water and simmer 20 minutes.","Stir in the spinach. Take out her portion before any hot pepper."]},
+ {id:"jerk-salmon",n:"Jerk salmon with mango avocado salsa and greens",meal:"dinner",t:20,tags:["Omega-3","Caribbean"],ing:{salmon:.4,mango:.75,avocado:.3,spinach:2,lemon:.2},st:["jerk seasoning (allspice, thyme, garlic, ginger)","extra virgin olive oil"],
+  kid:"Season her piece with allspice and thyme only, flake it and check for bones, and cut the mango into thin strips. "+LOWCARB_KID,
+  steps:["Rub the salmon with the jerk spices, keeping her piece mild.","Roast at 425°F for 10 to 12 minutes.","Dice the mango and avocado with lime.","Serve over spinach with the salsa."]},
+ {id:"callaloo-eggs",n:"Callaloo-style greens and egg scramble with tomato",meal:"breakfast",t:15,tags:["Vegetarian","Caribbean"],ing:{eggs:2,spinach:3,tomato:2,onion:.15},st:["fresh thyme","garlic","extra virgin olive oil"],
+  kid:"Chop the greens fine and cook the egg through. Quarter her tomatoes.",
+  steps:["Soften the onion and garlic with thyme in a little oil.","Add the spinach and tomatoes and cook until soft.","Stir in the eggs until set."]},
+/* Ethiopian */
+ {id:"doro-wat",n:"Doro wat-style spiced chicken stew with eggs",meal:"dinner",t:45,tags:["One pot","Ethiopian"],ing:{chx:.4,onion:.4,dicedtom:.2,eggs:1,spinach:2},st:["berbere spice","garlic","fresh ginger","extra virgin olive oil"],
+  kid:"Take her chicken and onions out before the berbere, shred the chicken finely and chop her egg. "+LOWCARB_KID,
+  steps:["Cook the finely chopped onions slowly in oil for 15 minutes until jammy.","Add garlic, ginger, tomatoes and the chicken with a cup of water and simmer 20 minutes.","Take out her portion, then stir in the berbere and add the peeled hard-boiled eggs.","Serve with wilted greens."]},
+ {id:"atakilt-wat",n:"Atakilt wat: Ethiopian potato, carrot and greens stew",meal:"dinner",t:35,tags:["Plant-based","Vegetarian","One pot","Freezes well","Ethiopian"],ing:{potato:.35,carrot:.25,kalecrunch:3,onion:.25,chickpea:.25},st:["ground turmeric","ground cumin","fresh ginger","garlic","extra virgin olive oil"],
+  kid:"Mild and soft; mash the potato and carrot and squash the chickpeas.",
+  steps:["Soften the onion, garlic and ginger in a little oil with turmeric and cumin.","Add the potatoes, carrots and a cup of water and simmer 15 minutes.","Stir in the crunch mix and chickpeas and cook 8 minutes until tender."]},
+ {id:"asa-tibs",n:"Asa tibs: Ethiopian spiced fish with peppers and onion",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Ethiopian"],ing:{cod:.45,pepper:.5,onion:.25,tomato:2,spinach:1.5},st:["berbere spice","garlic","rosemary","extra virgin olive oil"],
+  kid:"Cook her fish before the berbere, flake it and check for bones. "+LOWCARB_KID,
+  steps:["Cut the thawed cod into chunks.","Sear the onion and peppers with garlic and rosemary for 4 minutes.","Add the fish and tomatoes and cook 5 minutes. Take out her portion, then add berbere.","Serve with wilted spinach."]},
+/* Filipino */
+ {id:"tofu-adobo",n:"Tofu adobo with green beans and rice",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","Filipino"],ing:{tofu:.4,greenbeans:3,rice:.33,onion:.15},st:["low-sodium soy sauce","apple cider or cane vinegar","garlic","bay leaves","black pepper"],
+  kid:"Simmer her tofu in the vinegar and garlic before the soy sauce goes in, and cut it small.",
+  steps:["Start the rice. Brown the cubed tofu in a dry nonstick pan.","Add vinegar, garlic, bay, pepper and a splash of water and simmer 10 minutes.","Take out her portion, then add soy sauce and the green beans and cook 5 minutes."]},
+ {id:"chicken-tinola",n:"Chicken tinola: ginger chicken soup with greens",meal:"dinner",t:35,tags:["One pot","Freezes well","Filipino"],ing:{chx:.35,spinach:2,onion:.2,stock:1.25},st:["fresh ginger","garlic","fish sauce, optional"],
+  kid:"Thin her broth with water and shred her chicken; add fish sauce to the adult bowls only. "+LOWCARB_KID,
+  steps:["Soften the onion, garlic and plenty of ginger.","Add the chicken and broth and simmer 20 minutes, to 165°F.","Shred the chicken, stir in the greens, and season the adult bowls with fish sauce."]},
+ {id:"shrimp-sinigang",n:"Shrimp sinigang: sour tamarind soup with vegetables",meal:"lunch",t:25,tags:["Lean protein","One pot","Freezer meal","Filipino"],ing:{shrimp:.3,tomato:3,greenbeans:2,spinach:2,onion:.2,stock:1},st:["tamarind paste or lemon juice","fish sauce, optional"],
+  kid:"Chop her shrimp small and thin her bowl with water. "+LOWCARB_KID,
+  steps:["Simmer the onion and tomatoes in the broth for 8 minutes.","Stir in tamarind to taste and add the green beans for 4 minutes.","Add the thawed shrimp and spinach and cook 3 minutes."]},
+/* Hawaiian */
+ {id:"tofu-poke-bowl",n:"Tofu poke bowl with mango, edamame and avocado",meal:"dinner",t:20,tags:["Bowl or salad","Plant-based","Vegetarian","Hawaiian"],ing:{tofu:.35,rice:.33,edamame:1.5,cucumber:2,avocado:.3,mango:1},st:["low-sodium soy sauce","sesame oil","rice vinegar","sesame seeds"],
+  kid:"Cut her tofu small, squash the edamame and take her bowl out before the soy sauce.",
+  steps:["Start the rice. Cube the pressed tofu and brown it in a dry pan.","Toss the adult tofu with soy sauce and sesame oil.","Build bowls with rice, tofu, edamame, cucumber, avocado and mango."]},
+ {id:"garlic-shrimp-cauli",n:"Hawaiian-style garlic shrimp with cauliflower rice",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Hawaiian"],ing:{shrimp:.4,cauli:4,spinach:1.5,lemon:.25},st:["plenty of garlic","extra virgin olive oil","paprika"],
+  kid:"Chop her shrimp small. "+LOWCARB_KID,
+  steps:["Thaw the shrimp and toss with paprika.","Cook lots of garlic gently in olive oil, then add the shrimp for 3 minutes.","Cook the cauliflower rice and spinach in the garlicky pan and serve with lemon."]},
+ {id:"mahi-mango-greens",n:"Mahi mahi with mango avocado salsa over greens",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Hawaiian"],ing:{mahi:.4,mango:.75,avocado:.3,romaine:.5,lemon:.2},st:["extra virgin olive oil","fresh cilantro"],
+  kid:"Flake her fish and check for bones, and mash the avocado with thin mango strips. "+LOWCARB_KID,
+  steps:["Thaw the mahi, rub with oil and roast at 425°F for 12 minutes.","Dice the mango and avocado with lime and cilantro.","Serve the fish over romaine with the salsa."]},
+/* Peruvian */
+ {id:"solterito-salad",n:"Solterito-style Peruvian bean, corn and quinoa salad",meal:"lunch",t:15,tags:["Bowl or salad","Plant-based","Vegetarian","Make ahead","Peruvian"],ing:{beans:.3,corn:2,tomato:3,redonion:.1,olives:.3,quinoa:.2,lemon:.25},st:["extra virgin olive oil","aji amarillo paste, optional","fresh parsley"],
+  kid:"Mash the beans and corn, quarter the tomatoes and skip the raw onion and olives for her.",
+  steps:["Cook the quinoa and cool it.","Toss with the rinsed beans, thawed corn, tomatoes, onion and olives.","Dress with lime, olive oil and a little aji amarillo."]},
+ {id:"shrimp-ceviche",n:"Shrimp ceviche-style salad with avocado and cucumber",meal:"lunch",t:15,tags:["Bowl or salad","Lean protein","No-cook protein","Peruvian"],ing:{cookedshrimp:.25,redonion:.1,cucumber:2,avocado:.4,tomato:2,lemon:.4},st:["fresh cilantro","aji or jalapeño, optional"],
+  kid:"Using cooked shrimp keeps it safe for her. Chop it small, mash the avocado and skip the raw onion and chili. "+LOWCARB_KID,
+  steps:["Thaw the cooked shrimp and chop it.","Toss with lots of lime juice, thinly sliced red onion and cilantro and let sit 10 minutes.","Fold in the cucumber, tomato and avocado."]},
+ {id:"pollo-a-la-brasa",n:"Pollo a la brasa-style chicken with green sauce and salad",meal:"dinner",t:40,tags:["Peruvian"],ing:{chx:.45,romaine:.6,tomato:2,avocado:.3,lemon:.25},st:["ground cumin","smoked paprika","garlic","fresh cilantro","jalapeño, optional","extra virgin olive oil"],
+  kid:"Season her piece with cumin and garlic only, shred it, and blend her sauce without the jalapeño. "+LOWCARB_KID,
+  steps:["Rub the thighs with cumin, paprika, garlic and oil and roast at 425°F for 25 minutes, to 165°F.","Blend cilantro, garlic, lime, olive oil and jalapeño into a green sauce.","Serve with romaine, tomato and avocado."]},
+/* Spanish */
+ {id:"espinacas-garbanzos",n:"Espinacas con garbanzos: Spanish chickpeas and spinach",meal:"dinner",t:25,tags:["Plant-based","Vegetarian","One pot","Freezes well","Spanish"],ing:{chickpea:.5,spinach:3,dicedtom:.2,onion:.15},st:["smoked paprika","ground cumin","garlic","sherry or red wine vinegar","extra virgin olive oil"],
+  kid:"Squash the chickpeas and chop the spinach fine; the smoked paprika is mild.",
+  steps:["Cook garlic and onion gently in olive oil, then stir in paprika and cumin.","Add the chickpeas, tomatoes and a splash of water and simmer 10 minutes.","Stir in the spinach and finish with a splash of vinegar."]},
+ {id:"gambas-ajillo",n:"Gambas al ajillo: garlic shrimp with roasted asparagus",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Spanish"],ing:{shrimp:.4,asparagus:.3,lemon:.25},st:["plenty of garlic","extra virgin olive oil","smoked paprika","red pepper flakes, optional","fresh parsley"],
+  kid:"Chop her shrimp small and the asparagus tips soft; leave out the pepper flakes. "+LOWCARB_KID,
+  steps:["Roast the asparagus with oil at 425°F for 8 minutes.","Warm sliced garlic gently in olive oil, add the thawed shrimp and paprika and cook 3 minutes.","Finish with parsley and lemon."]},
+ {id:"tortilla-espanola",n:"Tortilla española: potato and onion omelet",meal:"breakfast",t:35,tags:["Vegetarian","Make ahead","Spanish"],ing:{eggs:2,potato:.3,onion:.2},st:["extra virgin olive oil"],
+  kid:"Cook it through and cut her slice into strips. Salt only the adult slices.",
+  steps:["Slice the potatoes and onion thin and cook gently in olive oil for 15 minutes until soft.","Drain and stir into the beaten eggs.","Cook in a small pan over low heat until nearly set, flip with a plate and cook 3 minutes more. Good warm or cold."]},
+/* Turkish */
+ {id:"mercimek-corbasi",n:"Mercimek çorbası: Turkish red lentil soup with lemon",meal:"lunch",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Turkish"],ing:{lentil:.5,carrot:.2,onion:.2,potato:.15,lemon:.25},st:["ground cumin","paprika","dried mint","extra virgin olive oil"],
+  kid:"Smooth, mild and made with water, so it suits her well.",
+  steps:["Soften the onion and carrot in a little oil.","Add the potato, cumin and water to cover and simmer 15 minutes.","Add the lentils, blend smooth, and finish with lemon and a drizzle of paprika-mint oil."]},
+ {id:"turkish-chicken-kebab",n:"Turkish chicken kebabs with yogurt and shepherd's salad",meal:"dinner",t:30,tags:["Lean protein","Turkish"],ing:{cb:.4,yogurt:2,cucumber:3,tomato:3,pepper:.3,lemon:.25},st:["paprika","ground cumin","garlic","dried mint"],
+  kid:"Shred her chicken finely into the yogurt, quarter the tomatoes and peel the cucumber. "+LOWCARB_KID,
+  steps:["Marinate the chicken cubes in half the yogurt with paprika, cumin, garlic and lemon.","Thread on skewers or spread on a tray and roast at 450°F for 15 minutes, to 165°F.","Chop the cucumber, tomatoes and pepper with lemon and mint.","Serve with the rest of the yogurt."]},
+ {id:"balik-bugulama",n:"Balık buğulama: Turkish fish with tomatoes and peppers",meal:"dinner",t:25,tags:["Lean protein","Freezer meal","Turkish"],ing:{cod:.45,tomato:3,pepper:.4,onion:.2,lemon:.25},st:["garlic","fresh dill or parsley","extra virgin olive oil"],
+  kid:"Flake her fish and check for bones; the vegetables cook soft. "+LOWCARB_KID,
+  steps:["Lay sliced onion, peppers and tomatoes in a pan with garlic and oil.","Put the thawed cod on top, add lemon and a splash of water, cover and steam 12 minutes.","Finish with dill."]},
+/* Persian */
+ {id:"adas-polo",n:"Adas polo: Persian lentil rice with dates and walnuts",meal:"dinner",t:40,tags:["Plant-based","Vegetarian","Persian"],ing:{lentil:.4,rice:.33,onion:.25,dates:.25,walnut:.2},st:["ground cinnamon","ground turmeric","saffron, optional","extra virgin olive oil"],
+  kid:"Mash her lentils into the rice, chop the date very small and grind the walnuts or leave them out.",
+  steps:["Cook the rice, then fold in the warm lentils.","Fry the onions with turmeric until golden, then add chopped dates and cinnamon for a minute.","Spoon over the rice and top with toasted walnuts."]},
+ {id:"joojeh-kabab",n:"Joojeh kabab: saffron chicken with salad shirazi",meal:"dinner",t:35,tags:["Lean protein","Persian"],ing:{cb:.4,yogurt:1.5,lemon:.3,cucumber:3,tomato:3,redonion:.1},st:["saffron or turmeric","dried mint","extra virgin olive oil"],
+  kid:"Shred her chicken finely, peel the cucumber and skip the raw onion. "+LOWCARB_KID,
+  steps:["Marinate the chicken in yogurt, lemon and saffron for 30 minutes or overnight.","Roast at 450°F for 15 minutes, to 165°F.","Dice the cucumber, tomatoes and onion with lemon and mint for the salad."]},
+ {id:"mahi-sabzi",n:"Persian herbed fish with greens and lemon",meal:"dinner",t:25,tags:["Lean protein","Freezer meal","Persian"],ing:{mahi:.4,spinach:2,lemon:.3,cucumber:2},st:["fresh parsley, cilantro and dill","ground turmeric","garlic","extra virgin olive oil"],
+  kid:"Flake her fish and check for bones; chop the herbs and spinach fine. "+LOWCARB_KID,
+  steps:["Blend the herbs with garlic, turmeric, lemon and oil into a paste.","Spread over the thawed fish and roast at 425°F for 12 minutes.","Serve with wilted spinach and cucumber."]},
+/* Cuban */
+ {id:"mojo-shrimp-salad",n:"Cuban mojo shrimp with avocado salad",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Cuban"],ing:{shrimp:.4,avocado:.4,romaine:.5,tomato:2,lemon:.3},st:["orange juice","garlic","ground cumin","dried oregano","extra virgin olive oil"],
+  kid:"Chop her shrimp small and mash the avocado. "+LOWCARB_KID,
+  steps:["Whisk orange and lime juice with garlic, cumin, oregano and oil for the mojo.","Toss the thawed shrimp in half the mojo and sear 3 minutes.","Serve over romaine, tomato and avocado with the rest of the mojo."]},
+ {id:"mojo-chicken",n:"Mojo chicken thighs with greens and avocado",meal:"dinner",t:35,tags:["Cuban"],ing:{chx:.45,spinach:2,avocado:.3,onion:.15,lemon:.3},st:["orange juice","garlic","ground cumin","dried oregano","extra virgin olive oil"],
+  kid:"Shred her chicken finely and mash the avocado. "+LOWCARB_KID,
+  steps:["Marinate the thighs in the mojo for 30 minutes or overnight.","Roast with sliced onion at 425°F for 25 minutes, to 165°F.","Serve with spinach wilted in the pan juices and avocado."]},
+ {id:"cuban-sofrito-eggs",n:"Cuban sofrito eggs with peppers and tomato",meal:"breakfast",t:15,tags:["Vegetarian","Cuban"],ing:{eggs:2,pepper:.4,onion:.15,dicedtom:.2},st:["ground cumin","garlic","extra virgin olive oil"],
+  kid:"Cook the peppers soft and the eggs through.",
+  steps:["Soften the onion, peppers and garlic in oil with cumin.","Add the tomatoes and simmer 5 minutes.","Make wells, crack in the eggs, cover and cook until set."]},
+/* Brazilian */
+ {id:"feijao-greens",n:"Feijão: Brazilian black beans with greens and rice",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Brazilian"],ing:{beans:.5,rice:.33,kale:2,onion:.2,lemon:.15},st:["garlic","bay leaves","extra virgin olive oil"],
+  kid:"Mash her beans into the rice and chop the greens very fine.",
+  steps:["Start the rice. Soften the onion and garlic, add the beans, bay and water and simmer 15 minutes, mashing a few.","Sauté the thinly sliced kale with garlic for 3 minutes (couve).","Serve the beans over rice with the greens and lime."]},
+ {id:"churrasco-steak",n:"Churrasco-style steak with chimichurri and vinagrete salad",meal:"dinner",t:25,tags:["Lean protein","Brazilian"],ing:{sirloin:.4,tomato:3,redonion:.1,romaine:.5,lemon:.2},st:["fresh parsley","garlic","red wine vinegar","dried oregano","extra virgin olive oil"],
+  kid:"Cut her steak into tiny pieces, quarter the tomatoes and skip the raw onion. "+LOWCARB_KID,
+  steps:["Blend parsley, garlic, oregano, vinegar and oil into chimichurri.","Sear the steak 3 to 4 minutes a side and rest it.","Chop tomatoes and onion with vinegar for the vinagrete.","Slice the steak and serve with both sauces and romaine."]},
+/* Korean */
+ {id:"dubu-jorim",n:"Dubu jorim: Korean braised tofu with spinach and rice",meal:"dinner",t:25,tags:["Plant-based","Vegetarian","Korean"],ing:{tofu:.4,spinach:2,rice:.33},st:["low-sodium soy sauce","garlic","sesame oil","gochugaru, optional","scallions"],
+  kid:"Take her tofu out before the soy sauce and chili, and cut it small.",
+  steps:["Start the rice. Brown slices of tofu in a nonstick pan.","Add a splash of water with garlic and simmer 3 minutes; take out her portion.","Add soy sauce, gochugaru and sesame oil to the rest and braise 5 minutes.","Serve with garlicky spinach."]},
+ {id:"beef-ssam",n:"Beef ssam: lettuce wraps with cucumber and kimchi",meal:"dinner",t:20,tags:["Lean protein","Korean"],ing:{sirloin:.35,romaine:.75,cucumber:2,kimchi:1.5},st:["coconut aminos","garlic","fresh ginger","sesame oil","sesame seeds"],
+  kid:"Cut her beef tiny, skip the kimchi and lettuce, and give her peeled cucumber. "+LOWCARB_KID,
+  steps:["Sear thin sirloin strips with garlic and ginger for 2 minutes, then season with coconut aminos and sesame oil.","Wrap in romaine leaves with cucumber and kimchi."]},
+ {id:"gochujang-salmon",n:"Gochujang-glazed salmon with sesame cucumber salad",meal:"dinner",t:20,tags:["Omega-3","Korean"],ing:{salmon:.4,cucumber:3,spinach:1.5},st:["gochujang","rice vinegar","sesame oil","sesame seeds"],
+  kid:"Bake her piece plain, flake it and check for bones. "+LOWCARB_KID,
+  steps:["Brush the adult salmon with gochujang thinned with a little water.","Roast all the salmon at 425°F for 10 to 12 minutes.","Toss sliced cucumber with rice vinegar and sesame oil and serve with spinach."]},
+/* Indian */
+ {id:"chicken-tikka-salad",n:"Chicken tikka with kachumber salad",meal:"dinner",t:35,tags:["Lean protein","Indian"],ing:{cb:.4,yogurt:2,cucumber:3,tomato:3,redonion:.1,lemon:.25},st:["garam masala","smoked paprika","ground cumin","garlic","fresh ginger"],
+  kid:"The spices are mild; shred her chicken into a spoon of yogurt and skip the raw onion. "+LOWCARB_KID,
+  steps:["Marinate the chicken in yogurt with the spices, garlic and ginger.","Roast at 450°F for 15 to 18 minutes, to 165°F.","Chop cucumber, tomatoes and onion with lemon for the kachumber."]},
+ {id:"goan-fish-curry",n:"Goan coconut fish curry with rice",meal:"dinner",t:30,tags:["One pot","Freezer meal","Indian"],ing:{cod:.4,coconut:.25,dicedtom:.25,onion:.25,rice:.33,spinach:1},st:["ground turmeric","ground coriander","garlic","fresh ginger","tamarind or lime","chili, optional"],
+  kid:MILD+" Flake her fish and check for bones.",
+  steps:["Start the rice. Soften the onion, garlic and ginger with the spices.","Add the tomatoes, coconut milk and tamarind and simmer 5 minutes.","Add the thawed cod and spinach, cover and cook 8 minutes."]},
+ {id:"turkey-keema",n:"Turkey keema with spinach and peas",meal:"dinner",t:25,tags:["Lean protein","Freezes well","Indian"],ing:{turkey:.35,spinach:2,onion:.25,dicedtom:.25,mixveg:1.5},st:["garam masala","ground cumin","ground turmeric","garlic","fresh ginger"],
+  kid:"Mild spices; crumble her turkey fine.",
+  steps:["Brown the turkey with onion, garlic and ginger.","Add the spices, tomatoes and frozen peas and carrots and simmer 10 minutes.","Stir in the spinach until wilted."]}
+);
+{const r=R.find(x=>x.id==="menemen-eggs"); if(r&&!r.tags.includes("Turkish")) r.tags.push("Turkish");}
+/* ---------- filling diet gaps by country ---------- */
+R.push(
+/* Moroccan */
+ {id:"chicken-tagine-olives",n:"Moroccan chicken tagine with lemon, olives and greens",meal:"dinner",t:45,tags:["One pot","Moroccan"],ing:{chx:.4,onion:.3,olives:.3,lemon:.3,spinach:2},st:["ground ginger","ground turmeric","ground cumin","cinnamon","garlic","fresh cilantro","extra virgin olive oil"],
+  kid:"Shred her chicken finely and chop the olives small or skip them; the warm spices are mild. "+LOWCARB_KID,
+  steps:["Brown the chicken in a little oil, then soften the onion and garlic with the spices.","Return the chicken with lemon slices and a cup of water, cover and simmer 25 minutes, to 165°F.","Add the olives and spinach for the last 5 minutes and finish with cilantro."]},
+ {id:"chermoula-salmon",n:"Chermoula salmon with roasted carrots",meal:"dinner",t:30,tags:["Omega-3","Moroccan"],ing:{salmon:.4,carrot:.25,spinach:1.5,lemon:.25},st:["fresh cilantro and parsley","garlic","ground cumin","smoked paprika","extra virgin olive oil"],
+  kid:"Flake her salmon and check for bones; roast her carrots very soft.",
+  steps:["Blend herbs, garlic, cumin, paprika, lemon and oil into chermoula.","Roast carrot sticks with oil at 425°F for 15 minutes.","Add the salmon spread with chermoula and roast 10 to 12 minutes more.","Serve with spinach."]},
+ {id:"harira",n:"Harira-style lentil, chickpea and tomato soup",meal:"lunch",t:35,tags:["Plant-based","Vegetarian","Freezes well","One pot","Moroccan"],ing:{lentil:.3,chickpea:.25,dicedtom:.33,onion:.2,carrot:.15,spinach:1,lemon:.2},st:["ground ginger","ground turmeric","cinnamon","fresh cilantro","extra virgin olive oil"],
+  kid:"Made with water and mild spices; squash the chickpeas and mash the lentils.",
+  steps:["Soften the onion and carrot with the spices in a little oil.","Add the tomatoes, chickpeas, lentils and water to cover and simmer 20 minutes.","Stir in the spinach and finish with lemon and cilantro."]},
+/* Vietnamese */
+ {id:"viet-tofu-bowl",n:"Vietnamese tofu rice bowl with herbs and peanut lime sauce",meal:"dinner",t:25,tags:["Bowl or salad","Plant-based","Vegetarian","Vietnamese"],ing:{tofu:.35,rice:.33,cucumber:2,carrot:.15,romaine:.4,pb:.3,lemon:.2},st:["fresh mint and cilantro","rice vinegar","garlic","low-sodium soy sauce"],
+  kid:"Cut her tofu small, thin the peanut sauce for her, and give her cooked carrot rather than raw.",
+  steps:["Start the rice. Brown the cubed tofu in a dry pan.","Whisk peanut butter with lime, garlic, warm water and a little soy sauce.","Build bowls with rice, tofu, shredded carrot, cucumber, lettuce and herbs, and drizzle the sauce."]},
+ {id:"lemongrass-shrimp-cups",n:"Lemongrass shrimp lettuce cups with cucumber and herbs",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Vietnamese"],ing:{shrimp:.4,romaine:.6,cucumber:2,carrot:.1,lemon:.25},st:["lemongrass paste","fish sauce","garlic","fresh mint and cilantro"],
+  kid:"Cook her shrimp before the fish sauce and chop it small. "+LOWCARB_KID,
+  steps:["Toss the thawed shrimp with lemongrass and garlic and sear 3 minutes.","Take out her portion, then add a little fish sauce and lime.","Spoon into lettuce cups with cucumber, shredded carrot and herbs."]},
+ {id:"shaking-beef",n:"Bò lúc lắc: Vietnamese shaking beef with tomato and greens",meal:"dinner",t:20,tags:["Lean protein","Vietnamese"],ing:{sirloin:.4,romaine:.6,tomato:2,redonion:.1,lemon:.2},st:["coconut aminos","garlic","fish sauce","black pepper"],
+  kid:"Cut her beef tiny before the fish sauce and pepper; quarter the tomatoes. "+LOWCARB_KID,
+  steps:["Sear cubed sirloin in a very hot pan for 2 minutes, shaking the pan.","Add garlic, coconut aminos and fish sauce and toss 30 seconds.","Serve over romaine, tomatoes and onion with lime and pepper."]},
+/* Japanese */
+ {id:"salmon-shioyaki",n:"Salmon shioyaki with cucumber sunomono and sesame spinach",meal:"dinner",t:20,tags:["Omega-3","Japanese"],ing:{salmon:.4,cucumber:3,spinach:2},st:["rice vinegar","sesame seeds","sesame oil"],
+  kid:"Skip the salt on her piece; flake it and check for bones. "+LOWCARB_KID,
+  steps:["Lightly salt the adult salmon and broil or roast at 425°F for 10 to 12 minutes.","Slice the cucumber thin and dress with rice vinegar.","Wilt the spinach and dress with sesame oil and seeds."]},
+ {id:"chicken-yakitori-greens",n:"Yakitori-style chicken skewers with greens",meal:"dinner",t:30,tags:["Lean protein","Japanese"],ing:{chx:.4,spinach:2,cucumber:2,pepper:.3},st:["coconut aminos","fresh ginger","garlic","scallions","sesame seeds"],
+  kid:"Brush her pieces with ginger and garlic only, shred them, and peel the cucumber. "+LOWCARB_KID,
+  steps:["Thread chicken pieces and pepper on skewers.","Brush with coconut aminos, ginger and garlic, keeping hers plain.","Roast at 450°F for 15 minutes, to 165°F, and serve with greens and cucumber."]},
+/* Chinese */
+ {id:"five-spice-chicken",n:"Five-spice chicken with garlic broccoli",meal:"dinner",t:30,tags:["Lean protein","Chinese"],ing:{chx:.4,broccoli:5,lemon:.1},st:["Chinese five-spice","coconut aminos","garlic","fresh ginger","sesame oil"],
+  kid:"Shred her chicken finely and steam her broccoli soft. "+LOWCARB_KID,
+  steps:["Rub the thighs with five-spice, garlic and ginger.","Roast at 425°F for 20 minutes, to 165°F.","Stir-fry the broccoli with garlic and finish with coconut aminos and sesame oil."]},
+/* Mexican */
+ {id:"coctel-camaron",n:"Cóctel de camarón: Mexican shrimp cocktail with avocado",meal:"lunch",t:15,tags:["Lean protein","No-cook protein","Mexican"],ing:{cookedshrimp:.25,tomato:3,cucumber:2,avocado:.4,redonion:.1,lemon:.3},st:["fresh cilantro","jalapeño, optional"],
+  kid:"Chop her shrimp small, mash the avocado and leave out the onion and jalapeño. "+LOWCARB_KID,
+  steps:["Thaw the cooked shrimp.","Blend half the tomatoes with lime for a fresh sauce.","Toss the shrimp with the sauce, diced cucumber, tomato, onion, avocado and cilantro."]},
+ {id:"tinga-lettuce-bowls",n:"Chicken tinga lettuce bowls with avocado and lime",meal:"dinner",t:30,tags:["Mexican"],ing:{chx:.4,dicedtom:.33,onion:.25,romaine:.6,avocado:.4},st:["chipotle in adobo","garlic","dried oregano","lime or lemon","fresh cilantro"],
+  kid:"Take her portion out before the chipotle and shred it finely with mashed avocado. "+LOWCARB_KID,
+  steps:["Simmer the chicken with tomatoes, onion, garlic and oregano for 20 minutes.","Shred it in the sauce, take out her portion, then stir in chipotle.","Serve over chopped romaine with avocado, cilantro and lime."]},
+/* Italian */
+ {id:"chicken-piccata",n:"Chicken piccata with lemon, capers and spinach",meal:"dinner",t:25,tags:["Lean protein","Italian"],ing:{cb:.4,spinach:3,lemon:.4,asparagus:.2},st:["capers","garlic","extra virgin olive oil","fresh parsley"],
+  kid:"Shred her chicken and give her soft spinach and asparagus tips; skip the capers. "+LOWCARB_KID,
+  steps:["Pound the chicken thin and sear in a little oil, 4 minutes a side, to 165°F.","Add garlic, lemon juice, capers and a splash of water to the pan and reduce.","Wilt the spinach and cook the asparagus in the pan, then spoon the sauce over."]},
+/* Indian */
+ {id:"tandoori-salmon",n:"Tandoori-spiced salmon with kachumber salad",meal:"dinner",t:25,tags:["Omega-3","Indian"],ing:{salmon:.4,cucumber:3,tomato:3,redonion:.1,lemon:.3},st:["garam masala","smoked paprika","ground cumin","garlic","fresh ginger","extra virgin olive oil"],
+  kid:"Flake her salmon and check for bones; skip the raw onion. "+LOWCARB_KID,
+  steps:["Rub the salmon with the spices, garlic, ginger, oil and lemon.","Roast at 425°F for 10 to 12 minutes.","Chop cucumber, tomato and onion with lemon for the kachumber."]},
+ {id:"coconut-chicken-curry-cauli",n:"Coconut chicken curry with spinach over cauliflower rice",meal:"dinner",t:30,tags:["One pot","Indian"],ing:{chx:.4,coconut:.25,spinach:2,onion:.2,cauli:4},st:["curry powder","ground turmeric","garlic","fresh ginger"],
+  kid:"Mild curry powder is fine; shred her chicken. "+LOWCARB_KID,
+  steps:["Soften the onion, garlic and ginger with the spices.","Add the chicken pieces and coconut milk and simmer 15 minutes, to 165°F.","Stir in the spinach and serve over cooked cauliflower rice."]},
+/* Portuguese */
+ {id:"piri-piri-shrimp",n:"Piri-piri shrimp with tomato and greens salad",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Portuguese"],ing:{shrimp:.4,romaine:.6,tomato:3,lemon:.3},st:["garlic","smoked paprika","red pepper flakes","extra virgin olive oil","fresh parsley"],
+  kid:"Cook her shrimp with garlic and paprika only and chop it small. "+LOWCARB_KID,
+  steps:["Toss the thawed shrimp with garlic, paprika and oil. Take out hers, then add pepper flakes to the rest.","Sear 3 minutes until pink.","Serve over romaine and tomatoes with lemon and parsley."]},
+/* Thai */
+ {id:"pad-krapow-cauli",n:"Thai basil chicken over cauliflower rice",meal:"dinner",t:20,tags:["Lean protein","Thai"],ing:{cb:.35,pepper:.4,cauli:4,eggs:1,spinach:1},st:["coconut aminos","fish sauce","garlic","fresh Thai basil","chili, optional"],
+  kid:"Take her chicken out before the fish sauce and chili, chop it small and cook her egg through. "+LOWCARB_KID,
+  steps:["Stir-fry finely chopped chicken with garlic and peppers for 6 minutes.","Take out her portion, then add coconut aminos, fish sauce, chili and basil.","Fry the eggs and serve over cooked cauliflower rice with spinach."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1439,6 +1621,21 @@ const AFX={
  "kafta-tahini-salad":[["Bake at 425°F","Air fry at 380°F for 10 to 12 minutes, to 165°F."]],
  "shawarma-salad":[["Cook the marinated thighs","Air fry the marinated thighs at 380°F for 16 to 20 minutes, to 165°F, then slice."]],
  "prosciutto-asparagus":[["Roast at 425°F","Air fry at 400°F for 6 to 7 minutes until the prosciutto crisps."]],
+ "jerk-salmon":[["Roast at 425°F","Air fry at 400°F for 8 to 10 minutes."]],
+ "mahi-mango-greens":[["Thaw the mahi","Thaw the mahi, rub with oil and air fry at 400°F for 9 to 11 minutes."]],
+ "pollo-a-la-brasa":[["Rub the thighs","Rub the thighs with cumin, paprika, garlic and oil and air fry at 380°F for 18 to 20 minutes, to 165°F."]],
+ "gambas-ajillo":[["Roast the asparagus","Air fry the asparagus with oil at 400°F for 6 minutes."]],
+ "turkish-chicken-kebab":[["Thread on skewers","Air fry the chicken cubes at 400°F for 10 to 12 minutes, to 165°F."]],
+ "joojeh-kabab":[["Roast at 450°F","Air fry at 400°F for 12 to 14 minutes, to 165°F."]],
+ "mahi-sabzi":[["Spread over the thawed fish","Spread over the thawed fish and air fry at 390°F for 9 to 11 minutes."]],
+ "mojo-chicken":[["Roast with sliced onion","Air fry with sliced onion at 380°F for 18 to 20 minutes, to 165°F."]],
+ "gochujang-salmon":[["Roast all the salmon","Air fry all the salmon at 400°F for 8 to 10 minutes."]],
+ "chicken-tikka-salad":[["Roast at 450°F","Air fry at 400°F for 12 to 14 minutes, to 165°F."]],
+ "chermoula-salmon":[["Roast carrot sticks","Air fry carrot sticks with oil at 390°F for 10 minutes."],["Add the salmon spread","Add the salmon spread with chermoula and air fry at 400°F for 8 to 10 minutes."]],
+ "salmon-shioyaki":[["Lightly salt the adult salmon","Lightly salt the adult salmon and air fry at 400°F for 8 to 10 minutes."]],
+ "chicken-yakitori-greens":[["Roast at 450°F","Air fry at 400°F for 12 to 14 minutes, to 165°F, and serve with greens and cucumber."]],
+ "five-spice-chicken":[["Roast at 425°F","Air fry at 380°F for 18 to 20 minutes, to 165°F."]],
+ "tandoori-salmon":[["Roast at 425°F","Air fry at 400°F for 8 to 10 minutes."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1511,7 +1708,10 @@ const MEAT=["cb","chx","turkey","rotis","sirloin","carneasada","chxmar","prosciu
 const FISH=["salmon","cansalmon","tuna","cod","sockeye","salmonburger","trout","sardines","mahi","shrimp","cookedshrimp"];
 const EGG=["eggs","hbegg"], DAIRY=["yogurt","cheese","feta","tzatziki","manchego","pesto"];
 const GLUTEN=["pasta","pita","tortilla","crispbread","farro"];
-const MED=["Greek","Lebanese","Italian","Portuguese","Spanish","Turkish","Moroccan"];
+/* Paleo: no grains, legumes (including soy and peanuts), dairy, soy sauce or sugary marinades.
+   Potatoes and sweet potatoes count as paleo, as most plans now allow them. */
+const PALEO_NO=["rice","quinoa","oats","pasta","pita","tortilla","corntort","crispbread","farro","corn","dolmas","mixveg","beans","chickpea","lentil","edamame","tofu","tempeh","hummus","soymilk","pb","chxmar","carneasada"];
+const MED=["Greek","Lebanese","Italian","Portuguese","Spanish","Turkish","Moroccan","Persian"];
 const hasAny=(r,ks)=>Object.keys(r.ing).some(k=>ks.includes(k));
 const stHas=(r,re)=>r.st.some(x=>re.test(x));
 const DIETS={
@@ -1519,6 +1719,7 @@ const DIETS={
  vegetarian:{n:"Vegetarian",ok:r=>!hasAny(r,[...MEAT,...FISH])&&!stHas(r,/fish sauce|anchov/i)},
  pescatarian:{n:"Pescatarian",ok:r=>!hasAny(r,MEAT)},
  glutenfree:{n:"Gluten free",ok:r=>!hasAny(r,GLUTEN)&&!stHas(r,/soy sauce|chili bean paste|gochujang|baking powder/i)},
+ paleo:{n:"Paleo",ok:r=>!hasAny(r,[...PALEO_NO,...DAIRY])&&!stHas(r,/soy sauce|miso|chili bean paste|gochujang|peanut|milk$|^milk|butter|parmesan|cheese|sugar|honey|maple/i)},
  dairyfree:{n:"Dairy free",ok:r=>!hasAny(r,DAIRY)&&!stHas(r,/milk$|^milk|butter|parmesan|cheese/i)},
  protein:{n:"High protein",ok:r=>isHighProtein(r)},
  keto:{n:"Keto friendly",ok:r=>isKeto(r)},
@@ -1526,7 +1727,7 @@ const DIETS={
  dozen:{n:"Daily Dozen",ok:r=>r.tags.includes("Daily Dozen")}
 };
 /* Family diet needs the planner must respect. */
-const NEEDS=["vegetarian","pescatarian","glutenfree","dairyfree"];
+const NEEDS=["vegetarian","pescatarian","glutenfree","dairyfree","paleo"];
 const dietOK=r=>(S.needs||[]).every(d=>DIETS[d].ok(r));
 /* ---------- rotisserie chicken in place of raw ----------
    With the Family setting on (the default) and Costco in the mix, these recipes use shredded
@@ -1537,6 +1738,8 @@ const SHRED="shredded rotisserie chicken, skin off";
 const ROT={
  "fajita-cauli-bowls":[["Cook the sliced chicken","Cook the peppers and onion until soft, then stir in shredded rotisserie chicken, skin off, with cumin and paprika to warm through."]],
  "green-curry-cauli":[["Simmer sliced chicken","Simmer shredded rotisserie chicken, skin off, in the coconut milk with ginger and garlic for 3 minutes."]],
+ "tinga-lettuce-bowls":[["Simmer the chicken with tomatoes","Simmer the tomatoes, onion, garlic and oregano for 10 minutes, then stir in shredded rotisserie chicken, skin off."],["Shred it in the sauce","Take out her portion, then stir in chipotle."]],
+ "pad-krapow-cauli":[["Stir-fry finely chopped chicken","Stir-fry the peppers with garlic for 4 minutes, then add finely chopped rotisserie chicken, skin off."]],
  "chicken-stroganoff":[["Brown thin strips of chicken","Shred rotisserie chicken, skin off."]],
  "turmeric-chicken-bowl":[["Toss sliced chicken","Toss "+SHRED+", with oil, turmeric, pepper, ginger and garlic and warm it in a pan for 3 minutes."],["Add the chicken and broccoli","Add the broccoli to the tray and roast 12 to 15 minutes.","Air fry the broccoli at 380°F for 6 to 8 minutes."]],
  "chicken-berry-salad":[["Sear the chicken","Shred rotisserie chicken, skin off."]],
@@ -1631,7 +1834,7 @@ function normalize(d){
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,m==="p"?3:2);
   s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air"; s.rotis=d.rotis!==false; s.chef=d.chef!==false; s.style=["balanced","protein","keto"].includes(d.style)?d.style:"balanced";
-  s.needs=Array.isArray(d.needs)?[...new Set(d.needs.filter(x=>["vegetarian","pescatarian","glutenfree","dairyfree"].includes(x)))]:[];
+  s.needs=Array.isArray(d.needs)?[...new Set(d.needs.filter(x=>["vegetarian","pescatarian","glutenfree","dairyfree","paleo"].includes(x)))]:[];
   s.stock={}; if(d.stock&&typeof d.stock==="object") for(const k of Object.keys(d.stock)) if(own(I,k)&&d.stock[k]===true) s.stock[k]=true;
   s.life={}; if(d.life&&typeof d.life==="object") for(const k of Object.keys(d.life)){if(own(I,k)&&I[k].life!=null){const v=int(d.life[k],1,60,I[k].life); if(v!==I[k].life) s.life[k]=v;}}
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
@@ -1846,6 +2049,10 @@ const THEMES=[
  {k:"world",name:"Around the world",desc:"A week from one country's kitchen, or a different country each night."}
 ];
 const PRESETS=[
+ {id:"paleo",theme:"health",name:"Paleo week",desc:"No grains, beans or dairy: egg breakfasts, shrimp ceviche lunches, chicken tagine, chermoula salmon, mojo chicken and roast fish with potatoes.",
+  b:["tortilla-espanola","callaloo-eggs","cuban-sofrito-eggs","turkey-sweetpot-hash","trout-egg-scramble"],
+  l:["shrimp-ceviche","coctel-camaron","keto-chicken-soup","shrimp-avocado-salad","caldo-verde"],
+  d:["chicken-tagine-olives","chermoula-salmon","mojo-chicken","peixe-assado","toum-chicken-potatoes"]},
  {id:"keto",theme:"health",name:"Keto week",desc:"Under 12 g net carbs a meal: egg bites, turkey meatballs in marinara, steak with mushrooms, salmon with cauliflower mash and green curry over cauliflower rice.",
   b:["kuku-sabzi","yogurt-walnut-keto","trout-egg-scramble","turkey-egg-bites","avocado-egg-bake"],
   l:["chicken-caesar","egg-salad-cups","tuna-avocado-boats","tuna-avocado-boats","keto-chicken-soup"],
@@ -1984,7 +2191,7 @@ function loadPreset(id){
     const ids=p[m], used=new Set(ids), a=arr(m); a.fill(null); S[MEALS[m].cnt]=ids.length;
     ids.forEach((rid,i)=>{
       let r=RX[rid];
-      if(!r||!avail(r)||!dietOK(r)){const alt=R.filter(x=>can[m](x)&&avail(x)&&dietOK(x)&&!used.has(x.id)); r=alt.length?alt[Math.floor(Math.random()*alt.length)]:null; if(r) used.add(r.id);}
+      if(!r||!avail(r)||!dietOK(r)){let alt=R.filter(x=>can[m](x)&&avail(x)&&dietOK(x)&&!used.has(x.id)); if(!alt.length) alt=R.filter(x=>can[m](x)&&avail(x)&&dietOK(x)); r=alt.length?alt[Math.floor(Math.random()*alt.length)]:null; if(r) used.add(r.id);}
       if(r) a[i]={r:r.id,double:false};
     });
   }
@@ -2237,7 +2444,7 @@ function viewRecipes(){
     const btns=ms.map(m=>`<button class="btn ${m===pm?"primary":"ghost"}" id="add-${m}-${r.id}" data-act="add" data-m="${m}" data-id="${r.id}">Add as ${MEALS[m].lbl.toLowerCase()}</button>`).join("");
     const hay=(r.n+" "+r.tags.join(" ")+" "+Object.keys(r.ing).map(k=>I[k].s).join(" ")).toLowerCase();
     return `<article class="card recipe" data-name="${hay.replace(/"/g,"")}" ${hay.includes(rsearch.toLowerCase())?"":"hidden"}>
-      <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${isHighProtein(r)?chip("fresh","High protein"):""}${isKeto(r)?chip("fresh","Keto friendly"):""}${r.tags.filter(t=>!["Bowl or salad","Plant-based","Vegetarian"].includes(t)).map(t=>chip("plain",t)).join("")}</div><div class="meta">${macro(r).kcal} kcal · ${macro(r).p} g protein · ${macro(r).net} g net carbs${(()=>{const d=["vegan","vegetarian","pescatarian","glutenfree","dairyfree"].filter(k=>DIETS[k].ok(r)); const show=d.includes("vegan")?d.filter(k=>k!=="vegetarian"&&k!=="pescatarian"):d.includes("vegetarian")?d.filter(k=>k!=="pescatarian"):d; return show.length?"<br>"+show.map(k=>DIETS[k].n).join(" · "):"";})()}</div></div><div class="time">${r.t}<small>min</small></div></div>
+      <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${isHighProtein(r)?chip("fresh","High protein"):""}${isKeto(r)?chip("fresh","Keto friendly"):""}${r.tags.filter(t=>!["Bowl or salad","Plant-based","Vegetarian"].includes(t)).map(t=>chip("plain",t)).join("")}</div><div class="meta">${macro(r).kcal} kcal · ${macro(r).p} g protein · ${macro(r).net} g net carbs${(()=>{const d=["vegan","vegetarian","pescatarian","paleo","glutenfree","dairyfree"].filter(k=>DIETS[k].ok(r)); const show=d.includes("vegan")?d.filter(k=>k!=="vegetarian"&&k!=="pescatarian"):d.includes("vegetarian")?d.filter(k=>k!=="pescatarian"):d; return show.length?"<br>"+show.map(k=>DIETS[k].n).join(" · "):"";})()}</div></div><div class="time">${r.t}<small>min</small></div></div>
       <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps</summary>
         ${recipeBody(r,1)}</details>
       <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
