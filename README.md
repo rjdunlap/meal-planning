@@ -11,6 +11,7 @@ Week planner for a family of three (two adults and a 1-year-old) who shop at Cos
 - Fine-tune the planner: sliders for every weighting it uses (food waste, protein spread, fish, repeats, prep sharing, surprise and more), each with its default and a reset.
 - Share a week: the day-by-day plan goes out as text with a link, and opening the link loads that week (after asking) on the other phone. A pasted link works too.
 - Play kitchen: Little chef snacks she can help make, and a keep-stocked list of items that go on every week's shopping list.
+- Calories and macros (protein, carbs, net carbs, fat, fiber) on every recipe, High protein and Keto friendly filters, and an eating style setting that steers the planner.
 - Share or copy the shopping list as plain text. Ticked items move to an "already in the cart" line.
 
 Live page: https://rjdunlap.github.io/meal-planning/

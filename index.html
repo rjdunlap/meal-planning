@@ -103,6 +103,8 @@ select{background:var(--surface);border:1.5px solid var(--ink);border-radius:10p
 .disc-all{display:grid;gap:8px;margin-top:8px;font-size:14px}
 .disc-all ul{margin:2px 0 0;padding-left:18px}
 .chip .x{border:0;background:transparent;font-size:18px;line-height:1;cursor:pointer;padding:0 0 0 6px;color:inherit;min-width:32px;min-height:32px}
+.macro{margin:8px 0 0;font-size:14px;background:var(--soft);border-radius:10px;padding:8px 11px}
+.macro .meta{font-size:12px}
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .day-t{min-height:44px;border:1.5px solid var(--line);background:transparent;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);padding:0}
 .day-t[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
@@ -1197,6 +1199,46 @@ R.push(
   kid:"Cut her pasta short and the asparagus small and soft, and give her skinless rotisserie breast meat shredded fine.",
   steps:["Boil the pasta, adding the cut asparagus and frozen vegetables for the last 3 minutes.","Warm garlic in olive oil and add shredded rotisserie chicken, skin off.","Toss everything with lemon juice, cheese and a splash of pasta water, with pepper for the adults."]}
 );
+/* ---------- lean, high-protein, low-carb ---------- */
+const LOWCARB_KID="She needs more carbs than this low-carb plate, so add soft rice, potato or fruit to hers.";
+R.push(
+ {id:"turkey-taco-lettuce",n:"Turkey taco lettuce cups with avocado and cheese",meal:"dinner",t:20,tags:["Lean protein","Mexican"],ing:{turkey:.35,romaine:.6,avocado:.3,tomato:2,cheese:.5},st:["cumin","chili powder","garlic","lime or lemon"],
+  kid:"Crumble her turkey fine before the chili powder and serve with mashed avocado and quartered tomatoes. "+LOWCARB_KID,
+  steps:["Brown the turkey with garlic and cumin. Take out her portion, then add chili powder.","Separate the romaine leaves.","Fill with turkey, tomatoes, avocado and cheese, with lime."]},
+ {id:"salmon-asparagus-lowcarb",n:"Garlic lemon salmon with asparagus, no grain",meal:"dinner",t:20,tags:["Omega-3","One pan"],ing:{salmon:.4,asparagus:.35,lemon:.25},st:["extra virgin olive oil","garlic","fresh dill or parsley"],
+  kid:"Flake her salmon and check for bones, cut the asparagus tips small and soft. "+LOWCARB_KID,
+  steps:["Lay the salmon and asparagus on a tray with oil, garlic and lemon slices.","Roast at 425°F for 10 to 12 minutes.","Finish with herbs and lemon."]},
+ {id:"shrimp-cauli-fried-rice",n:"Shrimp and egg cauliflower fried rice",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Chinese"],ing:{shrimp:.35,cauli:5,eggs:1,stirfry:3},st:["low-sodium soy sauce","garlic","fresh ginger","sesame oil"],
+  kid:"Chop her shrimp small, cook the egg through and take her portion out before the soy sauce. "+LOWCARB_KID,
+  steps:["Thaw the shrimp in cold water for 15 minutes.","Stir-fry the frozen vegetables, garlic and ginger for 4 minutes, then the cauliflower rice for 5.","Push aside, scramble the eggs, then add the shrimp and cook 3 minutes.","Take out her portion, then season with soy sauce and sesame oil."]},
+ {id:"greek-chicken-salad",n:"Greek chicken salad with feta and olives",meal:"dinner",t:15,tags:["Bowl or salad","No-cook protein","Greek"],ing:{rotis:.18,romaine:.5,cucumber:3,tomato:3,feta:.5,olives:.4},st:["extra virgin olive oil","red wine vinegar","dried oregano"],
+  kid:"Give her skinless rotisserie breast shredded fine, peeled cucumber and quartered tomatoes. Chop olives small and rinse the feta. "+LOWCARB_KID,
+  steps:["Shred the rotisserie chicken, skin off.","Chop the romaine, cucumber and tomatoes.","Toss with olive oil, vinegar and oregano and top with chicken, feta and olives."]},
+ {id:"tuna-avocado-boats",n:"Tuna-stuffed avocado boats with cucumber",meal:"lunch",t:10,tags:["Omega-3","No-cook protein"],ing:{tuna:3.5,avocado:.5,yogurt:1,cucumber:2,lemon:.15},st:["Dijon mustard","black pepper"],
+  kid:"Keep albacore to a small portion once a week; mash hers into the avocado. "+LOWCARB_KID,
+  steps:["Mix the tuna with yogurt, lemon, mustard and pepper.","Halve and pit the avocados and fill with the tuna.","Serve with cucumber."]},
+ {id:"spinach-feta-omelet",n:"Three-egg spinach, mushroom and feta omelet",meal:"breakfast",t:10,tags:["Vegetarian"],ing:{eggs:3,spinach:2,mushroom:2,feta:.75},st:["extra virgin olive oil","black pepper"],
+  kid:"Cook the egg through and cut into strips. Chop the spinach and mushrooms fine and rinse a few feta crumbs. "+LOWCARB_KID,
+  steps:["Cook the sliced mushrooms in a little oil for 4 minutes, then wilt in the spinach.","Pour in the beaten eggs and cook gently until set.","Add feta, fold and serve."]},
+ {id:"yogurt-protein-bowl",n:"Greek yogurt protein bowl with walnuts, chia and berries",meal:"breakfast",t:5,tags:["Vegetarian"],ing:{yogurt:8,walnut:.3,chia:.2,blueberry:1},st:["cinnamon"],
+  kid:"Grind the walnuts fine or leave them out, and flatten the blueberries.",
+  steps:["Spoon the yogurt into bowls.","Top with blueberries, chopped walnuts, chia and cinnamon."]},
+ {id:"cod-pesto-greenbeans",n:"Pesto cod with garlicky green beans",meal:"dinner",t:20,tags:["Lean protein","Freezer meal","Italian"],ing:{cod:.45,greenbeans:4,pesto:.5,lemon:.2},st:["garlic","extra virgin olive oil"],
+  kid:"Flake her cod and check for bones, and cook her green beans soft and cut short. "+LOWCARB_KID,
+  steps:["Thaw the cod and spread with pesto.","Bake at 425°F for 10 to 12 minutes.","Sauté the frozen green beans with garlic for 6 minutes.","Serve with lemon."]},
+ {id:"parm-chicken-broccoli",n:"Garlic parmesan chicken with roasted broccoli",meal:"dinner",t:30,tags:["Lean protein","One pan"],ing:{cb:.45,broccoli:5,cheese:.5,lemon:.15},st:["extra virgin olive oil","garlic powder","dried Italian herbs"],
+  kid:"Shred her chicken finely and roast her broccoli until it squashes. "+LOWCARB_KID,
+  steps:["Rub the chicken with oil, garlic powder and herbs and top with cheese.","Roast with the broccoli at 425°F for 18 to 22 minutes, to 165°F.","Squeeze lemon over."]},
+ {id:"carne-asada-salad",n:"Carne asada salad with avocado and pickled onion",meal:"dinner",t:20,tags:["Bowl or salad","Shortcut","Mexican"],ing:{carneasada:.3,romaine:.6,avocado:.3,tomato:2,redonion:.1},st:["lime or lemon","fresh cilantro"],
+  kid:"The marinade is salty, so give her a few very thin pieces cooked through, with mashed avocado and quartered tomatoes. "+LOWCARB_KID,
+  steps:["Quick-pickle the sliced red onion in vinegar for 15 minutes.","Sear the steak 3 to 4 minutes a side, rest, and slice thin across the grain.","Toss the romaine and tomatoes with lime and top with steak, avocado and onion."]},
+ {id:"turkey-burger-lettuce-wraps",n:"Turkey burger lettuce wraps with avocado and cheese",meal:"lunch",t:15,tags:["Freezer meal","Shortcut"],ing:{turkeyburger:1.5,romaine:.5,tomato:2,avocado:.25,cheese:.5},st:["Dijon mustard"],
+  kid:"Crumble a small piece of burger for her with mashed avocado and quartered tomatoes. "+LOWCARB_KID,
+  steps:["Cook the burgers from frozen to 165°F.","Wrap each in romaine leaves with cheese, tomato, avocado and mustard."]},
+ {id:"shrimp-cocktail-snack",n:"Chilled shrimp with lemon yogurt dip and cucumber",meal:"snack",t:10,tags:["No-cook protein"],ing:{cookedshrimp:.15,yogurt:1,cucumber:2,lemon:.1},st:["fresh dill or parsley"],
+  kid:"Chop her shrimp small and peel the cucumber.",
+  steps:["Thaw the cooked shrimp in cold water for 10 minutes.","Stir lemon and dill into the yogurt.","Serve the shrimp and cucumber with the dip."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1244,6 +1286,10 @@ const AFX={
  "chef-pita-pizzas":[["You: bake at 400°F","You: air fry at 350°F for 5 to 6 minutes until the cheese melts."]],
  "chef-asparagus-snap":[["You: roast at 425°F","You: air fry at 400°F for 6 to 8 minutes until tender."]],
  "asparagus-egg-breakfast":[["Roast the asparagus","Air fry the asparagus with a little oil at 400°F for 6 minutes."]],
+ "salmon-asparagus-lowcarb":[["Roast at 425°F","Air fry at 400°F for 8 to 10 minutes."]],
+ "cod-pesto-greenbeans":[["Bake at 425°F","Air fry at 390°F for 8 to 10 minutes."]],
+ "parm-chicken-broccoli":[["Roast with the broccoli","Air fry the chicken at 380°F for 14 to 16 minutes, to 165°F, then the broccoli for 6 to 8 minutes."]],
+ "turkey-burger-lettuce-wraps":[["Cook the burgers from frozen","Air fry the burgers from frozen at 380°F for 12 to 15 minutes, to 165°F."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1273,6 +1319,41 @@ for(const id in AFX){const r=RX[id]; if(!r) continue; r.af={};
   for(const [m,txt] of AFX[id]){const i=r.steps.findIndex(s=>s.includes(m)); if(i>=0) r.af[i]=txt;}}
 const stepsFor=r=>{const air=S.cook==="air";
   return r.steps.map((t,i)=>{if(r.useRot&&r.rot&&i in r.rot){const [txt,alt]=r.rot[i]; return air&&alt?alt:txt;} return air&&r.af&&r.af[i]?r.af[i]:t;}).filter(t=>t!==null);};
+/* ---------- nutrition ----------
+   Estimates per item unit from USDA values: [kcal, protein g, carbs g, fat g, fiber g]. Grains are
+   per cup dry, beans per drained can, rotisserie per chicken of skinless meat. A recipe that uses
+   olive oil adds one teaspoon per portion; other pantry items are not counted. */
+const NUTR={
+ cb:[545,102,0,12,0],cansalmon:[190,33,0,6,0],edamame:[34,3.3,2.5,1.4,1.4],walnut:[185,4.3,3.9,18.5,1.9],cucumber:[4,.2,1,0,.1],
+ hummus:[47,2.2,4,2.7,1.7],chx:[550,90,0,18.6,0],salmon:[944,90,0,61,0],turkey:[680,86,0,36,0],rotis:[990,150,0,40,0],
+ shrimp:[386,91,0,2.3,0],eggs:[72,6.3,.4,4.8,0],tofu:[476,52,10,28,4],yogurt:[21,2.8,1.1,.55,0],cheese:[110,7,1,9,0],
+ spinach:[6.5,.8,1,.1,.6],broccoli:[9.5,.8,1.9,.1,.7],sweetpot:[390,7,91,.5,14],pepper:[37,1.2,7,.4,2.5],avocado:[240,3,13,22,10],
+ tomato:[5,.25,1.1,.06,.3],carrot:[186,4.2,43,1.1,12.7],lemon:[17,.6,5.4,.2,1.6],onion:[44,1.2,10,.1,1.9],banana:[105,1.3,27,.4,3.1],
+ blueberry:[16,.2,4.1,.1,.7],stirfry:[8,.5,1.6,0,.6],mixveg:[18,.8,3.8,.1,1.2],berries:[14,.2,3.4,.1,1],quinoa:[626,24,109,10,12],
+ rice:[685,14.7,143,5.4,6.5],pasta:[100,3.6,21,.5,.9],beans:[340,22,61,1.5,22],chickpea:[400,22,67,6,19],dicedtom:[86,4,18.5,.4,4.9],
+ stock:[12,1.6,.9,.4,0],marinara:[14,.4,2.3,.4,.6],oats:[307,10.7,55,5.3,8.2],pb:[168,7,6,14.4,2.4],coconut:[790,8,12,81,0],
+ pesto:[133,2.5,2,13,.4],cauli:[7,.5,1.4,.1,.6],kalecrunch:[9,.8,1.8,.1,.8],lentil:[230,18,40,.8,15.6],tzatziki:[28,1,1.3,2,0],
+ feta:[75,4,1.2,6,0],brussels:[12,.95,2.5,.1,1.1],tortilla:[130,4,22,3.5,3],chia:[138,4.7,12,8.7,9.8],apple:[236,1.2,63,.8,11],
+ mushroom:[6,.9,.9,.1,.3],tuna:[36,6.7,0,.85,0],cod:[372,81,0,3.2,0],corn:[25,.9,5.9,.4,.6],mango:[17,.2,4.2,.1,.45],
+ salmonburger:[170,20,1,9,0],turkeyburger:[200,24,0,11,0],sockeye:[595,100,0,21,0],chxmar:[726,82,9,41,0],carneasada:[817,91,9,45,0],
+ potato:[318,8.6,73,.5,7],romaine:[26,1.8,5,.5,3.2],pita:[165,5.5,33,.7,1.3],greenbeans:[9,.5,2,0,.8],flax:[150,5.1,8.1,11.8,7.6],
+ soymilk:[80,7,4,4,1],dates:[78,.5,21,0,1.9],cherries:[18,.3,4.5,.05,.6],trout:[42,6.2,0,1.7,0],sardines:[59,7,0,3.3,0],
+ mahi:[386,84,0,3.2,0],prosciutto:[70,8,0,4,0],manchego:[120,7,.5,10,0],crispbread:[100,3.5,9,5.5,3],olives:[40,.2,1.6,4,.9],
+ dolmas:[50,1,6,2.5,1],grapes:[19,.2,5.1,.05,.25],kale:[10,.8,1.7,.3,.8],tempeh:[50,5,3.5,2.3,1.5],farro:[700,25,140,4,21],
+ wildblue:[16,.2,4,.1,1.4],corntort:[50,1.3,10.5,.7,1.4],kimchi:[4.5,.3,.7,.1,.5],beets:[12,.5,2.8,0,.6],artichoke:[26,.6,1.7,2,.8],
+ saladkit:[50,1,4.3,3.3,1],hbegg:[72,6.3,.4,4.8,0],cookedshrimp:[450,109,0,1.4,0],redonion:[44,1.2,10,.1,1.9],asparagus:[91,10,18,.5,9.5]
+};
+/* Per adult portion: {kcal, p, c, f, fib, net}. */
+function macro(r){
+  const t=[0,0,0,0,0];
+  for(const k in r.ing){const n=NUTR[k]; if(n) for(let i=0;i<5;i++) t[i]+=n[i]*r.ing[k];}
+  if(r.st.some(x=>/olive oil/i.test(x))){t[0]+=40; t[3]+=4.5;}
+  const [kcal,p,c,f,fib]=t.map(x=>Math.round(x));
+  return {kcal,p,c,f,fib,net:Math.max(0,c-fib)};
+}
+/* High protein: at least 25 g and at least 30% of calories from protein. Keto friendly: 12 g net carbs or fewer. */
+const isHighProtein=r=>{const m=macro(r); return m.p>=25&&m.p*4>=m.kcal*.3;};
+const isKeto=r=>macro(r).net<=12&&r.meal!=="sip";
 /* ---------- rotisserie chicken in place of raw ----------
    With the Family setting on (the default) and Costco in the mix, these recipes use shredded
    rotisserie chicken instead of raw chicken. Each entry replaces the step containing the
@@ -1361,7 +1442,7 @@ const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<M
 const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
 const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
 const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",rotis:true,stock:{},chef:true,prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",rotis:true,stock:{},chef:true,style:"balanced",prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),snacks:Array(7).fill(null),desserts:Array(7).fill(null),sips:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -1372,7 +1453,7 @@ function normalize(d){
   s.kidPortion=own(KID_PORTIONS,d.kidPortion)&&Number.isInteger(d.kidPortion)?d.kidPortion:25;
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,m==="p"?3:2);
-  s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air"; s.rotis=d.rotis!==false; s.chef=d.chef!==false;
+  s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air"; s.rotis=d.rotis!==false; s.chef=d.chef!==false; s.style=["balanced","protein","keto"].includes(d.style)?d.style:"balanced";
   s.stock={}; if(d.stock&&typeof d.stock==="object") for(const k of Object.keys(d.stock)) if(own(I,k)&&d.stock[k]===true) s.stock[k]=true;
   s.life={}; if(d.life&&typeof d.life==="object") for(const k of Object.keys(d.life)){if(own(I,k)&&I[k].life!=null){const v=int(d.life[k],1,60,I[k].life); if(v!==I[k].life) s.life[k]=v;}}
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
@@ -1523,6 +1604,7 @@ function pickMeals(m,n,chosen,bonus){
       if(seen[r.id]) s-=tw("repeat")*REPEAT_COST[m]*seen[r.id];
       for(const k in r.ing){const ww=wasteW(k); if(ww){const had=T[k]||0; s-=1.2*tw("waste")*ww*(leftPacks(k,had+r.ing[k]*P())-leftPacks(k,had));}}
       if(m==="s"&&S.chef&&r.tags.includes("Little chef")) s+=1.2;
+      if(m==="b"||m==="l"||m==="d"){ if(S.style==="protein"){ if(isHighProtein(r)) s+=2; else if(macro(r).p<15) s-=.8; } if(S.style==="keto"){ if(isKeto(r)) s+=1.5; else if(macro(r).net>30) s-=1; } }
       if(bonus) s+=bonus(r,i);
       return [s,r];}).sort((p,q)=>q[0]-p[0]);
     const r=sc[0][1]; out.push(r); seen[r.id]=(seen[r.id]||0)+1; chosen.push(r);
@@ -1586,6 +1668,11 @@ const THEMES=[
  {k:"world",name:"Around the world",desc:"A week from one country's kitchen, or a different country each night."}
 ];
 const PRESETS=[
+ {id:"lowcarb",theme:"health",name:"High protein, low carb",desc:"Lean protein at every meal with very few carbs: egg muffins, tuna avocado boats, salmon burger salads, turkey lettuce cups, parmesan chicken, salmon with asparagus and shrimp two ways.",
+  b:["broccoli-egg-muffins","broccoli-egg-muffins","egg-cups","menemen-eggs","egg-cups"],
+  l:["tuna-avocado-boats","greek-chicken-salad","salmon-burger-salad","salmon-burger-salad","tuna-avocado-boats"],
+  d:["parm-chicken-broccoli","salmon-asparagus-lowcarb","turkey-taco-lettuce","shrimp-cauli-fried-rice","shrimp-mango-salad"],
+  s:["hb-eggs","shrimp-cocktail-snack","hb-eggs"]},
  {id:"fingerfood",theme:"everyday",name:"Little hands week",desc:"Meals your daughter can pick up herself: pancakes, egg muffins, salmon cakes, bean patties, frittata and chicken strips.",
   b:["carrot-cake-oats","apple-baked-oats","egg-cups","banana-pancakes","broccoli-egg-muffins"],
   l:["salmon-salad-wraps","egg-avocado-wraps","sweetpot-bean-quesadillas","egg-avocado-wraps","salmon-salad-wraps"],
@@ -1745,7 +1832,9 @@ function stepper(id,label,val,act,extra){
 /* Amounts, pantry, toddler note and steps for one recipe; mult is 2 for a doubled dinner. */
 function recipeBody(r,mult){
   const ings=Object.keys(r.ing).map(k=>`<li><span>${nm(k)}</span><b>${fq(r.ing[k]*P()*mult,I[k].u)}</b></li>`).join("");
-  return `<p class="meta" style="margin:8px 0 0">Amounts for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}${mult>1?", cooked double":""}.</p>
+  const mc=macro(r);
+  return `<p class="macro"><b>${mc.kcal} kcal</b> per adult portion · ${mc.p} g protein · ${mc.c} g carbs (${mc.net} g net) · ${mc.f} g fat · ${mc.fib} g fiber<br><span class="meta">Estimates from USDA values, not counting most pantry items.</span></p>
+        <p class="meta" style="margin:8px 0 0">Amounts for ${S.adults} adult${S.adults>1?"s":""}${S.kids?` and ${S.kids} little one${S.kids>1?"s":""}`:""}${mult>1?", cooked double":""}.</p>
         <ul class="ing">${ings}</ul>${r.st.length?`<p class="meta">From your pantry: ${r.st.join(", ")}.</p>`:""}
         ${r.useRot?`<p class="meta" style="margin:0">Made with rotisserie chicken.</p>`:""}
         ${S.kids?`<p class="kid"><b>For your little one:</b> ${r.kid}${r.useRot?" Rotisserie chicken is salted, so give her breast meat without skin.":""}</p>`:""}
@@ -1850,6 +1939,11 @@ function viewProfile(){
       <div class="field">Chicken<div class="choices three" role="group" aria-label="Chicken" style="grid-template-columns:repeat(2,1fr)">${[[true,"Rotisserie when it works"],[false,"Raw"]].map(([v,l])=>`<button class="choice" id="rotis-${v?"on":"off"}" data-act="rotis" data-v="${v}" aria-pressed="${S.rotis===v}"><b>${l}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">Bowls, salads, wraps, soups and stir-fries use shredded Costco rotisserie chicken instead of raw. Recipes stay on raw chicken when you shop only at Trader Joe's.</span></div>
     </div>
     <div class="card stack">
+      <h3>Eating style</h3>
+      <div class="choices three" role="group" aria-label="Eating style">${[["balanced","Balanced"],["protein","High protein"],["keto","Keto friendly"]].map(([v,l])=>`<button class="choice" id="style-${v}" data-act="style" data-v="${v}" aria-pressed="${S.style===v}"><b>${l}</b></button>`).join("")}</div>
+      <span class="meta">High protein favors meals with at least 25 g of protein per adult portion. Keto friendly favors meals with 12 g of net carbs or fewer. Recipe cards show calories and macros either way.</span>
+    </div>
+    <div class="card stack">
       <h3>Play kitchen and keep-stocked items</h3>
       <div class="field">Little chef snacks<div class="choices three" role="group" aria-label="Little chef snacks" style="grid-template-columns:repeat(2,1fr)">${[[true,"Favor them"],[false,"No preference"]].map(([v,l])=>`<button class="choice" id="chef-${v?"on":"off"}" data-act="chef" data-v="${v}" aria-pressed="${S.chef===v}"><b>${l}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">When you plan snacks, the planner leans toward ones she can help make at her play kitchen.</span></div>
       <div class="field">Always on the shopping list
@@ -1939,9 +2033,9 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["chef","Little chef"],["dozen","Daily Dozen"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["chef","Little chef"],["protein","High protein"],["keto","Keto friendly"],["dozen","Daily Dozen"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="chef"&&r.tags.includes("Little chef"))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="chef"&&r.tags.includes("Little chef"))||(filter==="protein"&&isHighProtein(r))||(filter==="keto"&&isKeto(r))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
   const inCuisine=r=>cuisine==="all"||r.tags.includes(cuisine);
   const shown=R.filter(r=>avail(r)&&match(r)&&inCuisine(r)).sort((a,b)=>RORDER[a.id]-RORDER[b.id]), hidden=R.filter(r=>!avail(r)&&match(r)&&inCuisine(r)).length;
   const cards=shown.map(r=>{
@@ -1955,7 +2049,7 @@ function viewRecipes(){
     const btns=ms.map(m=>`<button class="btn ${m===pm?"primary":"ghost"}" id="add-${m}-${r.id}" data-act="add" data-m="${m}" data-id="${r.id}">Add as ${MEALS[m].lbl.toLowerCase()}</button>`).join("");
     const hay=(r.n+" "+r.tags.join(" ")+" "+Object.keys(r.ing).map(k=>I[k].s).join(" ")).toLowerCase();
     return `<article class="card recipe" data-name="${hay.replace(/"/g,"")}" ${hay.includes(rsearch.toLowerCase())?"":"hidden"}>
-      <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${r.tags.filter(t=>t!=="Bowl or salad").map(t=>chip("plain",t)).join("")}</div></div><div class="time">${r.t}<small>min</small></div></div>
+      <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${isHighProtein(r)?chip("fresh","High protein"):""}${isKeto(r)?chip("fresh","Keto friendly"):""}${r.tags.filter(t=>t!=="Bowl or salad").map(t=>chip("plain",t)).join("")}</div><div class="meta">${macro(r).kcal} kcal · ${macro(r).p} g protein · ${macro(r).net} g net carbs</div></div><div class="time">${r.t}<small>min</small></div></div>
       <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps</summary>
         ${recipeBody(r,1)}</details>
       <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
@@ -2152,6 +2246,7 @@ function act(el,ev){
   else if(a==="cook"){S.cook=el.dataset.v;}
   else if(a==="rotis"){S.rotis=el.dataset.v==="true";}
   else if(a==="chef"){S.chef=el.dataset.v==="true";}
+  else if(a==="style"){S.style=el.dataset.v;}
   else if(a==="stock"){if(ev.type!=="change"||!el.value) return; S.stock[el.value]=true;}
   else if(a==="unstock"){delete S.stock[el.dataset.id];}
   else if(a==="stock-basics"){for(const k of ["banana","blueberry","yogurt","avocado","cucumber","hummus","pita","cheese","oats"]) S.stock[k]=true; toast("Play kitchen basics added");}
