@@ -1239,6 +1239,18 @@ R.push(
   kid:"Chop her shrimp small and peel the cucumber.",
   steps:["Thaw the cooked shrimp in cold water for 10 minutes.","Stir lemon and dill into the yogurt.","Serve the shrimp and cucumber with the dip."]}
 );
+/* ---------- stroganoff ---------- */
+Object.assign(I,{
+ sirloin:{s:"sirloin steak",u:"lb",cat:"Meat & fish",role:"protein",life:3,fz:1,keep:"3 to 5 days in the fridge. 6 months frozen.",left:"Slice the rest into strips and freeze them flat for the next stir-fry or stroganoff.",c:{n:"Top sirloin steak",pack:"pack, about 3.5 lb",q:3.5},t:{n:"Sirloin steak",pack:"about 1 lb",q:1}}
+});
+R.push(
+ {id:"beef-stroganoff",n:"Beef stroganoff with mushrooms and Greek yogurt",meal:"dinner",t:30,tags:["Lean protein","Freezes well"],ing:{sirloin:.3,mushroom:4,onion:.3,stock:.5,yogurt:2,pasta:2.5,spinach:1},st:["extra virgin olive oil","garlic","smoked paprika","Dijon mustard","fresh parsley"],
+  kid:"Cut her beef into tiny pieces or shred it, chop the mushrooms fine and cut the noodles short. Boxed broth is salted, so take her portion before any salt.",
+  steps:["Boil the egg noodles or pasta.","Sear thin strips of sirloin in a hot pan with a little oil for 2 minutes, then set aside.","Cook the sliced mushrooms, onion and garlic for 8 minutes, then add the paprika and broth and simmer 3 minutes.","Off the heat, stir in the yogurt and mustard, return the beef and wilt in the spinach. Serve over the noodles with parsley."]},
+ {id:"chicken-stroganoff",n:"Chicken stroganoff with mushrooms and Greek yogurt",meal:"dinner",t:30,tags:["Lean protein","Freezes well"],ing:{cb:.35,mushroom:4,onion:.3,stock:.5,yogurt:2,pasta:2.5,spinach:1},st:["extra virgin olive oil","garlic","smoked paprika","Dijon mustard","fresh parsley"],
+  kid:"Shred her chicken finely, chop the mushrooms fine and cut the noodles short. Take her portion before any salt.",
+  steps:["Boil the egg noodles or pasta.","Brown thin strips of chicken in a little oil for 6 minutes, until cooked through, then set aside.","Cook the sliced mushrooms, onion and garlic for 8 minutes, then add the paprika and broth and simmer 3 minutes.","Off the heat, stir in the yogurt and mustard, return the chicken and wilt in the spinach. Serve over the noodles with parsley."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1324,7 +1336,7 @@ const stepsFor=r=>{const air=S.cook==="air";
    per cup dry, beans per drained can, rotisserie per chicken of skinless meat. A recipe that uses
    olive oil adds one teaspoon per portion; other pantry items are not counted. */
 const NUTR={
- cb:[545,102,0,12,0],cansalmon:[190,33,0,6,0],edamame:[34,3.3,2.5,1.4,1.4],walnut:[185,4.3,3.9,18.5,1.9],cucumber:[4,.2,1,0,.1],
+ cb:[545,102,0,12,0],sirloin:[650,100,0,25,0],cansalmon:[190,33,0,6,0],edamame:[34,3.3,2.5,1.4,1.4],walnut:[185,4.3,3.9,18.5,1.9],cucumber:[4,.2,1,0,.1],
  hummus:[47,2.2,4,2.7,1.7],chx:[550,90,0,18.6,0],salmon:[944,90,0,61,0],turkey:[680,86,0,36,0],rotis:[990,150,0,40,0],
  shrimp:[386,91,0,2.3,0],eggs:[72,6.3,.4,4.8,0],tofu:[476,52,10,28,4],yogurt:[21,2.8,1.1,.55,0],cheese:[110,7,1,9,0],
  spinach:[6.5,.8,1,.1,.6],broccoli:[9.5,.8,1.9,.1,.7],sweetpot:[390,7,91,.5,14],pepper:[37,1.2,7,.4,2.5],avocado:[240,3,13,22,10],
@@ -1361,6 +1373,7 @@ const isKeto=r=>macro(r).net<=12&&r.meal!=="sip";
    raw chicken per portion becomes about a quarter of a rotisserie chicken. */
 const SHRED="shredded rotisserie chicken, skin off";
 const ROT={
+ "chicken-stroganoff":[["Brown thin strips of chicken","Shred rotisserie chicken, skin off."]],
  "turmeric-chicken-bowl":[["Toss sliced chicken","Toss "+SHRED+", with oil, turmeric, pepper, ginger and garlic and warm it in a pan for 3 minutes."],["Add the chicken and broccoli","Add the broccoli to the tray and roast 12 to 15 minutes.","Air fry the broccoli at 380°F for 6 to 8 minutes."]],
  "chicken-berry-salad":[["Sear the chicken","Shred rotisserie chicken, skin off."]],
  "hummus-chicken-bowl":[["Rub the chicken","Cook the quinoa. Warm "+SHRED+", with oil, oregano and garlic for 2 minutes."],["Sear the chicken",null]],
@@ -1572,7 +1585,7 @@ function orderByFreshness(){
 const protGroup=r=>{const k=Object.keys(r.ing);
   if(["salmon","cansalmon","tuna","cod","sockeye","salmonburger","trout","sardines","mahi"].some(x=>k.includes(x))) return "fish";
   if(k.includes("shrimp")||k.includes("cookedshrimp")) return "shrimp"; if(k.includes("turkey")||k.includes("turkeyburger")) return "turkey";
-  if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")||k.includes("rotis")) return "chicken"; if(k.includes("prosciutto")) return "other"; if(k.includes("carneasada")) return "beef"; if(k.includes("eggs")) return "egg";
+  if(k.includes("chx")||k.includes("cb")||k.includes("chxmar")||k.includes("rotis")) return "chicken"; if(k.includes("prosciutto")) return "other"; if(k.includes("carneasada")||k.includes("sirloin")) return "beef"; if(k.includes("eggs")) return "egg";
   if(k.some(x=>I[x].role==="legume")||k.includes("tofu")) return "plant"; return "other";};
 /* Food waste. Leftover fresh food that spoils within two weeks counts as waste, measured in
    packs; freezable items count about a third, since the rest can go in the freezer. */
