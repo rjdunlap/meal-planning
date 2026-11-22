@@ -1060,7 +1060,7 @@ R.push(
   Italian:["pesto-pasta","turkey-meatballs","pesto-salmon","mushroom-bolognese","veggie-frittata","tomato-bread-tapas"],
   Greek:["greek-chicken","tzatziki-chicken-bowl","chickpea-feta-salad","med-chickpea-salad","feta-olive-bites","mezze-plate"]};
  for(const c in T) for(const id of T[c]){const r=R.find(x=>x.id===id); if(r&&!r.tags.includes(c)) r.tags.push(c);}}
-const CUISINES=["Chinese","Greek","Indian","Italian","Japanese","Korean","Lebanese","Mexican","Moroccan","Portuguese","Thai","Vietnamese"];
+const CUISINES=["Brazilian","Caribbean","Chinese","Cuban","Ethiopian","Filipino","Greek","Hawaiian","Indian","Italian","Japanese","Korean","Lebanese","Mexican","Moroccan","Persian","Peruvian","Portuguese","Spanish","Thai","Turkish","Vietnamese"];
 /* ---------- more family dishes ---------- */
 R.push(
  {id:"riz-a-djej",n:"Riz a djej: Lebanese spiced chicken and rice",meal:"dinner",t:45,tags:["One pot","Freezes well","Lebanese"],ing:{chx:.35,rice:.4,onion:.2,stock:.75,walnut:.15},st:["cinnamon","ground allspice","garlic","extra virgin olive oil","fresh parsley"],
@@ -1251,6 +1251,54 @@ R.push(
   kid:"Shred her chicken finely, chop the mushrooms fine and cut the noodles short. Take her portion before any salt.",
   steps:["Boil the egg noodles or pasta.","Brown thin strips of chicken in a little oil for 6 minutes, until cooked through, then set aside.","Cook the sliced mushrooms, onion and garlic for 8 minutes, then add the paprika and broth and simmer 3 minutes.","Off the heat, stir in the yogurt and mustard, return the chicken and wilt in the spinach. Serve over the noodles with parsley."]}
 );
+/* ---------- more world kitchens and diets ---------- */
+R.push(
+ {id:"jerk-chicken",n:"Jerk chicken with coconut rice and black beans and mango salsa",meal:"dinner",t:35,tags:["Caribbean"],ing:{chx:.4,rice:.33,beans:.25,coconut:.15,mango:1.5,lemon:.2},st:["jerk seasoning (allspice, thyme, garlic, ginger)","scotch bonnet or hot sauce, optional","fresh cilantro"],
+  kid:"Rub her piece with allspice, thyme and garlic only, before any hot pepper. Shred it finely, mash the beans into the soft rice and cut the mango into thin strips.",
+  steps:["Cook the rice in water with the coconut milk, then stir in the rinsed beans.","Rub the chicken with the jerk spices. Set her piece aside, then add hot pepper to the rest.","Roast at 425°F for 20 to 22 minutes, to 165°F.","Dice the mango with lime and cilantro and spoon over."]},
+ {id:"misir-wat",n:"Misir wat: Ethiopian spiced red lentil stew with greens",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","Freezes well","One pot","Ethiopian"],ing:{lentil:.5,onion:.3,dicedtom:.25,spinach:2,rice:.25},st:["berbere spice","garlic","fresh ginger","extra virgin olive oil"],
+  kid:"Berbere is hot, so take her lentils out before it goes in and mash them with the greens and rice.",
+  steps:["Cook the finely chopped onion slowly in a little oil for 10 minutes until soft and sweet.","Add garlic, ginger, tomatoes and the lentils with water and simmer 10 minutes. Take out her portion.","Stir berbere into the rest and simmer 5 minutes.","Wilt the greens with garlic and serve with rice."]},
+ {id:"chicken-adobo",n:"Chicken adobo with green beans and rice",meal:"dinner",t:40,tags:["One pot","Filipino"],ing:{chx:.4,rice:.33,onion:.2,greenbeans:3},st:["low-sodium soy sauce","apple cider or cane vinegar","garlic","bay leaves","whole black peppercorns"],
+  kid:"Simmer her chicken in the vinegar, garlic and bay before adding the soy sauce, then shred it finely and serve with soft green beans and rice.",
+  steps:["Start the rice. Simmer the chicken with vinegar, garlic, bay leaves, peppercorns, onion and a cup of water, covered, for 20 minutes.","Take out her portion, then add a splash of soy sauce and simmer uncovered until the sauce reduces.","Add the green beans for the last 5 minutes."]},
+ {id:"salmon-poke-bowl",n:"Poke-style bowl with seared salmon, mango and avocado",meal:"dinner",t:20,tags:["Bowl or salad","Omega-3","Hawaiian"],ing:{salmon:.35,rice:.33,cucumber:2,edamame:1.5,avocado:.3,mango:1},st:["low-sodium soy sauce","sesame oil","rice vinegar","sesame seeds","scallions"],
+  kid:"Cook her salmon through, flake it and check for bones. Squash the edamame and take her bowl out before the soy sauce.",
+  steps:["Start the rice and season it with a little rice vinegar.","Sear cubes of salmon in a hot pan for 3 to 4 minutes until just cooked.","Build bowls with rice, salmon, cucumber, edamame, avocado and mango.","Dress the adult bowls with soy sauce, sesame oil and sesame seeds."]},
+ {id:"lomo-saltado",n:"Lomo saltado: Peruvian beef stir-fry with tomatoes and potatoes",meal:"dinner",t:30,tags:["Peruvian"],ing:{sirloin:.3,onion:.3,tomato:3,potato:.3,rice:.25},st:["low-sodium soy sauce","red wine vinegar","ground cumin","garlic","fresh cilantro"],
+  kid:"Cut her beef into tiny pieces and take her portion out before the soy sauce. Mash her potatoes.",
+  steps:["Roast potato wedges at 425°F for 25 minutes. Start the rice.","Sear thin strips of sirloin in a very hot pan for 2 minutes and set aside.","Stir-fry the onion wedges and tomatoes with garlic and cumin for 3 minutes, then return the beef.","Take out her portion, then add soy sauce and vinegar. Toss with the potatoes and cilantro."]},
+ {id:"paella",n:"Shrimp and chicken paella with peppers and peas",meal:"dinner",t:45,tags:["One pot","Spanish"],ing:{shrimp:.2,chx:.2,rice:.33,pepper:.4,dicedtom:.25,mixveg:2,stock:.75,lemon:.2},st:["smoked paprika","saffron, optional","garlic","extra virgin olive oil"],
+  kid:"Chop her shrimp and chicken small and thin her rice with a little water, since boxed broth is salted.",
+  steps:["Brown the chicken pieces in olive oil, then the peppers and garlic.","Stir in the rice, paprika, saffron, tomatoes and broth, and simmer without stirring until the rice is nearly tender.","Tuck in the thawed shrimp and frozen peas and carrots, cover and cook 5 minutes.","Serve with lemon wedges."]},
+ {id:"cilbir",n:"Çılbır: Turkish eggs on garlic yogurt with paprika oil",meal:"breakfast",t:15,tags:["Vegetarian","Turkish"],ing:{eggs:2,yogurt:3,pita:.5},st:["garlic","smoked paprika","extra virgin olive oil","fresh dill"],
+  kid:"Cook her egg through rather than poached soft, skip the raw garlic in her yogurt, and give her soft pita strips.",
+  steps:["Stir a little grated garlic into the yogurt and spread it on plates.","Poach or fry the eggs and lay them on top.","Warm olive oil with paprika and drizzle over, with dill and warm pita."]},
+ {id:"kuku-sabzi",n:"Kuku sabzi: Persian herb and spinach frittata",meal:"breakfast",t:25,tags:["Vegetarian","Make ahead","Persian"],ing:{eggs:2.5,spinach:2,walnut:.2,yogurt:1},st:["fresh parsley, cilantro and dill","ground turmeric","extra virgin olive oil"],
+  kid:"Cook it all the way through, cut her slice into strips and leave the walnuts out of her part or grind them fine.",
+  steps:["Chop the spinach and plenty of herbs very fine.","Beat the eggs with turmeric, then stir in the greens and chopped walnuts.","Cook in an oiled pan, covered, over low heat for 15 minutes until set, then flip or finish under the broiler.","Serve warm or cold with yogurt."]},
+ {id:"cuban-black-beans",n:"Cuban black beans and rice with peppers and avocado",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","One pot","Freezes well","Cuban"],ing:{beans:.5,rice:.33,pepper:.4,onion:.25,avocado:.25,lemon:.15},st:["ground cumin","dried oregano","bay leaves","garlic","extra virgin olive oil"],
+  kid:"Rinse the beans to cut the salt and mash hers with the rice and avocado.",
+  steps:["Start the rice. Soften the onion, pepper and garlic in a little oil (the sofrito).","Add the rinsed beans, cumin, oregano, bay and a cup of water and simmer 15 minutes, mashing some beans to thicken.","Serve over rice with avocado and lime."]},
+ {id:"ropa-vieja",n:"Ropa vieja: Cuban shredded beef with peppers and tomato",meal:"dinner",t:45,tags:["Freezes well","Cuban"],ing:{sirloin:.3,pepper:.5,onion:.3,dicedtom:.4,rice:.33,olives:.2},st:["ground cumin","dried oregano","garlic","bay leaves"],
+  kid:"Shred her beef very finely into the soft peppers and tomato, chop the olives small or skip them.",
+  steps:["Start the rice. Brown the sirloin pieces, then add the onion, peppers and garlic.","Add the tomatoes, cumin, oregano, bay and a cup of water, cover and simmer 30 minutes until the beef is tender.","Shred the beef with two forks and stir in the olives."]},
+ {id:"moqueca",n:"Moqueca: Brazilian coconut fish stew with peppers",meal:"dinner",t:30,tags:["One pot","Freezer meal","Brazilian"],ing:{cod:.4,coconut:.25,pepper:.4,onion:.25,dicedtom:.3,rice:.33,lemon:.2},st:["garlic","smoked paprika","fresh cilantro","extra virgin olive oil"],
+  kid:"Flake her fish, check for bones and serve with plenty of rice. The coconut broth is mild.",
+  steps:["Start the rice. Soften the onion, peppers and garlic in a little oil.","Add the tomatoes, paprika and coconut milk and simmer 5 minutes.","Lay the thawed cod in the sauce, squeeze over lime, cover and cook 8 minutes until it flakes.","Finish with cilantro."]},
+ {id:"tahini-buddha-bowl",n:"Vegan Buddha bowl with chickpeas, sweet potato, kale and tahini",meal:"dinner",t:30,tags:["Bowl or salad","Plant-based","Vegetarian","Daily Dozen"],ing:{chickpea:.4,sweetpot:.35,quinoa:.25,kale:2,lemon:.25,avocado:.25},st:["tahini","garlic","ground cumin","smoked paprika"],
+  kid:"Squash the chickpeas, mash the sweet potato and chop the kale very fine after it wilts.",
+  steps:["Cook the quinoa. Roast cubed sweet potato and chickpeas with cumin and paprika at 425°F for 25 minutes.","Massage the kale with lemon.","Whisk tahini with lemon, garlic and water into a pourable sauce.","Build bowls and drizzle with the sauce."]},
+ {id:"turkey-sweetpot-hash",n:"Turkey, sweet potato and egg breakfast hash",meal:"breakfast",t:20,tags:["Lean protein"],ing:{turkey:.2,sweetpot:.3,spinach:1.5,pepper:.3,eggs:1},st:["extra virgin olive oil","smoked paprika","garlic"],
+  kid:"Dice her sweet potato small and soft, crumble the turkey fine and cook the egg through. Take her portion out before the paprika.",
+  steps:["Microwave the diced sweet potato for 4 minutes to soften.","Brown the turkey and sweet potato in a little oil with garlic for 8 minutes.","Add the pepper and spinach, then make wells and cook the eggs until set."]},
+ {id:"palak-tofu",n:"Palak tofu: creamy spinach curry with tofu",meal:"dinner",t:30,tags:["Plant-based","Vegetarian","Indian"],ing:{tofu:.35,spinach:4,onion:.25,dicedtom:.2,coconut:.1,rice:.33},st:["garam masala","ground cumin","fresh ginger","garlic"],
+  kid:"Cut her tofu into small soft cubes; the blended spinach sauce is smooth and mild.",
+  steps:["Start the rice. Soften the onion, ginger and garlic, then add the spices and tomatoes.","Add the spinach and a splash of water, wilt, then blend with the coconut milk until smooth.","Add the cubed tofu and simmer 5 minutes."]},
+ {id:"korean-beef-bowl",n:"Korean-style beef bowl with cucumber, carrot and spinach",meal:"dinner",t:25,tags:["Bowl or salad","Lean protein","Korean"],ing:{sirloin:.3,rice:.33,cucumber:2,carrot:.15,spinach:1.5},st:["low-sodium soy sauce","garlic","fresh ginger","sesame oil","gochugaru, optional"],
+  kid:"Cut her beef into tiny pieces before the soy sauce and pepper flakes, and serve with soft spinach and cooked carrot.",
+  steps:["Start the rice. Sear thin sirloin strips with garlic and ginger for 2 minutes.","Take out her portion, then add soy sauce and gochugaru to the rest.","Wilt the spinach and shred the carrot and cucumber.","Build bowls and finish with sesame oil."]}
+);
 const RX=Object.fromEntries(R.map(r=>[r.id,r]));
 /* ---------- air fryer steps ----------
    For families who cook with an air fryer (Family setting, the default), these replace the oven
@@ -1302,6 +1350,9 @@ const AFX={
  "cod-pesto-greenbeans":[["Bake at 425°F","Air fry at 390°F for 8 to 10 minutes."]],
  "parm-chicken-broccoli":[["Roast with the broccoli","Air fry the chicken at 380°F for 14 to 16 minutes, to 165°F, then the broccoli for 6 to 8 minutes."]],
  "turkey-burger-lettuce-wraps":[["Cook the burgers from frozen","Air fry the burgers from frozen at 380°F for 12 to 15 minutes, to 165°F."]],
+ "jerk-chicken":[["Roast at 425°F","Air fry at 380°F for 18 to 20 minutes, to 165°F."]],
+ "lomo-saltado":[["Roast potato wedges","Air fry potato wedges at 400°F for 18 to 20 minutes. Start the rice."]],
+ "tahini-buddha-bowl":[["Roast cubed sweet potato","Cook the quinoa. Air fry cubed sweet potato and chickpeas with cumin and paprika at 390°F for 15 to 18 minutes."]],
  "salmon-traybake":[["Roast 3/4-inch sweet potato","Air fry 3/4-inch sweet potato cubes with oil and paprika at 400°F for 12 minutes."],["Push them aside","Push them to one side, add the salmon and air fry 8 to 10 minutes more."]],
  "sheetpan-chicken":[["Toss sweet potato cubes","Toss sweet potato cubes with oil and air fry at 400°F for 12 minutes, then set aside."],["Add the chicken thighs","Air fry the chicken thighs, rubbed with paprika and garlic, at 380°F for 18 to 20 minutes, to 165°F."],["Add the broccoli","Air fry the broccoli for 6 to 8 minutes, then add the sweet potatoes back for 2 minutes to warm through."]],
  "turkey-meatballs":[["Roll into small balls","Roll into small balls and air fry at 375°F for 9 to 11 minutes, to 165°F."]],
@@ -1366,6 +1417,31 @@ function macro(r){
 /* High protein: at least 25 g and at least 30% of calories from protein. Keto friendly: 12 g net carbs or fewer. */
 const isHighProtein=r=>{const m=macro(r); return m.p>=25&&m.p*4>=m.kcal*.3;};
 const isKeto=r=>macro(r).net<=12&&r.meal!=="sip";
+/* ---------- diets ----------
+   Worked out from each recipe's ingredients and pantry list. Gluten free counts soy sauce, chili
+   bean paste and gochujang as gluten (use tamari to make those dishes gluten free); oats count as
+   gluten free if you buy certified gluten-free oats. Chicken stock counts as meat. */
+const MEAT=["cb","chx","turkey","rotis","sirloin","carneasada","chxmar","prosciutto","turkeyburger","stock"];
+const FISH=["salmon","cansalmon","tuna","cod","sockeye","salmonburger","trout","sardines","mahi","shrimp","cookedshrimp"];
+const EGG=["eggs","hbegg"], DAIRY=["yogurt","cheese","feta","tzatziki","manchego","pesto"];
+const GLUTEN=["pasta","pita","tortilla","crispbread","farro"];
+const MED=["Greek","Lebanese","Italian","Portuguese","Spanish","Turkish","Moroccan"];
+const hasAny=(r,ks)=>Object.keys(r.ing).some(k=>ks.includes(k));
+const stHas=(r,re)=>r.st.some(x=>re.test(x));
+const DIETS={
+ vegan:{n:"Vegan",ok:r=>!hasAny(r,[...MEAT,...FISH,...EGG,...DAIRY])&&!stHas(r,/fish sauce|milk|butter|honey|anchov/i)},
+ vegetarian:{n:"Vegetarian",ok:r=>!hasAny(r,[...MEAT,...FISH])&&!stHas(r,/fish sauce|anchov/i)},
+ pescatarian:{n:"Pescatarian",ok:r=>!hasAny(r,MEAT)},
+ glutenfree:{n:"Gluten free",ok:r=>!hasAny(r,GLUTEN)&&!stHas(r,/soy sauce|chili bean paste|gochujang|baking powder/i)},
+ dairyfree:{n:"Dairy free",ok:r=>!hasAny(r,DAIRY)&&!stHas(r,/milk$|^milk|butter|parmesan|cheese/i)},
+ protein:{n:"High protein",ok:r=>isHighProtein(r)},
+ keto:{n:"Keto friendly",ok:r=>isKeto(r)},
+ med:{n:"Mediterranean",ok:r=>r.tags.some(t=>MED.includes(t))},
+ dozen:{n:"Daily Dozen",ok:r=>r.tags.includes("Daily Dozen")}
+};
+/* Family diet needs the planner must respect. */
+const NEEDS=["vegetarian","pescatarian","glutenfree","dairyfree"];
+const dietOK=r=>(S.needs||[]).every(d=>DIETS[d].ok(r));
 /* ---------- rotisserie chicken in place of raw ----------
    With the Family setting on (the default) and Costco in the mix, these recipes use shredded
    rotisserie chicken instead of raw chicken. Each entry replaces the step containing the
@@ -1455,7 +1531,7 @@ const levelOf=(t,v)=>{let bi=0; LV_MULT.forEach((m,i)=>{if(Math.abs(v-t.def*m)<M
 const fromSlider=(t,x)=>t.lv?+(t.def*LV_MULT[x]).toFixed(4):x;
 const sliderVal=t=>t.lv?levelOf(t,tw(t.k)):tw(t.k);
 const tuneFmt=(t,v)=>t.lv?LEVELS[levelOf(t,v)]:t.u==="%"?v+"%":`${v} ${t.u}`;
-function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",rotis:true,stock:{},chef:true,style:"balanced",prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
+function starter(){return {v:3,adults:2,kids:1,kidPortion:25,rep:{b:2,l:2,d:2,s:2,e:2,p:3},life:{},cook:"air",rotis:true,stock:{},chef:true,style:"balanced",needs:[],prepDays:62,tune:{},setup:false,shopDay:6,store:"both",src:{},nb:7,nl:5,nd:5,ns:0,ne:0,np:0,
   bf:Array(7).fill(null),lunches:Array(7).fill(null),dinners:Array(7).fill(null),snacks:Array(7).fill(null),desserts:Array(7).fill(null),sips:Array(7).fill(null),checked:{},edited:false};}
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 function normalize(d){
@@ -1467,6 +1543,7 @@ function normalize(d){
   const r0=d.rep&&typeof d.rep==="object"?d.rep:OLD_REPEATS[d.repeats]||{};
   for(const m of MK) s.rep[m]=int(r0[m],1,REP_MAX,m==="p"?3:2);
   s.prepDays=int(d.prepDays,0,127,62); s.cook=d.cook==="oven"?"oven":"air"; s.rotis=d.rotis!==false; s.chef=d.chef!==false; s.style=["balanced","protein","keto"].includes(d.style)?d.style:"balanced";
+  s.needs=Array.isArray(d.needs)?[...new Set(d.needs.filter(x=>["vegetarian","pescatarian","glutenfree","dairyfree"].includes(x)))]:[];
   s.stock={}; if(d.stock&&typeof d.stock==="object") for(const k of Object.keys(d.stock)) if(own(I,k)&&d.stock[k]===true) s.stock[k]=true;
   s.life={}; if(d.life&&typeof d.life==="object") for(const k of Object.keys(d.life)){if(own(I,k)&&I[k].life!=null){const v=int(d.life[k],1,60,I[k].life); if(v!==I[k].life) s.life[k]=v;}}
   s.setup=typeof d.setup==="boolean"?d.setup:!!d.edited; /* saves from before the welcome count as set up */
@@ -1484,7 +1561,7 @@ let S=starter();
 try{const raw=localStorage.getItem(KEY); if(raw) S=normalize(JSON.parse(raw));}catch(e){}
 /* The recipe list is shuffled once each time the app opens, so different recipes lead. */
 const RORDER=Object.fromEntries(R.map(r=>[r.id,Math.random()]));
-let filter="all", cuisine="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
+let filter="all", cuisine="all", diet="all", rsearch="", openSet=new Set(), syncMsg="Saved on this device", ref=null, canWrite=true, dirty=false, timer=null, chain=Promise.resolve();
 const arr=m=>S[MEALS[m].arr], cnt=m=>S[MEALS[m].cnt];
 function slots(){const o=[]; for(const m of MK) arr(m).slice(0,cnt(m)).forEach((x,i)=>{if(x) o.push({m,i,x});}); return o;}
 function persist(){
@@ -1598,7 +1675,7 @@ function needOf(rs){const T={}; for(const r of rs) for(const k in r.ing) T[k]=(T
 const REPEAT_COST={b:.6,l:.7,d:.8,s:.5,e:.6,p:.3};
 const maxRepeat=m=>S.rep[m];
 function pickMeals(m,n,chosen,bonus){
-  const pool=R.filter(r=>can[m](r)&&avail(r)), out=[], seen={};
+  const pool=R.filter(r=>can[m](r)&&avail(r)&&dietOK(r)), out=[], seen={};
   for(let i=0;i<n;i++){
     let cand=pool.filter(r=>(seen[r.id]||0)<maxRepeat(m));
     if(!cand.length) cand=pool.slice(); /* fewer recipes than slots: repeat rather than leave a gap */
@@ -1681,6 +1758,10 @@ const THEMES=[
  {k:"world",name:"Around the world",desc:"A week from one country's kitchen, or a different country each night."}
 ];
 const PRESETS=[
+ {id:"vegan",theme:"health",name:"Vegan week",desc:"Fully plant-based: chana masala, misir wat, Cuban black beans, palak tofu and lentil dal, with oats and tofu scramble to start the day.",
+  b:["carrot-cake-oats","balila","tofu-scramble","daily-dozen-oats","chickpea-hash"],
+  l:["black-bean-corn-salad","lentil-dal","sweet-potato-bean-bowl","kale-chickpea-soup","edamame-corn-jar"],
+  d:["chana-masala","misir-wat","cuban-black-beans","palak-tofu","med-chickpea-salad"]},
  {id:"lowcarb",theme:"health",name:"High protein, low carb",desc:"Lean protein at every meal with very few carbs: egg muffins, tuna avocado boats, salmon burger salads, turkey lettuce cups, parmesan chicken, salmon with asparagus and shrimp two ways.",
   b:["broccoli-egg-muffins","broccoli-egg-muffins","egg-cups","menemen-eggs","egg-cups"],
   l:["tuna-avocado-boats","greek-chicken-salad","salmon-burger-salad","salmon-burger-salad","tuna-avocado-boats"],
@@ -1810,7 +1891,7 @@ function loadPreset(id){
     const ids=p[m], used=new Set(ids), a=arr(m); a.fill(null); S[MEALS[m].cnt]=ids.length;
     ids.forEach((rid,i)=>{
       let r=RX[rid];
-      if(!r||!avail(r)){const alt=R.filter(x=>can[m](x)&&avail(x)&&!used.has(x.id)); r=alt.length?alt[Math.floor(Math.random()*alt.length)]:null; if(r) used.add(r.id);}
+      if(!r||!avail(r)||!dietOK(r)){const alt=R.filter(x=>can[m](x)&&avail(x)&&dietOK(x)&&!used.has(x.id)); r=alt.length?alt[Math.floor(Math.random()*alt.length)]:null; if(r) used.add(r.id);}
       if(r) a[i]={r:r.id,double:false};
     });
   }
@@ -1857,7 +1938,7 @@ let openWeek=new Set();
 function mealRow(m,i,x){
   const word=MEALS[m].lbl.toLowerCase(), lab=`<div class="dow">${MEALS[m].short}</div>`;
   if(!x){
-    const opts=R.filter(r=>can[m](r)&&avail(r)).sort((a,b)=>(b.meal===MEALS[m].lbl.toLowerCase())-(a.meal===MEALS[m].lbl.toLowerCase())).map(r=>`<option value="${r.id}">${r.n} (${r.t} min)</option>`).join("");
+    const opts=R.filter(r=>can[m](r)&&avail(r)&&dietOK(r)).sort((a,b)=>(b.meal===MEALS[m].lbl.toLowerCase())-(a.meal===MEALS[m].lbl.toLowerCase())).map(r=>`<option value="${r.id}">${r.n} (${r.t} min)</option>`).join("");
     return `<div class="day">${lab}<div class="body"><label class="meta" for="pick-${m}-${i}">No ${word} planned</label><select id="pick-${m}-${i}" data-act="pick" data-m="${m}" data-day="${i}"><option value="">Pick a ${word}…</option>${opts}</select></div><div></div></div>`;
   }
   const r=RX[x.r], c=dayCheck(r,i); let cls="s-fresh", chips="";
@@ -1954,6 +2035,7 @@ function viewProfile(){
     <div class="card stack">
       <h3>Eating style</h3>
       <div class="choices three" role="group" aria-label="Eating style">${[["balanced","Balanced"],["protein","High protein"],["keto","Keto friendly"]].map(([v,l])=>`<button class="choice" id="style-${v}" data-act="style" data-v="${v}" aria-pressed="${S.style===v}"><b>${l}</b></button>`).join("")}</div>
+      <div class="field">Diet needs<div class="choices" role="group" aria-label="Diet needs" style="grid-template-columns:repeat(2,1fr)">${NEEDS.map(k=>`<button class="choice" id="need-${k}" data-act="need" data-v="${k}" aria-pressed="${S.needs.includes(k)}"><b>${DIETS[k].n}</b></button>`).join("")}</div><span class="meta" style="font-weight:400">The planner and sample weeks only use recipes that fit. Gluten free treats soy sauce as gluten; tamari works instead.</span></div>
       <span class="meta">High protein favors meals with at least 25 g of protein per adult portion. Keto friendly favors meals with 12 g of net carbs or fewer. Recipe cards show calories and macros either way.</span>
     </div>
     <div class="card stack">
@@ -2046,10 +2128,10 @@ function viewWeek(){
   </section>`;
 }
 
-const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["plant","Plant-based"],["veg","Vegetarian"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["chef","Little chef"],["protein","High protein"],["keto","Keto friendly"],["dozen","Daily Dozen"]];
+const FILTERS=[["all","All"],["breakfast","Breakfasts"],["lunch","Lunches"],["dinner","Dinners"],["snack","Snacks"],["dessert","Desserts"],["sip","Sips"],["bowl","Bowls and salads"],["quick","30 min or less"],["freezes","Freezes well"],["shortcut","Shortcuts"],["chef","Little chef"]];
 function viewRecipes(){
-  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="plant"&&r.tags.includes("Plant-based"))||(filter==="veg"&&r.tags.includes("Vegetarian"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="chef"&&r.tags.includes("Little chef"))||(filter==="protein"&&isHighProtein(r))||(filter==="keto"&&isKeto(r))||(filter==="dozen"&&r.tags.includes("Daily Dozen"));
-  const inCuisine=r=>cuisine==="all"||r.tags.includes(cuisine);
+  const match=r=>filter==="all"||(filter==="dinner"&&r.meal==="dinner")||(filter==="snack"&&r.meal==="snack")||(filter==="dessert"&&r.meal==="dessert")||(filter==="sip"&&r.meal==="sip")||(filter==="lunch"&&canL(r))||(filter==="breakfast"&&r.meal==="breakfast")||(filter==="bowl"&&r.tags.includes("Bowl or salad"))||(filter==="quick"&&r.t<=30)||(filter==="freezes"&&r.tags.includes("Freezes well"))||(filter==="shortcut"&&r.tags.includes("Shortcut"))||(filter==="chef"&&r.tags.includes("Little chef"));
+  const inCuisine=r=>(cuisine==="all"||r.tags.includes(cuisine))&&(diet==="all"||DIETS[diet].ok(r));
   const shown=R.filter(r=>avail(r)&&match(r)&&inCuisine(r)).sort((a,b)=>RORDER[a.id]-RORDER[b.id]), hidden=R.filter(r=>!avail(r)&&match(r)&&inCuisine(r)).length;
   const cards=shown.map(r=>{
     const ml=minLife(r); let fresh;
@@ -2062,7 +2144,7 @@ function viewRecipes(){
     const btns=ms.map(m=>`<button class="btn ${m===pm?"primary":"ghost"}" id="add-${m}-${r.id}" data-act="add" data-m="${m}" data-id="${r.id}">Add as ${MEALS[m].lbl.toLowerCase()}</button>`).join("");
     const hay=(r.n+" "+r.tags.join(" ")+" "+Object.keys(r.ing).map(k=>I[k].s).join(" ")).toLowerCase();
     return `<article class="card recipe" data-name="${hay.replace(/"/g,"")}" ${hay.includes(rsearch.toLowerCase())?"":"hidden"}>
-      <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${isHighProtein(r)?chip("fresh","High protein"):""}${isKeto(r)?chip("fresh","Keto friendly"):""}${r.tags.filter(t=>t!=="Bowl or salad").map(t=>chip("plain",t)).join("")}</div><div class="meta">${macro(r).kcal} kcal · ${macro(r).p} g protein · ${macro(r).net} g net carbs</div></div><div class="time">${r.t}<small>min</small></div></div>
+      <div class="head">${glyph(r.ing)}<div class="stack" style="gap:6px"><h3>${r.n}</h3><div class="row">${chip(tag[0],tag[1])}${fresh}${isHighProtein(r)?chip("fresh","High protein"):""}${isKeto(r)?chip("fresh","Keto friendly"):""}${r.tags.filter(t=>!["Bowl or salad","Plant-based","Vegetarian"].includes(t)).map(t=>chip("plain",t)).join("")}</div><div class="meta">${macro(r).kcal} kcal · ${macro(r).p} g protein · ${macro(r).net} g net carbs${(()=>{const d=["vegan","vegetarian","pescatarian","glutenfree","dairyfree"].filter(k=>DIETS[k].ok(r)); const show=d.includes("vegan")?d.filter(k=>k!=="vegetarian"&&k!=="pescatarian"):d.includes("vegetarian")?d.filter(k=>k!=="pescatarian"):d; return show.length?"<br>"+show.map(k=>DIETS[k].n).join(" · "):"";})()}</div></div><div class="time">${r.t}<small>min</small></div></div>
       <details id="d-${r.id}" data-rid="${r.id}" ${openSet.has(r.id)?"open":""}><summary>Ingredients and steps</summary>
         ${recipeBody(r,1)}</details>
       <div class="row">${btns}</div>${where?`<div class="meta">In your week: ${where}</div>`:""}
@@ -2070,7 +2152,8 @@ function viewRecipes(){
   return `<section class="stack">
     <div><h2>Recipes</h2><p class="lead"><span id="rcount">${shown.length} recipes</span>${S.store==="both"?"":" at "+STORE_LBL[S.store]}. Home-cooked ones have no added sugar and little added salt; store-seasoned shortcuts have some of both.</p></div>
     <input class="search" id="rq" type="search" placeholder="Search recipes or ingredients" aria-label="Search recipes" value="${rsearch.replace(/"/g,"&quot;")}" autocomplete="off">
-    <label class="field" for="cuisine" style="max-width:240px">Cuisine<select id="cuisine" data-act="cuisine"><option value="all">Any cuisine</option>${CUISINES.map(c=>`<option value="${c}" ${cuisine===c?"selected":""}>${c} (${R.filter(r=>r.tags.includes(c)&&avail(r)).length})</option>`).join("")}</select></label>
+    <div class="settings"><label class="field" for="diet">Diet<select id="diet" data-act="diet"><option value="all">Any diet</option>${Object.entries(DIETS).map(([k,d])=>`<option value="${k}" ${diet===k?"selected":""}>${d.n} (${R.filter(r=>d.ok(r)&&avail(r)).length})</option>`).join("")}</select></label>
+    <label class="field" for="cuisine">Cuisine<select id="cuisine" data-act="cuisine"><option value="all">Any cuisine</option>${CUISINES.map(c=>`<option value="${c}" ${cuisine===c?"selected":""}>${c} (${R.filter(r=>r.tags.includes(c)&&avail(r)).length})</option>`).join("")}</select></label></div>
     <div class="filters" role="group" aria-label="Filter recipes">${FILTERS.map(([k,l])=>`<button class="btn small" id="f-${k}" data-act="filter" data-f="${k}" aria-pressed="${filter===k}">${l}</button>`).join("")}</div>
     ${legend()}
     ${hidden?`<p class="meta">${hidden} more recipe${hidden>1?"s use":" uses"} items ${STORE_LBL[S.store]} does not carry. Choose Both under <a href="#profile">Family</a> to see them.</p>`:""}
@@ -2225,6 +2308,7 @@ function act(el,ev){
   const a=el.dataset.act, d=+el.dataset.day, m=el.dataset.m;
   if(a==="filter"){filter=el.dataset.f; render(); return;}
   if(a==="cuisine"){if(ev.type!=="change") return; cuisine=el.value; render(); return;}
+  if(a==="diet"){if(ev.type!=="change") return; diet=el.value; render(); return;}
   if(a==="open"){const k=el.dataset.key; if(openWeek.has(k)) openWeek.delete(k); else openWeek.add(k); render(); return;}
   if(a==="tune"){if(ev.type!=="change") return; const t=TUNEX[el.dataset.k], v=fromSlider(t,+el.value); if(v===t.def) delete S.tune[t.k]; else S.tune[t.k]=v;
     const rb=$("#tune-reset"); if(rb) rb.disabled=!Object.keys(S.tune).length; persist(); return;}
@@ -2260,6 +2344,7 @@ function act(el,ev){
   else if(a==="rotis"){S.rotis=el.dataset.v==="true";}
   else if(a==="chef"){S.chef=el.dataset.v==="true";}
   else if(a==="style"){S.style=el.dataset.v;}
+  else if(a==="need"){const v=el.dataset.v; S.needs=S.needs.includes(v)?S.needs.filter(x=>x!==v):[...S.needs,v];}
   else if(a==="stock"){if(ev.type!=="change"||!el.value) return; S.stock[el.value]=true;}
   else if(a==="unstock"){delete S.stock[el.dataset.id];}
   else if(a==="stock-basics"){for(const k of ["banana","blueberry","yogurt","avocado","cucumber","hummus","pita","cheese","oats"]) S.stock[k]=true; toast("Play kitchen basics added");}
